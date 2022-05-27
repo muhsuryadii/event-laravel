@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePesertasTable extends Migration
+class CreatePesertaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,12 +15,13 @@ class CreatePesertasTable extends Migration
     {
         Schema::create('pesertas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('nomor_peserta')->unique();
-            $table->string('instansi');
-            $table->string('tipe_user');
+            $table->bigInteger('id_users');
+            $table->bigInteger('id_fakultas')->nullable();
+            $table->string('instansi_peserta');
+            $table->string('no_telepon');
+            $table->string('jurusan_peserta')->nullable();
+            $table->string('tahun_masuk')->nullable();
+
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class CreatePesertasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pesertas');
+        Schema::dropIfExists('peserta');
     }
 }

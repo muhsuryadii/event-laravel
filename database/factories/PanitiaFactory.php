@@ -2,27 +2,23 @@
 
 namespace Database\Factories;
 
-use App\Models\Peserta;
+use App\Models\Panitia;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PesertaFactory extends Factory
+class PanitiaFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    protected $model = Peserta::class;
+    protected $model = Panitia::class;
 
     public function definition()
     {
         return [
             'id_users' => $this->faker->numberBetween(1, 5),
             'id_fakultas' => $this->faker->numberBetween(1, 6),
-            'instansi_peserta' => $this->faker->company,
-            'no_telepon' => $this->faker->phoneNumber,
-            'jurusan_peserta' => $this->faker->jobTitle,
-            'tahun_masuk' => $this->faker->numberBetween(2010, 2020),
         ];
     }
 }
