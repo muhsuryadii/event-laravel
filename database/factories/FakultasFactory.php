@@ -14,7 +14,7 @@ class FakultasFactory extends Factory
     public function definition()
     {
         return [
-            //
+            
         ];
     }
 }

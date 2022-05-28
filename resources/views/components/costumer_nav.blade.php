@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-white shadow-md sticky">
+<nav class="navbar navbar-expand-lg bg-white shadow-md sticky-top">
     <div class="container">
         <a class="navbar-brand" href="#">
             <img src=" {{ asset('image/logo_usni.png') }}" alt="logo" class="block mx-auto w-14 h-14  object-contain ">
@@ -17,14 +17,23 @@
                 </li>
 
                 @if (Auth::check())
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Cek Sertifikat</a>
+                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link dropdown-toggle capitalize" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
+                            Hi,
+
+                            @if (str_word_count(Auth::user()->name) === 0)
+                                {{ Auth::user()->nama_user }}
+                            @else
+                                {{ explode(' ', Auth::user()->nama_user, 0) }}
+                            @endif
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">
+                                    <i class="fa-solid fa-user text-slate-600 mr-3"></i>Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
