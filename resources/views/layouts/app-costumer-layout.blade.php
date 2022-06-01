@@ -11,7 +11,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
-    @include('layouts.head_parts')
+    @include('parts.head')
+
 
     @livewireStyles
 
@@ -24,9 +25,7 @@
 
     <div class="min-h-screen  ">
 
-        @include('components.costumer_nav')
-
-
+        @include('components.customer.navbar')
 
         <!-- Page Content -->
         <main>
@@ -36,11 +35,12 @@
 
     @stack('modals')
 
-    @include('components.costumer_footer')
+    @include('components.customer.footer')
 
     <section class="script-sections">
         @livewireScripts
-        @include('layouts.script_parts')
+        @include('parts.script')
+
 
     </section>
 </body>
