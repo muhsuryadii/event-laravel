@@ -6,47 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-
-
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/style.css') }}"> --}}
 
-    @include('layouts.head_parts')
+
+    @include('parts.admin.head')
 
     @livewireStyles
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
+
+    {{-- Template --}}
 </head>
 
-<body class="font-sans antialiased">
+<body class="g-sidenav-show   bg-gray-100">
     <x-jet-banner />
 
-    <div class="min-h-screen bg-gray-100">
-        @livewire('navigation-menu')
+    <div class="min-height-300 bg-primary position-absolute w-full"></div>
+    {{-- Sidebar Template --}}
+    @include('parts.admin.sidebar')
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
-    </div>
+    <!-- Page Content -->
+    <main class="main-content position-relative border-radius-lg  ">
+        @include('parts.admin.navbar')
+        {{ $slot }}
+    </main>
 
     @stack('modals')
 
     <section class="script-sections">
         @livewireScripts
-        @include('layouts.script_parts')
+        @include('parts.admin.script')
 
     </section>
 </body>

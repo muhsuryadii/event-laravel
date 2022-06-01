@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +24,13 @@ Route::middleware([
     'verified', 'roleCheck'
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+        // dd(auth()->user());
+        return view('pages.admin.dashboard', [
+            'user' => Auth::user(),
+        ]);
+    })->name('dashboard_admin');
 });
+
 
 /* 
 Route::group(["middleware" => ['auth:sanctum', '']], function () {
