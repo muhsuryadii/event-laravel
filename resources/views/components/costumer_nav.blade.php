@@ -55,8 +55,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/register">Register</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                    <li class="nav-item ">
+                        <a class="nav-link px-3 py-2 rounded-md shadow-md bg-indigo-500 text-white"
+                            href="/login">Login</a>
                     </li>
                 @endif
             </ul>

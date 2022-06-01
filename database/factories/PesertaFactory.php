@@ -17,8 +17,8 @@ class PesertaFactory extends Factory
     public function definition()
     {
         return [
-            'id_users' => $this->faker->numberBetween(1, 5),
-            'id_fakultas' => $this->faker->numberBetween(1, 6),
+            'id_users' => $this->faker->numberBetween(7, 11),
+            'id_fakultas' => $this->faker->numberBetween(1, 5),
             'instansi_peserta' => $this->faker->company,
             'no_telepon' => $this->faker->phoneNumber,
             'jurusan_peserta' => $this->faker->jobTitle,
