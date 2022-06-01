@@ -28,6 +28,6 @@ class CreatePanitiaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('panitia');
+        Schema::dropIfExists('panitias');
     }
 }
