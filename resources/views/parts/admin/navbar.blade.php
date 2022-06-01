@@ -46,12 +46,12 @@
                                              class="fa fa-user avatar avatar-sm bg-gradient-primary fs-5 me-3 text-white"></i>
                                      </div>
                                      <div class="d-flex flex-column justify-content-center">
-                                         <h6 class="text-sm font-weight-normal mb-1">
+                                         <h5 class="text-sm font-weight-normal mb-1">
                                              <span class="font-weight-bold">Profile</span>
-                                             <p class="text-xs text-secondary mb-0">
+                                             <p class="text-xs text-secondary mb-0 text-inherit">
                                                  {{ Auth::user()->nama_user }}
                                              </p>
-                                         </h6>
+                                         </h5>
                                      </div>
                                  </div>
                              </a>
@@ -68,9 +68,9 @@
                                                  class="fas fa-sign-out-alt avatar avatar-sm bg-gradient-danger fs-5 me-3 text-white"></i>
                                          </div>
                                          <div class="d-flex flex-column justify-content-center">
-                                             <h6 class="text-sm font-weight-normal mb-1">
+                                             <h5 class="text-sm font-weight-normal mb-1 ">
                                                  <span class="font-weight-bold">Logout</span>
-                                             </h6>
+                                             </h5>
                                          </div>
                                      </div>
                                  </a>
