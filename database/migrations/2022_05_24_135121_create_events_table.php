@@ -20,9 +20,9 @@ class CreateEventsTable extends Migration
             $table->integer('harga_tiket');
             $table->date('tanggal_acara');
             $table->string('lokasi_acara');
-            $table->string('batasan_waktu');
+            $table->string('batasan_waktu')->nullable();
             $table->string('tipe_acara');
-            $table->string('famplet_acara_path', 2048);
+            $table->string('famplet_acara_path', 2048)->nullable();
             $table->timestamps();
         });
     }

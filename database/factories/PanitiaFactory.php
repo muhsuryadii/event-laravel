@@ -18,7 +18,7 @@ class PanitiaFactory extends Factory
     {
         return [
             'id_users' => $this->faker->numberBetween(1, 5),
-            'id_fakultas' => $this->faker->numberBetween(1, 6),
+            'id_fakultas' => $this->faker->numberBetween(1, 5),
         ];
     }
 }

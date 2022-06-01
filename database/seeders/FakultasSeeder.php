@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Fakultas;
 use Illuminate\Database\Seeder;
 
 class FakultasSeeder extends Seeder
@@ -13,6 +14,23 @@ class FakultasSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Fakultas::create([
+            'nama' => 'Fakultas Teknik',
+        ]);
+
+        Fakultas::create([
+            'nama' => 'Fakultas Ekonomi',
+        ]);
+
+        Fakultas::create([
+            'nama' => 'Fakultas Ilmu Sosial dan Ilmu Politik',
+        ]);
+
+        Fakultas::create([
+            'nama' => 'Fakultas Perikanan',
+        ]);
+        Fakultas::create([
+            'nama' => 'Fakultas Hukum',
+        ]);
     }
 }

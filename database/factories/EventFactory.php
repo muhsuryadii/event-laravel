@@ -14,7 +14,12 @@ class EventFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id_panitia' => $this->faker->numberBetween(1, 5),
+            'nama_event' => $this->faker->sentence,
+            'harga_tiket' => $this->faker->numberBetween(100000, 1000000),
+            'tanggal_acara' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
+            'lokasi_acara' => 'Google Meet/Zoom Meet',
+            'tipe_acara' => 'Online'
         ];
     }
 }
