@@ -33,6 +33,6 @@ class CreatePesertaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('peserta');
+        Schema::dropIfExists('pesertas');
     }
 }

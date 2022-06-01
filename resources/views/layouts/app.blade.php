@@ -26,13 +26,13 @@
 <body class="g-sidenav-show   bg-gray-100">
     <x-jet-banner />
 
-    <div class="min-height-300 bg-primary position-absolute w-100"></div>
+    <div class="min-height-300 bg-primary position-absolute w-full"></div>
     {{-- Sidebar Template --}}
     @include('parts.admin.sidebar')
 
 
     <!-- Page Content -->
-    <main class="main-content position-relative border-radius-lg ">
+    <main class="main-content position-relative border-radius-lg  ">
         @include('parts.admin.navbar')
         {{ $slot }}
     </main>

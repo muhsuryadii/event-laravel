@@ -9,6 +9,7 @@
              </ol>
              <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
          </nav>
+
          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
              <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                  <div class="input-group">
@@ -17,12 +18,69 @@
                  </div>
              </div>
              <ul class="navbar-nav  justify-content-end">
-                 <li class="nav-item d-flex align-items-center">
-                     <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+
+                 {{-- <li class="nav-item d-flex align-items-center  pe-1">
+                     <a href="#" class="nav-link text-white font-weight-bold px-0">
                          <i class="fa fa-user me-sm-1"></i>
-                         <span class="d-sm-inline d-none">Sign In</span>
+                         <span class="d-sm-inline d-none">
+                             {{ Auth::user()->nama_user }}
+                         </span>
                      </a>
+                 </li> --}}
+
+                 <li class="nav-item dropdown ps-2 d-flex align-items-center pe-2">
+                     <a href="javascript:;" class="nav-link text-white p-0" id="userDropdown" data-bs-toggle="dropdown"
+                         aria-expanded="false">
+                         <i class="fa fa-user me-sm-1"></i>
+                         <span class="d-sm-inline d-none">
+                             Hi, {{ Auth::user()->nama_user }}
+                         </span>
+                     </a>
+                     <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="userDropdown"
+                         style="top:0 !important">
+                         <li class="mb-2">
+                             <a class="dropdown-item border-radius-md" href="#">
+                                 <div class="d-flex py-1">
+                                     <div class="my-auto">
+                                         <i
+                                             class="fa fa-user avatar avatar-sm bg-gradient-primary fs-5 me-3 text-white"></i>
+                                     </div>
+                                     <div class="d-flex flex-column justify-content-center">
+                                         <h6 class="text-sm font-weight-normal mb-1">
+                                             <span class="font-weight-bold">Profile</span>
+                                             <p class="text-xs text-secondary mb-0">
+                                                 {{ Auth::user()->nama_user }}
+                                             </p>
+                                         </h6>
+                                     </div>
+                                 </div>
+                             </a>
+                         </li>
+
+                         <li class="mb-2">
+                             <form method="POST" action="{{ route('logout') }}">
+                                 @csrf
+                                 <a class="dropdown-item border-radius-md" href="{{ route('logout') }}"
+                                     onclick="event.preventDefault();this.closest('form').submit();">
+                                     <div class="d-flex py-1">
+                                         <div class="my-auto">
+                                             <i
+                                                 class="fas fa-sign-out-alt avatar avatar-sm bg-gradient-danger fs-5 me-3 text-white"></i>
+                                         </div>
+                                         <div class="d-flex flex-column justify-content-center">
+                                             <h6 class="text-sm font-weight-normal mb-1">
+                                                 <span class="font-weight-bold">Logout</span>
+                                             </h6>
+                                         </div>
+                                     </div>
+                                 </a>
+                             </form>
+                         </li>
+                     </ul>
                  </li>
+
+
+                 {{-- Hamburger Button --}}
                  <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                      <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                          <div class="sidenav-toggler-inner">
@@ -32,12 +90,10 @@
                          </div>
                      </a>
                  </li>
-                 <li class="nav-item px-3 d-flex align-items-center">
-                     <a href="javascript:;" class="nav-link text-white p-0">
-                         <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                     </a>
-                 </li>
-                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
+
+                 {{-- Notification Button --}}
+
+                 {{-- <li class="nav-item dropdown ps-2 d-flex align-items-center">
                      <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
                          data-bs-toggle="dropdown" aria-expanded="false">
                          <i class="fa fa-bell cursor-pointer"></i>
@@ -119,7 +175,7 @@
                              </a>
                          </li>
                      </ul>
-                 </li>
+                 </li> --}}
              </ul>
          </div>
      </div>
