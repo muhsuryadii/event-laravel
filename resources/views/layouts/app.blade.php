@@ -10,6 +10,8 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/style.css') }}"> --}}
+
 
     @include('parts.admin.head')
 
@@ -21,20 +23,19 @@
     {{-- Template --}}
 </head>
 
-<body class="font-sans antialiased">
+<body class="g-sidenav-show   bg-gray-100">
     <x-jet-banner />
 
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-height-300 bg-primary position-absolute w-100"></div>
+    {{-- Sidebar Template --}}
+    @include('parts.admin.sidebar')
 
-        {{-- Sidebar --}}
-        @include('parts.admin.sidebar')
 
-
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
-    </div>
+    <!-- Page Content -->
+    <main class="main-content position-relative border-radius-lg ">
+        @include('parts.admin.navbar')
+        {{ $slot }}
+    </main>
 
     @stack('modals')
 

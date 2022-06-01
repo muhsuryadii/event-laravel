@@ -1,3 +1,5 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Nucleo Icons -->
 <link href={{ asset('argon/css/nucleo-icons.css') }} rel="stylesheet" />
 <link href={{ asset('argon/css/nucleo-svg.css') }} rel="stylesheet" />

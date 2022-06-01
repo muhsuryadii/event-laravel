@@ -23,8 +23,8 @@ Route::middleware([
     'verified', 'roleCheck'
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+        return view('pages.admin.dashboard');
+    })->name('dashboard_admin');
 });
 
 /* 

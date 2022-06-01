@@ -7,7 +7,7 @@
           <a class="navbar-brand m-0 d-flex align-items-center"
               href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
               <img src={{ asset('image/logo_usni.png') }} class="navbar-brand-img h-100" alt="main_logo">
-              <span class="ms-3 font-weight-bold">{{ config('app.name', 'Laravel') }}</span>
+              <span class="ms-3 font-weight-bold title-app">{{ config('app.name', 'Laravel') }}</span>
           </a>
       </div>
 
