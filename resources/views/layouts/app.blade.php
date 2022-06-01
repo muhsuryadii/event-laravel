@@ -19,6 +19,8 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
+
+    {{-- Temo --}}
 </head>
 
 <body class="font-sans antialiased">
