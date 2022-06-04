@@ -1008,18 +1008,6 @@ select {
   margin-left: auto;
   margin-right: auto;
 }
-.mx-0 {
-  margin-left: 0px;
-  margin-right: 0px;
-}
-.my-3 {
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-.mx-3 {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
-}
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -1027,6 +1015,14 @@ select {
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
+}
+.mx-0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.my-3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 .ml-3 {
   margin-left: 0.75rem;
@@ -1097,17 +1093,8 @@ select {
 .mb-4 {
   margin-bottom: 1rem;
 }
-.-mt-px {
-  margin-top: -1px;
-}
 .mb-0 {
   margin-bottom: 0px;
-}
-.mt-0 {
-  margin-top: 0px;
-}
-.mb-3 {
-  margin-bottom: 0.75rem;
 }
 .mb-2 {
   margin-bottom: 0.5rem;
@@ -1115,8 +1102,14 @@ select {
 .mb-1 {
   margin-bottom: 0.25rem;
 }
-.-ml-3 {
-  margin-left: -0.75rem;
+.-mt-px {
+  margin-top: -1px;
+}
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+.mt-0 {
+  margin-top: 0px;
 }
 .block {
   display: block;
@@ -1487,12 +1480,12 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
+.bg-transparent {
+  background-color: transparent;
+}
 .bg-slate-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
-}
-.bg-transparent {
-  background-color: transparent;
 }
 .bg-opacity-25 {
   --tw-bg-opacity: 0.25;
@@ -1520,14 +1513,14 @@ select {
 .p-6 {
   padding: 1.5rem;
 }
-.p-4 {
-  padding: 1rem;
+.p-0 {
+  padding: 0px;
 }
 .p-3 {
   padding: 0.75rem;
 }
-.p-0 {
-  padding: 0px;
+.p-4 {
+  padding: 1rem;
 }
 .px-4 {
   padding-left: 1rem;
@@ -1619,23 +1612,20 @@ select {
 .pb-1 {
   padding-bottom: 0.25rem;
 }
+.pb-0 {
+  padding-bottom: 0px;
+}
 .pt-8 {
   padding-top: 2rem;
-}
-.pb-\[2rem\] {
-  padding-bottom: 2rem;
 }
 .pt-3 {
   padding-top: 0.75rem;
 }
+.pb-\[2rem\] {
+  padding-bottom: 2rem;
+}
 .pb-6 {
   padding-bottom: 1.5rem;
-}
-.pt-0 {
-  padding-top: 0px;
-}
-.pb-0 {
-  padding-bottom: 0px;
 }
 .text-left {
   text-align: left;
@@ -1772,6 +1762,9 @@ select {
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
 }
+.text-inherit {
+  color: inherit;
+}
 .text-gray-200 {
   --tw-text-opacity: 1;
   color: rgb(229 231 235 / var(--tw-text-opacity));
@@ -1787,9 +1780,6 @@ select {
 .text-slate-800 {
   --tw-text-opacity: 1;
   color: rgb(30 41 59 / var(--tw-text-opacity));
-}
-.text-inherit {
-  color: inherit;
 }
 .underline {
   -webkit-text-decoration-line: underline;

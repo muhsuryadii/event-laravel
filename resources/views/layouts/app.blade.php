@@ -32,9 +32,11 @@
 
 
     <!-- Page Content -->
-    <main class="main-content position-relative border-radius-lg  ">
+    <main class="main-content position-relative border-radius-lg ">
         @include('parts.admin.navbar')
-        {{ $slot }}
+        <div class="content px-3 mx-4 ">
+            {{ $slot }}
+        </div>
     </main>
 
     @stack('modals')
