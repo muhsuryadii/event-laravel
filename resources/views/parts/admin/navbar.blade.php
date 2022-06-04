@@ -14,7 +14,7 @@
 
                  </li>
              </ol>
-             <h6 class="font-weight-bolder text-white mb-0">
+             <h6 class="font-weight-bolder text-white mb-0 mt-3">
                  @if (Request::is('dashboard'))
                      Dashboard
                  @elseif (Request::is('admin/events*'))

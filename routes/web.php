@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\AdminEventController;
-use App\Http\Livewire\Admin\Event\Show;
 
+
+use App\Http\Controllers\AdminEventController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +33,9 @@ Route::middleware([
         ]);
     })->name('dashboard_admin');
 
-    Route::get('/admin/events', Show::class)->name('admin_events');
+    Route::resource('/admin/events', AdminEventController::class)->names([
+        'index' => 'admin_events_index',
+    ]);
 });
 
 
