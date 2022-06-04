@@ -18,7 +18,7 @@ class EventFactory extends Factory
             'nama_event' => $this->faker->sentence,
             'harga_tiket' => $this->faker->numberBetween(100000, 1000000),
             'tanggal_acara' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
-            'lokasi_acara' => 'Google Meet/Zoom Meet',
+            'lokasi_acara' => 'Google Meet',
             'tipe_acara' => 'Online'
         ];
     }

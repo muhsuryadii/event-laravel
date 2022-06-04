@@ -16,7 +16,7 @@ class AdminEventController extends Controller
     {
         // 
         return view('pages.admin.events', [
-            'events' => Event::all()
+            'events' => Event::all()->sortByDesc('tanggal_acara'),
         ]);
     }
 

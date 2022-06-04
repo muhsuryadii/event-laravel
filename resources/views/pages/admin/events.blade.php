@@ -64,7 +64,7 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">
-                                                    {{ date('d-m-Y', strtotime($event->tanggal_acara)) }}</span>
+                                                    {{ Carbon\Carbon::parse($event->tanggal_acara)->translatedFormat('d F Y') }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">
@@ -78,13 +78,13 @@
                                                 class="align-middle flex flex-wrap flex-col mx-auto justify-center px-3">
                                                 <a href="javascript:;"
                                                     class="text-primary font-weight-bold text-xs btn btn-outline-primary"
-                                                    data-toggle="tooltip" data-original-title="Edit user">
+                                                    data-toggle="tooltip" data-original-title="Edit event">
                                                     Edit
                                                 </a>
 
                                                 <a href="javascript:;"
                                                     class="text-danger font-weight-bold text-xs btn btn-outline-danger"
-                                                    data-toggle="tooltip" data-original-title="Edit user">
+                                                    data-toggle="tooltip" data-original-title="Delete event">
                                                     Delete
                                                 </a>
                                             </td>
