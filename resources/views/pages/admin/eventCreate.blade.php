@@ -10,7 +10,8 @@
 
                     {{-- Penyelenggara Event --}}
                     <div class="mb-4">
-                        <label for="name" class="form-label text-sm @error('penyelenggara_event') is-invalid @enderror"
+                        <label for="id_penyelenggara_event"
+                            class="form-label text-sm @error('penyelenggara_event') is-invalid @enderror"
                             value="{{ old('penyelenggara_event') }}">Penyelenggara <span
                                 class="text-xxs text-danger">(*)</span>
                         </label>
@@ -31,7 +32,8 @@
 
                     {{-- Nama Event --}}
                     <div class="mb-4">
-                        <label for="name" class="form-label text-sm @error('nama_event') is-invalid @enderror">Nama
+                        <label for="nama_event"
+                            class="form-label text-sm @error('nama_event') is-invalid @enderror">Nama
                             Event <span class="text-xxs text-danger">(*)</span> </label>
                         <input type="text" class="form-control" id="nama_event" name='nama_event' autofocus='true'
                             required value="{{ old('nama_event') }}" placeholder="Masukan Nama Event">
@@ -46,16 +48,14 @@
 
                     {{-- Watku Event --}}
                     <div class="mb-4">
-                        <label for="name" class="form-label text-sm @error('nama_event') is-invalid @enderror"
-                            value="{{ old('nama_event') }}">Tanggal / Waktu Event <span
-                                class="text-xxs text-danger">(*)</span> </label>
-
-                        {{-- <input type="text" class="form-control" id="nama_event" name='nama_event' autofocus='true'> --}}
+                        <label for="birthdaytime"
+                            class="form-label text-sm @error('birthdaytime') is-invalid @enderror">Tanggal / Waktu Event
+                            <span class="text-xxs text-danger">(*)</span> </label>
 
                         <input type="datetime-local" class="form-control" id="birthdaytime" name="birthdaytime"
-                            required>
+                            required value="{{ old('birthdaytime') }}">
 
-                        @error('nama_event')
+                        @error('birthdaytime')
                             <div id="datetime_feedback" class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -90,6 +90,21 @@
 
                         @error('harga_tiket')
                             <div id="ticket_price_feedback" class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    {{-- Kuota Tiket --}}
+                    <div class="mb-4">
+                        <label for="kuota_tiket"
+                            class="form-label text-sm @error('kuota_tiket') is-invalid @enderror">Kuota
+                            Tiket <span class="text-xxs text-danger">(*)</span> </label>
+                        <input type="number" class="form-control" id="kuota_tiket" name='kuota_tiket' autofocus='true'
+                            required value="{{ old('kuota_tiket') }}" placeholder="Masukan Kuota Tiket">
+
+                        @error('kuota_tiket')
+                            <div id="kuota_tiket_feedback" class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
@@ -138,6 +153,25 @@
 
 
                     </div>
+
+                    {{-- Deskripsi Event --}}
+                    <div class="mb-4">
+                        <label for="desripsi_event"
+                            class="form-label text-sm @error('desripsi_event') is-invalid @enderror">Deskripsi Event
+                            <span class="text-xxs text-danger">(*)</span>
+                        </label>
+                        <textarea rows="10" class="form-control" id="desripsi_event" name='desripsi_event' autofocus='true' required
+                            value="{{ old('desripsi_event') }}" id="floatingTextarea"
+                            placeholder="Masukan Deskripsi Event"></textarea>
+
+                        @error('desripsi_event')
+                            <div id="desripsi_event_feedback" class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4">Simpan</button>
                 </form>
             </div>
         </div>
