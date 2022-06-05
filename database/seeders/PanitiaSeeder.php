@@ -18,7 +18,7 @@ class PanitiaSeeder extends Seeder
     public function run()
     {
         User::create([
-            'nama_user' => 'Panitia Teknik',
+            'nama_user' => 'BEM Fakultas Teknik',
             'email' => 'teknik@example.com',
 
             'email_verified_at' => now(),
@@ -33,7 +33,7 @@ class PanitiaSeeder extends Seeder
         ]);
 
         User::create([
-            'nama_user' => 'Panitia Ekonomi',
+            'nama_user' => 'BEM Fakultas Ekonomi',
             'email' => 'ekonomi@example.com',
 
             'email_verified_at' => now(),
@@ -48,7 +48,7 @@ class PanitiaSeeder extends Seeder
         ]);
 
         User::create([
-            'nama_user' => 'Panitia FISIP',
+            'nama_user' => 'BEM Fakultas FISIP',
             'email' => 'fisip@example.com',
 
             'email_verified_at' => now(),
@@ -63,7 +63,7 @@ class PanitiaSeeder extends Seeder
         ]);
 
         User::create([
-            'nama_user' => 'Panitia Perikanan',
+            'nama_user' => 'BEM Fakultas Perikanan',
             'email' => 'perikanan@example.com',
 
             'email_verified_at' => now(),
@@ -77,7 +77,7 @@ class PanitiaSeeder extends Seeder
             'id_fakultas' => '4'
         ]);
         User::create([
-            'nama_user' => 'Panitia Hukum',
+            'nama_user' => 'BEM Fakultas Hukum',
             'email' => 'hukum@example.com',
 
             'email_verified_at' => now(),

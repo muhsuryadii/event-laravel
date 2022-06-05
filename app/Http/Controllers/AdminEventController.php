@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminEventController extends Controller
 {
@@ -15,10 +16,11 @@ class AdminEventController extends Controller
     public function index()
     {
         // 
-        return view('pages.admin.events', [
-            'events' => Event::all()->sortByDesc('tanggal_acara'),
+        return view('pages.admin.event', [
+            'events' => Event::all()->sortByDesc('waktu_acara'),
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -28,6 +30,9 @@ class AdminEventController extends Controller
     public function create()
     {
         //
+        return view('pages.admin.eventCreate', [
+            'user' => Auth::user(),
+        ]);
     }
 
     /**

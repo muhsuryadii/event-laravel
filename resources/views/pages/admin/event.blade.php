@@ -3,7 +3,7 @@
 
     <div class="eventShowComponent">
         <button type="button" class="d-block btn bg-white  ">
-            <a href="#" class='text-primary '>
+            <a href={{ route('admin_events_create') }} class='text-primary '>
                 <i class="fas-solid fa-plus "></i>
                 Tambah data
             </a>
@@ -64,7 +64,10 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">
-                                                    {{ Carbon\Carbon::parse($event->tanggal_acara)->translatedFormat('d F Y') }}</span>
+
+                                                    {{ Carbon\Carbon::parse($event->waktu_acara)->translatedFormat('d F Y') }}
+
+                                                </span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">

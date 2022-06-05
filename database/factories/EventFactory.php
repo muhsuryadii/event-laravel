@@ -16,8 +16,9 @@ class EventFactory extends Factory
         return [
             'id_panitia' => $this->faker->numberBetween(1, 5),
             'nama_event' => $this->faker->sentence,
+            'slug' => $this->faker->slug,
             'harga_tiket' => $this->faker->numberBetween(100000, 1000000),
-            'tanggal_acara' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
+            'waktu_acara' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
             'lokasi_acara' => 'Google Meet',
             'tipe_acara' => 'Online'
         ];

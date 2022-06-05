@@ -4,8 +4,7 @@
       <div class="sidenav-header">
           <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
               aria-hidden="true" id="iconSidenav"></i>
-          <a class="navbar-brand m-0 d-flex align-items-center"
-              href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
+          <a class="navbar-brand m-0 d-flex align-items-center" href={{ route('dashboard_admin') }} target="_blank">
               <img src={{ asset('image/logo_usni.png') }} class="navbar-brand-img h-100" alt="main_logo">
               <span class="ms-3 font-weight-bold title-app">{{ config('app.name', 'Laravel') }}</span>
           </a>
@@ -47,7 +46,7 @@
                           class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                           <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
                       </div>
-                      <span class="nav-link-text ms-1">Billing</span>
+                      <span class="nav-link-text ms-1">Transaksi</span>
                   </a>
               </li>
               {{-- Laporan --}}
@@ -57,7 +56,7 @@
                           class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                           <i class="ni ni-app text-info text-sm opacity-10"></i>
                       </div>
-                      <span class="nav-link-text ms-1">Virtual Reality</span>
+                      <span class="nav-link-text ms-1">Laporan</span>
                   </a>
               </li>
               <li>
