@@ -22,7 +22,9 @@
 }
 
 .img-preview {
-    width: 180px !important;
-    height: 250px !important;
-    object-fit: contain;
+    width: 200px !important;
+
+    height: 270px !important;
+
+    object-fit: cover;
 }

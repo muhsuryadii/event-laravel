@@ -8,91 +8,116 @@
                     class="p-[1.5rem]">
                     @csrf
 
-                    {{-- Penyelenggara Event --}}
-                    <div class="mb-4">
-                        <label for="id_penyelenggara_event" class="form-label text-sm "
-                            value="{{ old('penyelenggara_event') }}">Penyelenggara <span
-                                class="text-xxs text-danger">(*)</span>
-                        </label>
+                    <div class="row">
+                        <div class="col-md-6 col-12">
+                            {{-- Penyelenggara Event --}}
+                            <div class="mb-4">
+                                <label for="id_penyelenggara_event" class="form-label text-sm "
+                                    value="{{ old('penyelenggara_event') }}">Penyelenggara <span
+                                        class="text-xxs text-danger">(*)</span>
+                                </label>
 
-                        <input disabled type="text"
-                            class="form-control @error('penyelenggara_event') is-invalid @enderror"
-                            value="{{ $user->nama_user }}" id="penyelenggara_event" name='penyelenggara_event'>
+                                <input disabled type="text"
+                                    class="form-control @error('penyelenggara_event') is-invalid @enderror"
+                                    value="{{ $user->nama_user }}" id="penyelenggara_event"
+                                    name='penyelenggara_event'>
 
-                        <input hidden type="text" class="form-control d-none" value={{ $user->id }}
-                            id="id_penyelenggara_event" name='id_penyelenggara_event'>
+                                <input hidden type="text" class="form-control d-none" value={{ $user->id }}
+                                    id="id_penyelenggara_event" name='id_penyelenggara_event'>
 
-                        @error('penyelenggara_event')
-                            <div id="penyelenggara_event_feedback" class="invalid-feedback">
-                                {{ $message }}
+                                @error('penyelenggara_event')
+                                    <div id="penyelenggara_event_feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <input type="hidden" name="slug" id="slug">
                             </div>
-                        @enderror
-                        <input type="hidden" name="slug" id="slug">
-                    </div>
 
-                    {{-- Nama Event --}}
-                    <div class="mb-4">
-                        <label for="nama_event" class="form-label text-sm ">Nama
-                            Event <span class="text-xxs text-danger">(*)</span> </label>
-                        <input type="text" class="form-control @error('nama_event') is-invalid @enderror"
-                            id="nama_event" name='nama_event' autofocus='true' required
-                            value="{{ old('nama_event') }}" placeholder="Masukan Nama Event">
+                            {{-- Nama Event --}}
+                            <div class="mb-4">
+                                <label for="nama_event" class="form-label text-sm ">Nama
+                                    Event <span class="text-xxs text-danger">(*)</span> </label>
+                                <input type="text" class="form-control @error('nama_event') is-invalid @enderror"
+                                    id="nama_event" name='nama_event' autofocus='true' required
+                                    value="{{ old('nama_event') }}" placeholder="Masukan Nama Event">
 
-                        @error('nama_event')
-                            <div id="nama_event_feedback" class="invalid-feedback">
-                                {{ $message }}
+                                @error('nama_event')
+                                    <div id="nama_event_feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <input type="hidden" name="slug" id="slug">
                             </div>
-                        @enderror
-                        <input type="hidden" name="slug" id="slug">
-                    </div>
 
-                    {{-- Watku Event --}}
-                    <div class="mb-4">
-                        <label for="birthdaytime" class="form-label text-sm ">Tanggal / Waktu Event
-                            <span class="text-xxs text-danger">(*)</span> </label>
+                            {{-- Watku Event --}}
+                            <div class="mb-4">
+                                <label for="waktu_acara" class="form-label text-sm ">Tanggal / Waktu Event
+                                    <span class="text-xxs text-danger">(*)</span> </label>
 
-                        <input type="datetime-local" class="form-control  @error('birthdaytime') is-invalid @enderror"
-                            id="birthdaytime" name="birthdaytime" required value="{{ old('birthdaytime') }}">
+                                <input type="datetime-local"
+                                    class="form-control  @error('waktu_acara') is-invalid @enderror" id="waktu_acara"
+                                    name="waktu_acara" required value="{{ old('waktu_acara') }}">
 
-                        @error('birthdaytime')
-                            <div id="datetime_feedback" class="invalid-feedback">
-                                {{ $message }}
+                                @error('waktu_acara')
+                                    <div id="datetime_feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                        @enderror
-                    </div>
 
-                    {{-- Harga Tiket --}}
-                    <div class="mb-4">
-                        <label for="name" class="form-label text-sm " value="{{ old('harga_tiket') }}">Harga
-                            Tiket</label>
+                            {{-- Harga Tiket --}}
+                            <div class="mb-4">
+                                <label for="name" class="form-label text-sm " value="{{ old('harga_tiket') }}">Harga
+                                    Tiket</label>
 
-                        <div class="radio mt-3 d-flex">
-                            <div class="form-check mb-3 mr-3">
-                                <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                    value='gratis' id="priceFree" checked>
-                                <label class="custom-control-label py-1 px-2" for="priceFree">Gratis</label>
-                            </div>
-                            <div class="form-check ">
-                                <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                    value='bayar' id="picePay" required>
-                                <label class="custom-control-label  py-1 px-1" for="picePay">Bayar</label>
+                                <div class="radio mt-3 d-flex">
+                                    <div class="form-check mb-3 mr-3">
+                                        <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
+                                            value='gratis' id="priceFree" checked>
+                                        <label class="custom-control-label py-1 px-2" for="priceFree">Gratis</label>
+                                    </div>
+                                    <div class="form-check ">
+                                        <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
+                                            value='bayar' id="picePay" required>
+                                        <label class="custom-control-label  py-1 px-1" for="picePay">Bayar</label>
+                                    </div>
+                                </div>
+
+
+                                <div id='inputPriceWrapper' class="input-group mb-4 d-none">
+                                    <span class="input-group-text">Rp. </span>
+                                    <input class="form-control @error('harga_tiket') is-invalid @enderror" type="number"
+                                        placeholder="Masukan harga tiket" pattern="[0-9]" disabled>
+                                </div>
+                                {{-- <input type="text" class="form-control" id="harga_tiket" name='harga_tiket' autofocus='true'> --}}
+
+                                @error('harga_tiket')
+                                    <div id="ticket_price_feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
 
+                        <div class="col-md-6 col-12">
+                            {{-- poster Event --}}
+                            <div class="mb-3">
+                                <label for="image" class="form-label text-sm ">Poster Event</label>
+                                <img class="img-preview img-fluid mt-3 mb-3 mx-auto col-sm-5 d-block shadow-md rounded-md"
+                                    src="{{ asset('image/event_image_default.png') }}" loading="lazy">
+                                <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
+                                    name="image" onchange="previewImage()">
 
-                        <div id='inputPriceWrapper' class="input-group mb-4 d-none">
-                            <span class="input-group-text">Rp. </span>
-                            <input class="form-control @error('harga_tiket') is-invalid @enderror" type="number"
-                                placeholder="Masukan harga tiket" pattern="[0-9]" disabled>
-                        </div>
-                        {{-- <input type="text" class="form-control" id="harga_tiket" name='harga_tiket' autofocus='true'> --}}
-
-                        @error('harga_tiket')
-                            <div id="ticket_price_feedback" class="invalid-feedback">
-                                {{ $message }}
+                                @error('image')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                        @enderror
+                        </div>
                     </div>
+
+
 
                     {{-- Kuota Tiket --}}
                     <div class="mb-4">
@@ -169,20 +194,6 @@
                         @enderror
                     </div>
 
-                    {{-- poster Event --}}
-                    <div class="mb-3">
-                        <label for="image" class="form-label text-sm ">Poster Event</label>
-                        <img class="img-preview img-fluid mt-3 mb-3 col-sm-5 d-block">
-                        <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
-                            name="image" onchange="previewImage()">
-
-                        @error('image')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
-                    </div>
 
 
                     <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4">Simpan</button>
