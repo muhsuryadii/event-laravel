@@ -19,3 +19,10 @@
   word-wrap: break-word;
   white-space: normal;
 }
+
+.img-preview {
+  width: 180px !important;
+  height: 250px !important;
+  -o-object-fit: contain;
+     object-fit: contain;
+}

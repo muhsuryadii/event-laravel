@@ -10,14 +10,14 @@
 
                     {{-- Penyelenggara Event --}}
                     <div class="mb-4">
-                        <label for="id_penyelenggara_event"
-                            class="form-label text-sm @error('penyelenggara_event') is-invalid @enderror"
+                        <label for="id_penyelenggara_event" class="form-label text-sm "
                             value="{{ old('penyelenggara_event') }}">Penyelenggara <span
                                 class="text-xxs text-danger">(*)</span>
                         </label>
 
-                        <input disabled type="text" class="form-control" value="{{ $user->nama_user }}"
-                            id="penyelenggara_event" name='penyelenggara_event'>
+                        <input disabled type="text"
+                            class="form-control @error('penyelenggara_event') is-invalid @enderror"
+                            value="{{ $user->nama_user }}" id="penyelenggara_event" name='penyelenggara_event'>
 
                         <input hidden type="text" class="form-control d-none" value={{ $user->id }}
                             id="id_penyelenggara_event" name='id_penyelenggara_event'>
@@ -32,11 +32,11 @@
 
                     {{-- Nama Event --}}
                     <div class="mb-4">
-                        <label for="nama_event"
-                            class="form-label text-sm @error('nama_event') is-invalid @enderror">Nama
+                        <label for="nama_event" class="form-label text-sm ">Nama
                             Event <span class="text-xxs text-danger">(*)</span> </label>
-                        <input type="text" class="form-control" id="nama_event" name='nama_event' autofocus='true'
-                            required value="{{ old('nama_event') }}" placeholder="Masukan Nama Event">
+                        <input type="text" class="form-control @error('nama_event') is-invalid @enderror"
+                            id="nama_event" name='nama_event' autofocus='true' required
+                            value="{{ old('nama_event') }}" placeholder="Masukan Nama Event">
 
                         @error('nama_event')
                             <div id="nama_event_feedback" class="invalid-feedback">
@@ -48,12 +48,11 @@
 
                     {{-- Watku Event --}}
                     <div class="mb-4">
-                        <label for="birthdaytime"
-                            class="form-label text-sm @error('birthdaytime') is-invalid @enderror">Tanggal / Waktu Event
+                        <label for="birthdaytime" class="form-label text-sm ">Tanggal / Waktu Event
                             <span class="text-xxs text-danger">(*)</span> </label>
 
-                        <input type="datetime-local" class="form-control" id="birthdaytime" name="birthdaytime"
-                            required value="{{ old('birthdaytime') }}">
+                        <input type="datetime-local" class="form-control  @error('birthdaytime') is-invalid @enderror"
+                            id="birthdaytime" name="birthdaytime" required value="{{ old('birthdaytime') }}">
 
                         @error('birthdaytime')
                             <div id="datetime_feedback" class="invalid-feedback">
@@ -64,8 +63,8 @@
 
                     {{-- Harga Tiket --}}
                     <div class="mb-4">
-                        <label for="name" class="form-label text-sm @error('nama_event') is-invalid @enderror"
-                            value="{{ old('harga_tiket') }}">Harga Tiket</label>
+                        <label for="name" class="form-label text-sm " value="{{ old('harga_tiket') }}">Harga
+                            Tiket</label>
 
                         <div class="radio mt-3 d-flex">
                             <div class="form-check mb-3 mr-3">
@@ -83,8 +82,8 @@
 
                         <div id='inputPriceWrapper' class="input-group mb-4 d-none">
                             <span class="input-group-text">Rp. </span>
-                            <input class="form-control" type="number" placeholder="Masukan harga tiket"
-                                pattern="[0-9]" disabled>
+                            <input class="form-control @error('harga_tiket') is-invalid @enderror" type="number"
+                                placeholder="Masukan harga tiket" pattern="[0-9]" disabled>
                         </div>
                         {{-- <input type="text" class="form-control" id="harga_tiket" name='harga_tiket' autofocus='true'> --}}
 
@@ -97,11 +96,11 @@
 
                     {{-- Kuota Tiket --}}
                     <div class="mb-4">
-                        <label for="kuota_tiket"
-                            class="form-label text-sm @error('kuota_tiket') is-invalid @enderror">Kuota
+                        <label for="kuota_tiket" class="form-label text-sm">Kuota
                             Tiket <span class="text-xxs text-danger">(*)</span> </label>
-                        <input type="number" class="form-control" id="kuota_tiket" name='kuota_tiket' autofocus='true'
-                            required value="{{ old('kuota_tiket') }}" placeholder="Masukan Kuota Tiket">
+                        <input type="number" class="form-control  @error('kuota_tiket') is-invalid @enderror"
+                            id="kuota_tiket" name='kuota_tiket' autofocus='true' required
+                            value="{{ old('kuota_tiket') }}" placeholder="Masukan Kuota Tiket">
 
                         @error('kuota_tiket')
                             <div id="kuota_tiket_feedback" class="invalid-feedback">
@@ -156,13 +155,12 @@
 
                     {{-- Deskripsi Event --}}
                     <div class="mb-4">
-                        <label for="desripsi_event"
-                            class="form-label text-sm @error('desripsi_event') is-invalid @enderror">Deskripsi Event
+                        <label for="desripsi_event" class="form-label text-sm ">Deskripsi Event
                             <span class="text-xxs text-danger">(*)</span>
                         </label>
-                        <textarea rows="10" class="form-control" id="desripsi_event" name='desripsi_event' autofocus='true' required
-                            value="{{ old('desripsi_event') }}" id="floatingTextarea"
-                            placeholder="Masukan Deskripsi Event"></textarea>
+                        <textarea rows="10" class="form-control @error('desripsi_event') is-invalid @enderror" id="desripsi_event"
+                            name='desripsi_event' autofocus='true' required value="{{ old('desripsi_event') }}"
+                            id="floatingTextarea" placeholder="Masukan Deskripsi Event"></textarea>
 
                         @error('desripsi_event')
                             <div id="desripsi_event_feedback" class="invalid-feedback">
@@ -170,6 +168,22 @@
                             </div>
                         @enderror
                     </div>
+
+                    {{-- poster Event --}}
+                    <div class="mb-3">
+                        <label for="image" class="form-label text-sm ">Poster Event</label>
+                        <img class="img-preview img-fluid mt-3 mb-3 col-sm-5 d-block">
+                        <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
+                            name="image" onchange="previewImage()">
+
+                        @error('image')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
+                    </div>
+
 
                     <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4">Simpan</button>
                 </form>
@@ -233,6 +247,22 @@
                     }
                 });
             });
+        </script>
+
+        <script>
+            /* Script for preview image */
+            function previewImage() {
+                const image = document.querySelector('#image');
+                const imagePreview = document.querySelector('.img-preview');
+
+                const reader = new FileReader();
+
+                reader.readAsDataURL(image.files[0]);
+
+                reader.onload = function() {
+                    imagePreview.src = reader.result;
+                }
+            }
         </script>
     @endpush
 
