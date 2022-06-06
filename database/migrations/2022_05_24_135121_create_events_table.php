@@ -17,12 +17,14 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->bigInteger('id_panitia');
             $table->string('nama_event');
+            $table->string('slug');
             $table->integer('harga_tiket');
-            $table->date('tanggal_acara');
+            $table->dateTime('waktu_acara');
             $table->string('lokasi_acara');
-            $table->string('batasan_waktu')->nullable();
             $table->string('tipe_acara');
+            $table->integer('kuota_tiket');
             $table->string('famplet_acara_path', 2048)->nullable();
+            $table->longText('deskripsi_acara');
             $table->timestamps();
         });
     }

@@ -3,7 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
         </h2>
-    </x-slot>
+    </x-slot> --}}
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -11,11 +11,10 @@
                 <x-jet-welcome />
             </div>
         </div>
-    </div> --}}
+    </div>
 
 
-
-    <div class="container-fluid py-4">
+    {{-- <div class="container-fluid py-4">
         <div class="row">
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
@@ -450,6 +449,6 @@
                 </div>
             </div>
         </footer>
-    </div>
+    </div> --}}
 
 </x-app-layout>

@@ -1,0 +1,30 @@
+.data-table {
+    table {
+        width: 100%;
+        thead th {
+            text-align: center;
+        }
+        thead th,
+        tbody td {
+            width: fit-content;
+        }
+        thead th:nth-child(1),
+        tbody td:nth-child(1) {
+            width: 7%;
+        }
+
+        td {
+            width: 50%;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+    }
+}
+
+.img-preview {
+    width: 200px !important;
+
+    height: 270px !important;
+
+    object-fit: cover;
+}
