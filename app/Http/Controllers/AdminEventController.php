@@ -18,7 +18,7 @@ class AdminEventController extends Controller
     public function index()
     {
         // 
-        return view('pages.admin.event', [
+        return view('pages.admin.event.index', [
             'events' => Event::all()->where('id_panitia', Auth::user()->id)->sortByDesc('waktu_acara'),
         ]);
     }
@@ -32,7 +32,7 @@ class AdminEventController extends Controller
     public function create()
     {
         //
-        return view('pages.admin.eventCreate', [
+        return view('pages.admin.event.create', [
             'user' => Auth::user(),
         ]);
     }
@@ -114,7 +114,12 @@ class AdminEventController extends Controller
      */
     public function edit($id)
     {
-        //
+        $event = Event::where('slug', $id)->firstOrFail();
+
+        return view('pages.admin.event.edit', [
+            'event' => $event,
+            'user' => Auth::user(),
+        ]);
     }
 
     /**

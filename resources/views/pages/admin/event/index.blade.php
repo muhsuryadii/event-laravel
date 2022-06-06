@@ -38,7 +38,7 @@
                                             Lokasi </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xs  font-weight-bolder opacity-7">
-                                            Status </th>
+                                            Pamflet </th>
 
                                         <th
                                             class="text-center text-uppercase text-secondary text-xs  font-weight-bolder opacity-7">
@@ -64,9 +64,7 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">
-
                                                     {{ Carbon\Carbon::parse($event->waktu_acara)->translatedFormat('d F Y') }}
-
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
@@ -74,12 +72,16 @@
                                                     {{ $event->lokasi_acara }}</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">
-                                                    {{ $event->tipe_acara }}</span>
+                                                {{-- <span class="text-secondary text-xs font-weight-bold">
+                                                    {{ $event->tipe_acara }}</span> --}}
+
+                                                <img class="img-preview-list img-fluidmx-auto mx-auto d-block shadow-md rounded-md"
+                                                    src="{{ $event->famplet_acara_path != null ? asset('storage/' . $event->famplet_acara_path) : asset('image/event_image_default.png') }}"
+                                                    loading="lazy">
                                             </td>
                                             <td
                                                 class="align-middle flex flex-wrap flex-col mx-auto justify-center px-3">
-                                                <a href="javascript:;"
+                                                <a href='{{ route('admin_events_edit', $event->slug) }}'
                                                     class="text-primary font-weight-bold text-xs btn btn-outline-primary"
                                                     data-toggle="tooltip" data-original-title="Edit event">
                                                     Edit
