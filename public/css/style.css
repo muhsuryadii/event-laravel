@@ -1,5 +1,28 @@
-@media screen and (max-width: 992px) {
-    .title-app {
-        font-size: 3rem;
-    }
+.data-table table {
+  width: 100%;
+}
+.data-table table thead th {
+  text-align: center;
+}
+.data-table table thead th,
+.data-table table tbody td {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.data-table table thead th:nth-child(1),
+.data-table table tbody td:nth-child(1) {
+  width: 7%;
+}
+.data-table table td {
+  width: 50%;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.img-preview {
+  width: 200px !important;
+  height: 270px !important;
+  -o-object-fit: cover;
+     object-fit: cover;
 }

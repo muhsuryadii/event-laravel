@@ -16,6 +16,7 @@ mix.js("resources/js/app.js", "public/js")
         require("postcss-import"),
         require("tailwindcss"),
     ])
+    .sass("resources/css/style.scss", "public/css")
     .browserSync({
         proxy: "http://event-laravel.test/",
         files: ["**/*.js", "**/*.css", "**/*.php"],

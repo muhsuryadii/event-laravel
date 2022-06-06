@@ -10,7 +10,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('css/style.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 
     @include('parts.admin.head')
@@ -32,17 +32,19 @@
 
 
     <!-- Page Content -->
-    <main class="main-content position-relative border-radius-lg  ">
+    <main class="main-content position-relative border-radius-lg ">
         @include('parts.admin.navbar')
-        {{ $slot }}
+        <div class="content px-3 mx-4 ">
+            {{ $slot }}
+        </div>
     </main>
 
     @stack('modals')
 
     <section class="script-sections">
+        @stack('js')
         @livewireScripts
         @include('parts.admin.script')
-
     </section>
 </body>
 
