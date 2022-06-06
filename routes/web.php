@@ -42,6 +42,8 @@ Route::middleware([
         'create' => 'admin_events_create',
         'store' => 'admin_events_store',
         'edit' => 'admin_events_edit',
+        'update' => 'admin_events_update',
+        'destroy' => 'admin_events_destroy',
     ]);
 
     /*  Route::get('/admin/events/create', [AdminEventController::class, 'createPage'])->name('admin_events_create'); */

@@ -2,12 +2,11 @@
     {{-- {{ dd($events) }} --}}
 
     <div class="eventShowComponent">
-        <button type="button" class="d-block btn bg-white  ">
-            <a href={{ route('admin_events_create') }} class='text-primary '>
-                <i class="fas-solid fa-plus "></i>
-                Tambah data
-            </a>
-        </button>
+        <a href={{ route('admin_events_create') }} class='d-block w-fit btn bg-white text-primary '>
+            <i class="fas-solid fa-plus "></i>
+            Tambah data
+        </a>
+
 
         <div class="row">
             <div class="col-12">
@@ -87,11 +86,16 @@
                                                     Edit
                                                 </a>
 
-                                                <a href="javascript:;"
-                                                    class="text-danger font-weight-bold text-xs btn btn-outline-danger"
-                                                    data-toggle="tooltip" data-original-title="Delete event">
-                                                    Delete
-                                                </a>
+
+
+                                                <form action="{{ route('admin_events_destroy', $event->slug) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit"
+                                                        class="text-danger font-weight-bold text-xs btn btn-outline-danger">
+                                                        Delete
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach

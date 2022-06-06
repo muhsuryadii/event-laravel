@@ -49,44 +49,50 @@ class AdminEventController extends Controller
 
         //store data to new variable
 
-        $lokasi_acara = $request->tipe_event == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
-        $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : $request->harga_tiket_bayar;
+        $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
+        $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
+
+        $image =  $request->file('image') ? $request->file('image')->store('/images/events') : null;
 
         $eventData = [
             'id_panitia' => $request->id_penyelenggara_event,
             'nama_event' => $request->nama_event,
-            'slug' => $request->slug,
+            'slug' => $request->slug != null ? $request->slug : SlugService::createSlug(Event::class, 'slug', $request->nama_event),
             'waktu_acara' => $request->waktu_acara,
             'harga_tiket' => $harga_tiket,
-            'kuota_tiket' => $request->kuota_tiket,
+            'kuota_tiket' => (int) $request->kuota_tiket,
             'lokasi_acara' => $lokasi_acara,
-            'tipe_acara' => $request->tipe_event,
+            'tipe_acara' => $request->tipe_acara,
             'deskripsi_acara' => $request->deskripsi_acara,
-            'image' => $request->image,
+            'famplet_acara_path' => $image,
         ];
 
         // return dd($eventData);
 
         // Validate Input
-        Validator::make($eventData, [
-            'id_penyelenggara_event' => 'required|exists:users.id',
+        $validator =  Validator::make($eventData, [
+            'id_panitia' => 'required|exists:users,id',
             'nama_event' => 'required|max:255',
             'slug' => 'required|unique:events|max:255',
-            'waktu_acara' => 'required|date_format:Y-m-d H:i|after_or_equal:today',
-            'image' => 'image|file|max:1024',
+            'waktu_acara' => 'required|after_or_equal:today',
             'harga_tiket' => 'required|numeric',
             'kuota_tiket' => 'required|numeric',
             'lokasi_acara' => 'required|max:150',
-            'tipe_acara' => 'required|in:online,offline',
+            'tipe_acara' => 'required',
             'deskripsi_acara' => 'required',
-            'image' => 'image|file|max:1024'
-        ]);
+            'famplet_acara_path' => 'nullable|image|file|max:1024|'
+        ])->validate();
 
-        if ($request->file('image')) {
-            $eventData['famplet_acara_path'] = $request->file('image')->store('/images/events');
-        }
+        // $validator->after(function ($validator){
 
-        Event::create($eventData);
+        // })
+
+
+        // return  dd($validator);
+
+
+
+        Event::create($validator);
         return redirect(route('admin_events_index'))->with('EventSuccess', 'Event berhasil ditambahkan');
 
 
@@ -143,6 +149,11 @@ class AdminEventController extends Controller
     public function destroy($id)
     {
         //
+        // Event:: destroy()
+
+        $event = Event::where('slug', $id)->firstOrFail();
+        Event::destroy($event->id);
+        return redirect(route('admin_events_index'))->with('deleteSuccess', 'Event berhasil dihapus');
     }
 
 

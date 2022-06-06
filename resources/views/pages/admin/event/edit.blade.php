@@ -115,10 +115,10 @@
                                     loading="lazy">
 
 
-                                <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
-                                    name="image" onchange="previewImage()">
+                                <input class="form-control @error('famplet_acara_path') is-invalid @enderror"
+                                    type="file" id="image" name="image" onchange="previewImage()">
 
-                                @error('image')
+                                @error('famplet_acara_path')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -151,14 +151,14 @@
                             Event</label>
                         <div class="radio mt-3 d-flex">
                             <div class="form-check mb-3 mr-3">
-                                <input class="form-check-input eventType" type="radio" name="tipe_event" value='online'
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='online'
                                     id="online" {{ strtolower($event->tipe_acara) == 'online' ? 'checked' : ' ' }}>
                                 <label class="custom-control-label py-1 px-2" for="online">Online</label>
                             </div>
 
 
                             <div class="form-check ">
-                                <input class="form-check-input eventType" type="radio" name="tipe_event" value='offline'
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='offline'
                                     id="offline" required
                                     {{ strtolower($event->tipe_acara) == 'offline' ? 'checked' : ' ' }}>
                                 <label class="custom-control-label  py-1 px-1" for="offline">Offline</label>
@@ -185,6 +185,12 @@
                             </select>
 
                             @error('lokasi_acara_online')
+                                <div id="lokasi_acara_offline_feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
+                            @error('tipe_acara')
                                 <div id="lokasi_acara_offline_feedback" class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -265,7 +271,7 @@
         <script>
             /* Script for Event Type toogle */
 
-            const radioEventType = document.querySelectorAll('input[type=radio][name=tipe_event]');
+            const radioEventType = document.querySelectorAll('input[type=radio][name=tipe_acara]');
             const locationInput = document.querySelectorAll('.event-location-input');
 
             radioEventType.forEach(function(radio) {

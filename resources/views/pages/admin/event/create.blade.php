@@ -46,7 +46,8 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                <input type="hidden" class="form-control" name="slug" id="slug">
+                                <input type="hidden" class="form-control" name="slug" id="slug"
+                                    value="{{ old('slug') }}">
                             </div>
 
                             {{-- Watku Event --}}
@@ -72,13 +73,23 @@
 
                                 <div class="radio mt-3 d-flex">
                                     <div class="form-check mb-3 mr-3">
-                                        <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                            value='gratis' id="priceFree" checked>
+
+                                        @if (isset(old('harga_tiket')))
+                                            asd
+                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
+                                                value='gratis' id="priceFree"
+                                                {{ old('harga_tiket') === 'gratis' ? 'checked' : ' ' }}>
+                                        @else
+                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
+                                                value='gratis' id="priceFree" checked>
+                                        @endif
                                         <label class="custom-control-label py-1 px-2" for="priceFree">Gratis</label>
                                     </div>
                                     <div class="form-check ">
                                         <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                            value='bayar' id="picePay" required>
+                                            value='bayar' id="picePay" required
+                                            {{ old('harga_tiket') !== 0 ? 'checked' : ' ' }}>
+
                                         <label class="custom-control-label  py-1 px-1" for="picePay">Bayar</label>
                                     </div>
                                 </div>
@@ -106,10 +117,10 @@
                                 <label for="image" class="form-label text-sm ">Poster Event</label>
                                 <img class="img-preview img-fluid mt-3 mb-3 mx-auto col-sm-5 d-block shadow-md rounded-md"
                                     src="{{ asset('image/event_image_default.png') }}" loading="lazy">
-                                <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
-                                    name="image" onchange="previewImage()">
+                                <input class="form-control @error('famplet_acara_path') is-invalid @enderror"
+                                    type="file" id="image" name="image" onchange="previewImage()">
 
-                                @error('image')
+                                @error('famplet_acara_path')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -138,20 +149,26 @@
 
                     {{-- Tipe Acara --}}
                     <div class="mb-4">
-                        <label for="name" class="form-label text-sm @error('nama_event') is-invalid @enderror">Tipe
+                        <label for="name" class="form-label text-sm @error('tipe_acara') is-invalid @enderror">Tipe
                             Event</label>
                         <div class="radio mt-3 d-flex">
                             <div class="form-check mb-3 mr-3">
-                                <input class="form-check-input eventType" type="radio" name="tipe_event" value='online'
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='online'
                                     id="online" checked>
                                 <label class="custom-control-label py-1 px-2" for="online">Online</label>
                             </div>
                             <div class="form-check ">
-                                <input class="form-check-input eventType" type="radio" name="tipe_event" value='ofline'
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='ofline'
                                     id="offline" required>
                                 <label class="custom-control-label  py-1 px-1" for="offline">Offline</label>
                             </div>
                         </div>
+
+                        @error('tipe_acara')
+                            <div id="deskripsi_acara_feedback" class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
 
 
                         <div id='eventOnline' class="input-group mb-4 event-location-input">
@@ -196,11 +213,14 @@
                         </label>
                         <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
                             name='deskripsi_acara' autofocus='true' required value="{{ old('deskripsi_acara') }}"
-                            id="floatingTextarea" placeholder="Masukan Deskripsi Event"></textarea>
+                            id="floatingTextarea"
+                            placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea>
 
                         @error('deskripsi_acara')
                             <div id="deskripsi_acara_feedback" class="invalid-feedback">
-                                {{ $message }}
+                                @if (isset($message) && $message == 'validation.required')
+                                    Mohon Isi Deskripsi Event Terlebih Dahulu
+                                @endif
                             </div>
                         @enderror
                     </div>
@@ -241,7 +261,7 @@
         <script>
             /* Script for Event Type toogle */
 
-            const radioEventType = document.querySelectorAll('input[type=radio][name=tipe_event]');
+            const radioEventType = document.querySelectorAll('input[type=radio][name=tipe_acara]');
             const locationInput = document.querySelectorAll('.event-location-input');
 
             radioEventType.forEach(function(radio) {
