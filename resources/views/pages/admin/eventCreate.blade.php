@@ -30,7 +30,7 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                <input type="hidden" name="slug" id="slug">
+
                             </div>
 
                             {{-- Nama Event --}}
@@ -46,7 +46,7 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                <input type="hidden" name="slug" id="slug">
+                                <input type="hidden" class="form-control" name="slug" id="slug">
                             </div>
 
                             {{-- Watku Event --}}
@@ -87,7 +87,8 @@
                                 <div id='inputPriceWrapper' class="input-group mb-4 d-none">
                                     <span class="input-group-text">Rp. </span>
                                     <input class="form-control @error('harga_tiket') is-invalid @enderror" type="number"
-                                        placeholder="Masukan harga tiket" pattern="[0-9]" disabled>
+                                        placeholder="Masukan harga tiket" pattern="[0-9]" name="harga_tiket_bayar"
+                                        disabled>
                                 </div>
                                 {{-- <input type="text" class="form-control" id="harga_tiket" name='harga_tiket' autofocus='true'> --}}
 
@@ -116,6 +117,7 @@
                             </div>
                         </div>
                     </div>
+
 
 
 
@@ -153,21 +155,30 @@
 
 
                         <div id='eventOnline' class="input-group mb-4 event-location-input">
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select  @error('lokasi_acara_online') is-invalid @enderror"
+                                aria-label="Default select example" name="lokasi_acara_online">
                                 <option value="Zoom" selected>Zoom</option>
                                 <option value="Google Meet">Google Meet</option>
                                 <option value="Others">Others</option>
                             </select>
+
+                            @error('lokasi_acara_online')
+                                <div id="lokasi_acara_offline_feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
 
                         <div id='eventOffline' class="input-group mb-4 event-location-input d-none">
                             <div class="mb-4  w-100">
-                                <input type="text" class="form-control" id="lokasi_event" name='lokasi_event'
-                                    autofocus='true' value="{{ old('lokasi_event') }}"
-                                    placeholder="Masukan Lokasi Event" disabled>
+                                <input type="text"
+                                    class="form-control @error('lokasi_acara_offline') is-invalid @enderror"
+                                    id="lokasi_acara_offline" name='lokasi_acara_offline' autofocus='true'
+                                    value="{{ old('lokasi_acara_offline') }}" placeholder="Masukan Lokasi Event"
+                                    disabled>
 
-                                @error('lokasi_event')
-                                    <div id="lokasi_event_feedback" class="invalid-feedback">
+                                @error('lokasi_acara_offline')
+                                    <div id="lokasi_acara_offline_feedback" class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
@@ -180,15 +191,15 @@
 
                     {{-- Deskripsi Event --}}
                     <div class="mb-4">
-                        <label for="desripsi_event" class="form-label text-sm ">Deskripsi Event
+                        <label for="deskripsi_acara" class="form-label text-sm ">Deskripsi Event
                             <span class="text-xxs text-danger">(*)</span>
                         </label>
-                        <textarea rows="10" class="form-control @error('desripsi_event') is-invalid @enderror" id="desripsi_event"
-                            name='desripsi_event' autofocus='true' required value="{{ old('desripsi_event') }}"
+                        <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
+                            name='deskripsi_acara' autofocus='true' required value="{{ old('deskripsi_acara') }}"
                             id="floatingTextarea" placeholder="Masukan Deskripsi Event"></textarea>
 
-                        @error('desripsi_event')
-                            <div id="desripsi_event_feedback" class="invalid-feedback">
+                        @error('deskripsi_acara')
+                            <div id="deskripsi_acara_feedback" class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
@@ -274,6 +285,18 @@
                     imagePreview.src = reader.result;
                 }
             }
+        </script>
+
+        <script>
+            /* Add Slug */
+            const name = document.querySelector('#nama_event');
+            const slug = document.querySelector('#slug');
+
+            name.addEventListener('change', function() {
+                fetch(`{{ route('admin_events_checkslug') }}?name=${name.value}`)
+                    .then(response => response.json())
+                    .then(data => slug.value = data.slug)
+            });
         </script>
     @endpush
 

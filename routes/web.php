@@ -34,12 +34,14 @@ Route::middleware([
     })->name('dashboard_admin');
 
     /* Event Route */
+    Route::get('/admin/events/checkslug', [AdminEventController::class, 'checkSlug'])->name('admin_events_checkslug');
+    
     Route::resource('/admin/events', AdminEventController::class)->names([
         'index' => 'admin_events_index',
         'create' => 'admin_events_create',
         'store' => 'admin_events_store',
-
     ]);
+
     /*  Route::get('/admin/events/create', [AdminEventController::class, 'createPage'])->name('admin_events_create'); */
 });
 
