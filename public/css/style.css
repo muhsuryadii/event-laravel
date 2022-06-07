@@ -26,3 +26,12 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
+
+.img-preview-list {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 120px !important;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
