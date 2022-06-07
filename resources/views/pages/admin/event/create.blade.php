@@ -183,7 +183,7 @@
                                 <label class="custom-control-label py-1 px-2" for="online">Online</label>
                             </div>
                             <div class="form-check ">
-                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='ofline'
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='offline'
                                     id="offline"
                                     {{ old('tipe_acara') === null ? ' ' : (old('tipe_acara') == 'offline' ? 'checked' : ' ') }}>
                                 <label class="custom-control-label  py-1 px-1" for="offline">Offline</label>
