@@ -31,6 +31,8 @@
                          Event
                      @elseif (Request::is('admin/events/create'))
                          Tambah Event
+                     @elseif (Request::is('admin/events/*/edit'))
+                         Edit Event
                      @endif
                  @endif
              </h3>

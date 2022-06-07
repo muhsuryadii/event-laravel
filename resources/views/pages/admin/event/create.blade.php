@@ -97,7 +97,7 @@
                                     <div class="form-check ">
                                         <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
                                             value='bayar' id="picePay" required
-                                            {{ old('harga_tiket') === null ? ' ' : (old('harga_tiket') !== 0 ? 'checked' : ' ') }}>
+                                            {{ old('harga_tiket') === null ? ' ' : (old('harga_tiket') !== 'gratis' ? 'checked' : ' ') }}>
 
                                         <label class="custom-control-label  py-1 px-1" for="picePay">Bayar</label>
                                     </div>
@@ -105,13 +105,13 @@
 
 
                                 <div id='inputPriceWrapper'
-                                    class="input-group mb-4 {{ old('harga_tiket') === null ? 'd-none' : (old('harga_tiket') !== 0 ? '' : 'd-none') }}">
+                                    class="input-group mb-4 {{ old('harga_tiket') === null ? 'd-none' : (old('harga_tiket') !== 'gratis' ? '' : 'd-none') }}">
                                     <span class="input-group-text">Rp. </span>
                                     <input class="form-control @error('harga_tiket') is-invalid @enderror" type="number"
                                         placeholder="Masukan harga tiket" pattern="[0-9]" name="harga_tiket_bayar"
                                         @if (old('harga_tiket') === null) disabled
                                         @else
-                                            @if (old('harga_tiket') !== 0)
+                                            @if (old('harga_tiket') !== 'gratis')
                                                 value="{{ (int) old('harga_tiket_bayar') }}"
                                             @else
                                                 disabled @endif
@@ -139,6 +139,12 @@
                                     type="file" id="image" name="image" onchange="previewImage()">
 
                                 @error('famplet_acara_path')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+
+                                @error('image')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -200,10 +206,10 @@
                                     {{ old('lokasi_acara_online') === null ? 'selected ' : (old('lokasi_acara_online') === 'Zoom' ? 'selected' : '') }}>
                                     Zoom</option>
                                 <option value="Google Meet"
-                                    {{ old('lokasi_acara_online') === null ? 'selected ' : (old('lokasi_acara_online') === 'Google Meet' ? 'selected' : '') }}>
+                                    {{ old('lokasi_acara_online') === null ? ' ' : (old('lokasi_acara_online') === 'Google Meet' ? 'selected' : '') }}>
                                     Google Meet</option>
                                 <option value="Lainnya"
-                                    {{ old('lokasi_acara_online') === null ? 'selected ' : (old('lokasi_acara_online') !== 'Google Meet' && old('lokasi_acara_online') !== 'Zoom' ? 'selected' : '') }}>
+                                    {{ old('lokasi_acara_online') === null ? ' ' : (old('lokasi_acara_online') !== 'Google Meet' && old('lokasi_acara_online') !== 'Zoom' ? 'selected' : '') }}>
                                     Lainnya</option>
                             </select>
 
@@ -215,7 +221,7 @@
                         </div>
 
                         <div id='eventOffline'
-                            class="input-group mb-4 event-location-input {{ old('tipe_acara') === null ? ' d-none' : (old('tipe_acara') !== 'online' ? 'd-none' : ' ') }}">
+                            class="input-group mb-4 event-location-input {{ old('tipe_acara') === null ? ' d-none' : (old('tipe_acara') === 'online' ? 'd-none' : ' ') }}">
                             <div class="mb-4  w-100">
                                 <input type="text"
                                     class="form-control @error('lokasi_acara_offline') is-invalid @enderror"
@@ -241,8 +247,8 @@
                             <span class="text-xxs text-danger">(*)</span>
                         </label>
                         <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
-                            name='deskripsi_acara' autofocus='true' required value="{{ old('deskripsi_acara') }}"
-                            id="floatingTextarea"
+                            name='deskripsi_acara' autofocus='true' required="required"
+                            value="{{ old('deskripsi_acara') }}" id="floatingTextarea"
                             placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea>
 
                         @error('deskripsi_acara')

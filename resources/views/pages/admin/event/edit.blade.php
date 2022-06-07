@@ -4,9 +4,10 @@
         <div class="col-12">
             <div class="card mb-4">
 
-                <form action='{{ route('admin_events_store') }}' method="POST" enctype="multipart/form-data"
-                    class="p-[1.5rem]">
+                <form action='{{ route('admin_events_update', $event->slug) }}' method="POST"
+                    enctype="multipart/form-data" class="p-[1.5rem]">
                     @csrf
+                    @method('put')
 
                     <div class="row">
                         <div class="col-md-6 col-12">
@@ -49,6 +50,7 @@
                                 @enderror
                                 <input type="hidden" class="form-control" name="slug" id="slug"
                                     value={{ old('slug', $event->slug) }}>
+                                <input type="hidden" class="form-control" name="id" id="id" value={{ $event->id }}>
                             </div>
 
                             {{-- Watku Event --}}
@@ -75,9 +77,17 @@
 
                                 <div class=" radio mt-3 d-flex">
                                     <div class="form-check mb-3 mr-3">
-                                        <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                            value='gratis' id="priceFree"
-                                            {{ $event->harga_tiket == 0 ? 'checked' : ' ' }}>
+
+                                        @if (old('harga_tiket') == null)
+                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
+                                                value='gratis' id="priceFree"
+                                                {{ $event->harga_tiket == 0 ? 'checked' : ' ' }}>
+                                        @else
+                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
+                                                value='gratis' id="priceFree"
+                                                {{ old('harga_tiket', $event->harga_tiket) === 'gratis' ? 'checked' : ' ' }}>
+                                        @endif
+
                                         <label class="custom-control-label py-1 px-2" for="priceFree">Gratis</label>
                                     </div>
                                     <div class="form-check ">
@@ -152,7 +162,8 @@
                         <div class="radio mt-3 d-flex">
                             <div class="form-check mb-3 mr-3">
                                 <input class="form-check-input eventType" type="radio" name="tipe_acara" value='online'
-                                    id="online" {{ strtolower($event->tipe_acara) == 'online' ? 'checked' : ' ' }}>
+                                    id="online"
+                                    {{ strtolower($event->tipe_acara) == 'online' || old('tipe_acara') == 'online' ? 'checked' : ' ' }}>
                                 <label class="custom-control-label py-1 px-2" for="online">Online</label>
                             </div>
 
@@ -160,7 +171,7 @@
                             <div class="form-check ">
                                 <input class="form-check-input eventType" type="radio" name="tipe_acara" value='offline'
                                     id="offline" required
-                                    {{ strtolower($event->tipe_acara) == 'offline' ? 'checked' : ' ' }}>
+                                    {{ strtolower($event->tipe_acara) == 'offline' || old('tipe_acara') == 'offline' ? 'checked' : ' ' }}>
                                 <label class="custom-control-label  py-1 px-1" for="offline">Offline</label>
                             </div>
                         </div>
@@ -172,16 +183,16 @@
                                 aria-label="Default select example" name="lokasi_acara_online"
                                 {{ strtolower($event->tipe_acara) == 'offline' ? 'disabled' : ' ' }}>
 
-                                <option value="Zoom" {{ $event->lokasi_acara == 'Zoom' ? 'selected' : ' ' }}
-                                    selected>
+                                <option value="Zoom"
+                                    {{ $event->lokasi_acara == 'Zoom' || old('lokasi_acara_online') == 'Zoom' ? 'selected' : ' ' }}>
                                     Zoom</option>
                                 <option value="Google Meet"
-                                    {{ $event->lokasi_acara == 'Google Meet' ? 'selected' : ' ' }}>Google Meet
+                                    {{ $event->lokasi_acara == 'Zoom' || old('lokasi_acara_online') == 'Google Meet' ? 'selected' : ' ' }}>
+                                    Google Meet
                                 </option>
                                 <option value="Lainnya"
                                     {{ $event->lokasi_acara != 'Google Meet' && $event->lokasi_acara != 'Zoom' ? 'selected' : ' ' }}>
                                     Lainnya</option>
-
                             </select>
 
                             @error('lokasi_acara_online')
@@ -225,7 +236,7 @@
                             <span class="text-xxs text-danger">(*)</span>
                         </label>
                         <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
-                            name='deskripsi_acara' autofocus='true' required
+                            name='deskripsi_acara' autofocus='true' required="required"
                             placeholder="Masukan Deskripsi Event">{{ old('deskripsi_acara', $event->deskripsi_acara) }}</textarea>
 
                         @error('deskripsi_acara')
@@ -237,7 +248,7 @@
 
 
 
-                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4">Simpan</button>
+                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4">Update</button>
                 </form>
             </div>
         </div>
