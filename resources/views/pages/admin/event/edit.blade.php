@@ -149,7 +149,7 @@
                             Tiket <span class="text-xxs text-danger">(*)</span> </label>
                         <input type="number" class="form-control  @error('kuota_tiket') is-invalid @enderror"
                             id="kuota_tiket" name='kuota_tiket' autofocus='true' required
-                            value="{{ old('kuota_tiket', $event->harga_tiket) }}" placeholder="Masukan Kuota Tiket">
+                            value="{{ old('kuota_tiket', $event->kuota_tiket) }}" placeholder="Masukan Kuota Tiket">
 
                         @error('kuota_tiket')
                             <div id="kuota_tiket_feedback" class="invalid-feedback">
