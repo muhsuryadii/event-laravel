@@ -127,24 +127,27 @@ class AdminEventController extends Controller
     public function update(Request $request, $id)
     {
         //
+        // return dd($request->all());
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
         $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
+
         $image = null;
         if ($request->file('image')) {
             if ($request->oldImage) {
                 Storage::delete(['file', 'otherFile']);
                 ($request->oldImage);
             }
-            $image = $request->file('image')->store('/images/events');
+            $image = $request->file('image')->store('images/events');
+
+            $this->validate($request, [
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
         }
-
-
-        // $image =  $request->file('image') ? $request->file('image')->store('/images/events') : null;
-
+        // != null ? $request->slug : SlugService::createSlug(Event::class, 'slug', $request->nama_event)
         $eventData = [
             'id_panitia' => $request->id_penyelenggara_event,
             'nama_event' => $request->nama_event,
-            'slug' => $request->slug != null ? $request->slug : SlugService::createSlug(Event::class, 'slug', $request->nama_event),
+            'slug' => $request->slug,
             'waktu_acara' => $request->waktu_acara,
             'harga_tiket' => $harga_tiket,
             'kuota_tiket' => (int) $request->kuota_tiket,
@@ -157,29 +160,46 @@ class AdminEventController extends Controller
         // return dd($eventData);
 
         // Validate Input
-        $validator =  Validator::make($eventData, [
-            'id_panitia' => 'required|exists:users,id',
-            'nama_event' => 'required|max:255',
-            'waktu_acara' => 'required|after_or_equal:today',
-            'harga_tiket' => 'required|numeric',
-            'kuota_tiket' => 'required|numeric',
-            'lokasi_acara' => 'required|max:150',
-            'tipe_acara' => 'required',
-            'deskripsi_acara' => 'required',
-            'famplet_acara_path' => 'nullable|image|max:1024|'
-        ]);
-
 
         $event = Event::where('slug', $id)->firstOrFail();
         if ($request->slug != $event->slug) {
-            $validator =  Validator::make([
-                $request->slug
-            ], [
-                'slug' => 'required|unique:events|max:255',
+            array_push($eventData, [
+                'slug' => $request->slug,
+            ]);
+
+            $validator =  Validator::make(
+                $eventData,
+                [
+                    'slug' => 'required|unique:events|max:255',
+                    'id_panitia' => 'required|exists:users,id',
+                    'nama_event' => 'required|max:255',
+                    'waktu_acara' => 'required|after_or_equal:today',
+                    'harga_tiket' => 'required|numeric',
+                    'kuota_tiket' => 'required|numeric',
+                    'lokasi_acara' => 'required|max:150',
+                    'tipe_acara' => 'required',
+                    'deskripsi_acara' => 'required',
+                    'famplet_acara_path' => 'nullable'
+                ]
+            );
+        } else {
+            $validator =  Validator::make($eventData, [
+                'id_panitia' => 'required|exists:users,id',
+                'nama_event' => 'required|max:255',
+                'waktu_acara' => 'required|after_or_equal:today',
+                'harga_tiket' => 'required|numeric',
+                'kuota_tiket' => 'required|numeric',
+                'lokasi_acara' => 'required|max:150',
+                'tipe_acara' => 'required',
+                'deskripsi_acara' => 'required',
+                'famplet_acara_path' => 'nullable'
             ]);
         }
 
+
         $updateData = $validator->validate();
+
+        // return dd($updateData);
 
         Event::where('id', $event->id)->update($updateData);
 

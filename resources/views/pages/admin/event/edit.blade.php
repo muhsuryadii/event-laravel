@@ -123,6 +123,9 @@
                                 <img class="img-preview img-fluid mt-3 mb-3 mx-auto col-sm-5 d-block shadow-md rounded-md"
                                     src="{{ $event->famplet_acara_path != null ? asset('storage/' . $event->famplet_acara_path) : asset('image/event_image_default.png') }}"
                                     loading="lazy">
+                                <input type="hidden" class='d-none' name="oldImage"
+                                    value="{{ $event->famplet_acara_path }}">
+
 
 
                                 <input class="form-control @error('famplet_acara_path') is-invalid @enderror"
@@ -245,6 +248,17 @@
                             </div>
                         @enderror
                     </div>
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="list-unstyled">
+                                {{-- @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach --}}
+                                {{ $errors }}
+                            </ul>
+                        </div>
+                    @endif
 
 
 
