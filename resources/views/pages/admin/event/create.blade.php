@@ -1,5 +1,6 @@
 <x-app-layout>
     {{-- {{ dd($user) }} --}}
+    {{-- {{ dd(old()) }} --}}
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
@@ -60,10 +61,18 @@
                                     name="waktu_acara" required value="{{ old('waktu_acara') }}">
 
                                 @error('waktu_acara')
-                                    <div id="datetime_feedback" class="invalid-feedback">
+                                    <div id="datetime_feedback" class="invalid-feedback capitalize">
                                         {{ $message }}
+
+                                        @if (isset($message) && $message == 'validation.after_or_equal')
+                                            mohon masukan waktu event yang sesuai
+                                        @elseif (isset($message) && $message == 'validation.required')
+                                            mohon masukan tanggal event
+                                        @endif
                                     </div>
                                 @enderror
+
+
                             </div>
 
                             {{-- Harga Tiket --}}
@@ -74,32 +83,41 @@
                                 <div class="radio mt-3 d-flex">
                                     <div class="form-check mb-3 mr-3">
 
-                                        @if (isset(old('harga_tiket')))
-                                            asd
+                                        @if (old('harga_tiket') == null)
+                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
+                                                value='gratis' id="priceFree" checked>
+                                        @else
                                             <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
                                                 value='gratis' id="priceFree"
                                                 {{ old('harga_tiket') === 'gratis' ? 'checked' : ' ' }}>
-                                        @else
-                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                                value='gratis' id="priceFree" checked>
                                         @endif
+
                                         <label class="custom-control-label py-1 px-2" for="priceFree">Gratis</label>
                                     </div>
                                     <div class="form-check ">
                                         <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
                                             value='bayar' id="picePay" required
-                                            {{ old('harga_tiket') !== 0 ? 'checked' : ' ' }}>
+                                            {{ old('harga_tiket') === null ? ' ' : (old('harga_tiket') !== 0 ? 'checked' : ' ') }}>
 
                                         <label class="custom-control-label  py-1 px-1" for="picePay">Bayar</label>
                                     </div>
                                 </div>
 
 
-                                <div id='inputPriceWrapper' class="input-group mb-4 d-none">
+                                <div id='inputPriceWrapper'
+                                    class="input-group mb-4 {{ old('harga_tiket') === null ? 'd-none' : (old('harga_tiket') !== 0 ? '' : 'd-none') }}">
                                     <span class="input-group-text">Rp. </span>
                                     <input class="form-control @error('harga_tiket') is-invalid @enderror" type="number"
                                         placeholder="Masukan harga tiket" pattern="[0-9]" name="harga_tiket_bayar"
-                                        disabled>
+                                        @if (old('harga_tiket') === null) disabled
+                                        @else
+                                            @if (old('harga_tiket') !== 0)
+                                                value="{{ (int) old('harga_tiket_bayar') }}"
+                                            @else
+                                                disabled @endif
+                                        @endif
+
+                                    >
                                 </div>
                                 {{-- <input type="text" class="form-control" id="harga_tiket" name='harga_tiket' autofocus='true'> --}}
 
@@ -154,12 +172,14 @@
                         <div class="radio mt-3 d-flex">
                             <div class="form-check mb-3 mr-3">
                                 <input class="form-check-input eventType" type="radio" name="tipe_acara" value='online'
-                                    id="online" checked>
+                                    id="online"
+                                    {{ old('tipe_acara') === null ? 'checked' : (old('tipe_acara') == 'online' ? 'checked' : ' ') }}>
                                 <label class="custom-control-label py-1 px-2" for="online">Online</label>
                             </div>
                             <div class="form-check ">
                                 <input class="form-check-input eventType" type="radio" name="tipe_acara" value='ofline'
-                                    id="offline" required>
+                                    id="offline"
+                                    {{ old('tipe_acara') === null ? ' ' : (old('tipe_acara') == 'offline' ? 'checked' : ' ') }}>
                                 <label class="custom-control-label  py-1 px-1" for="offline">Offline</label>
                             </div>
                         </div>
@@ -171,12 +191,20 @@
                         @enderror
 
 
-                        <div id='eventOnline' class="input-group mb-4 event-location-input">
+                        <div id='eventOnline'
+                            class="input-group mb-4 event-location-input  {{ old('tipe_acara') === null ? ' ' : (old('tipe_acara') === 'online' ? '' : 'd-none') }} ">
                             <select class="form-select  @error('lokasi_acara_online') is-invalid @enderror"
                                 aria-label="Default select example" name="lokasi_acara_online">
-                                <option value="Zoom" selected>Zoom</option>
-                                <option value="Google Meet">Google Meet</option>
-                                <option value="Others">Others</option>
+
+                                <option value="Zoom"
+                                    {{ old('lokasi_acara_online') === null ? 'selected ' : (old('lokasi_acara_online') === 'Zoom' ? 'selected' : '') }}>
+                                    Zoom</option>
+                                <option value="Google Meet"
+                                    {{ old('lokasi_acara_online') === null ? 'selected ' : (old('lokasi_acara_online') === 'Google Meet' ? 'selected' : '') }}>
+                                    Google Meet</option>
+                                <option value="Lainnya"
+                                    {{ old('lokasi_acara_online') === null ? 'selected ' : (old('lokasi_acara_online') !== 'Google Meet' && old('lokasi_acara_online') !== 'Zoom' ? 'selected' : '') }}>
+                                    Lainnya</option>
                             </select>
 
                             @error('lokasi_acara_online')
@@ -186,7 +214,8 @@
                             @enderror
                         </div>
 
-                        <div id='eventOffline' class="input-group mb-4 event-location-input d-none">
+                        <div id='eventOffline'
+                            class="input-group mb-4 event-location-input {{ old('tipe_acara') === null ? ' d-none' : (old('tipe_acara') !== 'online' ? 'd-none' : ' ') }}">
                             <div class="mb-4  w-100">
                                 <input type="text"
                                     class="form-control @error('lokasi_acara_offline') is-invalid @enderror"
@@ -224,6 +253,8 @@
                             </div>
                         @enderror
                     </div>
+
+
 
 
 
