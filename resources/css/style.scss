@@ -23,8 +23,12 @@
 
 .img-preview {
     width: 200px !important;
-
     height: 270px !important;
-
     object-fit: cover;
+}
+
+.img-preview-list {
+    width: fit-content;
+    height: 120px !important;
+    object-fit: cover ;
 }

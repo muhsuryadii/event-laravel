@@ -62,3 +62,30 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## What next?
+
+After clone or download this repository, next step is install all dependency required by laravel and laravel-mix.
+
+```shell
+# install composer-dependency
+$ composer install
+# install npm package
+$ npm install
+# build dev
+$ npm run dev
+```
+
+Before we start web server make sure we already generate app key, configure `.env` file and do migration.
+
+```shell
+# create copy of .env
+$ cp .env.example .env
+# create laravel key
+$ php artisan key:generate
+# laravel migrate
+$ php artisan migrate
+# laravel link up storage files
+$ php artisan storage:link
+```
