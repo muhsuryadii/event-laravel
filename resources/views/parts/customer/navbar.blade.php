@@ -13,7 +13,7 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/event">Event</a>
+                    <a class="nav-link" href="{{ route('event_index') }}">Event</a>
                 </li>
 
                 @if (Auth::check())

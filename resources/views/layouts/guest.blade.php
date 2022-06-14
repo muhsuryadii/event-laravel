@@ -15,7 +15,7 @@
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
 
-    @include('parts.head')
+    @include('parts.customer.head')
 
 
 </head>
@@ -24,7 +24,7 @@
     <div class="font-sans text-slate-800 antialiased">
         {{ $slot }}
     </div>
-    @include('parts.script')
+    @include('parts.customer.script')
 
 </body>
 
