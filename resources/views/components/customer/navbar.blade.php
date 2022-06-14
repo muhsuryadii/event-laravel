@@ -17,9 +17,7 @@
                 </li>
 
                 @if (Auth::check())
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Cek Sertifikat</a>
-                    </li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle capitalize" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -34,6 +32,13 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#">
                                     <i class="fa-solid fa-user text-slate-600 mr-3"></i>Profile</a></li>
+                            <li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fa-solid fa-user text-slate-600 mr-3"></i> Cek Sertifikat
+
+                                </a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -53,10 +58,13 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
+                        <a class="nav-link px-2 rounded-xl  border border-slate-600 mx-3 hover:text-white hover:bg-slate-200"
+                            href="/register ">Register
+                        </a>
+
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link px-3 py-2 rounded-md shadow-md bg-indigo-500 text-white"
+                        <a class="nav-link px-3 py-2 rounded-xl shadow-md bg-indigo-500 hover:bg-indigo-600 text-white"
                             href="/login">Login</a>
                     </li>
                 @endif

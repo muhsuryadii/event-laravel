@@ -3,6 +3,7 @@
 
 
 use App\Http\Controllers\AdminEventController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.customer.homepage', [
+        'events' => Event::orderBy('waktu_acara')
+            ->where('waktu_acara', '>=', now())
+            ->limit(5)->get(),
+    ]);
 })->name('home');
 
 Route::middleware([
