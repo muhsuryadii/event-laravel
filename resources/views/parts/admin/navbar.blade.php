@@ -36,7 +36,7 @@
                      @endif
                  @endif
              </h3>
-         </nav>
+         </nav>+
 
          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
              <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -79,6 +79,22 @@
                                              <p class="text-xs text-secondary mb-0 text-inherit">
                                                  {{ Auth::user()->nama_user }}
                                              </p>
+                                         </h5>
+                                     </div>
+                                 </div>
+                             </a>
+                         </li>
+
+                         <li class="mb-2">
+                             <a class="dropdown-item border-radius-md" href="{{ route('home') }}">
+                                 <div class="d-flex py-1">
+                                     <div class="my-auto">
+                                         <i
+                                             class="fa-solid fa-house avatar avatar-sm bg-gradient-success fs-5 me-3 text-white"></i>
+                                     </div>
+                                     <div class="d-flex flex-column justify-content-center">
+                                         <h5 class="text-sm font-weight-normal mb-1">
+                                             <span class="font-weight-bold">Home</span>
                                          </h5>
                                      </div>
                                  </div>

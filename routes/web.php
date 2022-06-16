@@ -3,6 +3,8 @@
 
 
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\EventController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +19,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.customer.homepage', [
+        'events' => Event::orderBy('waktu_acara')
+            ->where('waktu_acara', '>=', now())
+            ->limit(5)->get(),
+    ]);
 })->name('home');
 
 Route::middleware([
@@ -50,7 +58,26 @@ Route::middleware([
 });
 
 
-/* 
-Route::group(["middleware" => ['auth:sanctum', '']], function () {
-    Route::view('/dashboard', "dashboard")->name('dashboard');
-}); */
+
+Route::group(["middleware" => ['auth:sanctum']], function () {
+    /* Homepage User */
+    Route::get('/', function () {
+        return view('pages.customer.homepage', [
+            'events' => Event::orderBy('waktu_acara')
+                ->where('waktu_acara', '>=', now())
+                ->limit(5)->get(),
+        ]);
+    })->name('home');
+
+    /* Event User */
+    Route::resource('/event', EventController::class)->names([
+        'index' => 'event_index',
+        'create' => 'event_create',
+        'store' => 'event_store',
+        'show' => 'event_show',
+        'edit' => 'event_edit',
+        'update' => 'event_update',
+        'destroy' => 'event_destroy',
+    
+    ]);
+});

@@ -16,6 +16,11 @@ class EventController extends Controller
     public function index()
     {
         //
+        return view('pages.customer.event.index', [
+            'events' => Event::orderBy('waktu_acara')
+                ->where('waktu_acara', '>=', now())
+                ->get(),
+        ]);
     }
 
     /**
@@ -48,6 +53,10 @@ class EventController extends Controller
     public function show(Event $event)
     {
         //
+        return view('pages.customer.event.show', [
+            'event' => $event,
+
+        ]);
     }
 
     /**
@@ -59,6 +68,7 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         //
+
     }
 
     /**

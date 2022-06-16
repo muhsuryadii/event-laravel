@@ -131,7 +131,8 @@ class AdminEventController extends Controller
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
         $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
 
-        $image = null;
+        
+
         if ($request->file('image')) {
             if ($request->oldImage) {
                 Storage::delete(['file', 'otherFile']);
@@ -142,8 +143,10 @@ class AdminEventController extends Controller
             $this->validate($request, [
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
+        } else {
+            $image = $request->oldImage;
         }
-        // != null ? $request->slug : SlugService::createSlug(Event::class, 'slug', $request->nama_event)
+
         $eventData = [
             'id_panitia' => $request->id_penyelenggara_event,
             'nama_event' => $request->nama_event,

@@ -16254,7 +16254,7 @@ fieldset:disabled .btn {
     }
     .dropdown.dropdown-hover:hover > .dropdown-menu:before,
     .dropdown .dropdown-menu.show:before {
-        top: -20px;
+        top: -19px;
     }
     .dropdown.dropdown-hover:after {
         content: "";
@@ -16375,7 +16375,7 @@ fieldset:disabled .btn {
         animation: f 0.25s ease forwards;
     }
     .dropdown .dropdown-menu.show:before {
-        top: -20px;
+        top: -19px;
     }
     .dropdown.nav-item .dropdown-menu {
         position: absolute;
@@ -17563,10 +17563,13 @@ hr.horizontal.gray-light {
     padding: 0;
     box-shadow: none;
     z-index: 9999;
+    /* height: fit-content;
+    padding-bottom: 1rem;  */
 }
 .navbar-vertical.navbar-expand-xs .navbar-collapse {
     display: block;
     overflow: auto;
+
     /* height: calc(100vh - 360px); */
 }
 .navbar-vertical.navbar-expand-xs > [class*="container"] {
@@ -17664,6 +17667,8 @@ hr.horizontal.gray-light {
     .navbar-vertical.navbar-expand-sm .navbar-collapse {
         display: block;
         overflow: auto;
+        height: fit-content;
+
         /* height: calc(100vh - 360px); */
     }
     .navbar-vertical.navbar-expand-sm > [class*="container"] {
@@ -17765,6 +17770,8 @@ hr.horizontal.gray-light {
     .navbar-vertical.navbar-expand-md .navbar-collapse {
         display: block;
         overflow: auto;
+        height: fit-content;
+
         /* height: calc(100vh - 360px); */
     }
     .navbar-vertical.navbar-expand-md > [class*="container"] {
@@ -17866,6 +17873,8 @@ hr.horizontal.gray-light {
     .navbar-vertical.navbar-expand-lg .navbar-collapse {
         display: block;
         overflow: auto;
+        height: fit-content;
+
         /* height: calc(100vh - 360px); */
     }
     .navbar-vertical.navbar-expand-lg > [class*="container"] {
@@ -17967,6 +17976,8 @@ hr.horizontal.gray-light {
     .navbar-vertical.navbar-expand-xl .navbar-collapse {
         display: block;
         overflow: auto;
+        height: fit-content;
+
         /* height: calc(100vh - 360px); */
     }
     .navbar-vertical.navbar-expand-xl > [class*="container"] {
@@ -18068,6 +18079,8 @@ hr.horizontal.gray-light {
     .navbar-vertical.navbar-expand-xxl .navbar-collapse {
         display: block;
         overflow: auto;
+        height: fit-content;
+
         /* height: calc(100vh - 360px); */
     }
     .navbar-vertical.navbar-expand-xxl > [class*="container"] {
