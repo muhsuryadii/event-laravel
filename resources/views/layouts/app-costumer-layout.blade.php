@@ -10,8 +10,10 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    @include('parts.head')
+
+    @include('parts.customer.head')
 
 
     @livewireStyles
@@ -25,7 +27,7 @@
 
     <div class="min-h-screen  ">
 
-        @include('components.customer.navbar')
+        @include('parts.customer.navbar')
 
         <!-- Page Content -->
         <main>
@@ -35,11 +37,11 @@
 
     @stack('modals')
 
-    @include('components.customer.footer')
+    @include('parts.customer.footer')
 
     <section class="script-sections">
         @livewireScripts
-        @include('parts.script')
+        @include('parts.customer.script')
 
 
     </section>

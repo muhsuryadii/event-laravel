@@ -30,5 +30,29 @@
 .img-preview-list {
     width: fit-content;
     height: 120px !important;
-    object-fit: cover ;
+    object-fit: cover;
+}
+
+.bg-overlay {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+
+    @apply bg-gradient-to-b from-transparent via-slate-100 to-slate-200 dark:via-slate-800 dark:to-dark opacity-50 dark:opacity-70;
+}
+
+$event-card-image-height: 200px;
+
+.events-card {
+    .content-wrapper {
+        .event-image-wrapper {
+            height: $event-card-image-height;
+        }
+        .event-info-wrapper {
+            height: calc(100% - $event-card-image-height);
+        }
+    }
 }

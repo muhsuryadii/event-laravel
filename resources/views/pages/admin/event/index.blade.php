@@ -71,9 +71,6 @@
                                                     {{ $event->lokasi_acara }}</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                {{-- <span class="text-secondary text-xs font-weight-bold">
-                                                    {{ $event->tipe_acara }}</span> --}}
-
                                                 <img class="img-preview-list img-fluidmx-auto mx-auto d-block shadow-md rounded-md"
                                                     src="{{ $event->famplet_acara_path != null ? asset('storage/' . $event->famplet_acara_path) : asset('image/event_image_default.png') }}"
                                                     loading="lazy">
