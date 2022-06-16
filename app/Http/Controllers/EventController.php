@@ -53,6 +53,10 @@ class EventController extends Controller
     public function show(Event $event)
     {
         //
+        return view('pages.customer.event.show', [
+            'event' => $event,
+
+        ]);
     }
 
     /**
@@ -64,6 +68,7 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         //
+
     }
 
     /**

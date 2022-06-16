@@ -10,10 +10,11 @@
         <div class="collapse navbar-collapse justify-end" id="navbarNavDropdown">
             <ul class="navbar-nav text-xl">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link  {{ Request::is('/') ? 'active' : ' ' }}" aria-current="page" href="/">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('event_index') }}">Event</a>
+                <li class="nav-item  ">
+                    <a class="nav-link {{ (Request::is('event') ? 'active' : Request::is('event/*')) ? 'active' : ' ' }}"
+                        href="{{ route('event_index') }}">Event</a>
                 </li>
 
                 @if (Auth::check())
@@ -31,12 +32,11 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#">
-                                    <i class="fa-solid fa-user text-slate-600 mr-3"></i>Profile</a></li>
+                                    <i class="fa-regular fa-user text-slate-600 mr-3"></i>Profile</a></li>
                             <li>
                             <li>
                                 <a class="dropdown-item" href="#">
-                                    <i class="fa-solid fa-user text-slate-600 mr-3"></i> Cek Sertifikat
-
+                                    <i class="fa-regular fa-file-lines text-slate-600 mr-3"></i> Cek Sertifikat
                                 </a>
                             </li>
                             <li>
