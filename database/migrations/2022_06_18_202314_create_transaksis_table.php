@@ -21,7 +21,7 @@ class CreateTransaksisTable extends Migration
             $table->integer('total_harga');
 
             $table->string('no_transaksi');
-            $table->string('status_transaksi')->default('not_payed');
+            $table->string('status_transaksi')->default('not_paid');
             $table->string('bukti_transaksi', 2048)->nullable();
             $table->timestamps();
         });

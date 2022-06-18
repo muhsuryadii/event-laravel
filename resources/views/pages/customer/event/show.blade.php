@@ -32,7 +32,6 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="card-event-info-wrapper px-4 bg-white rounded-2xl border shadow-md border-slate-600">
-
                         <div class="wrapper py-3">
                             <div class="price-wrapper mb-3">
                                 <h4 class="card-event-price text-xl font-semibold text-slate-500">Harga Event</h4>

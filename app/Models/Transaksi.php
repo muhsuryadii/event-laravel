@@ -9,8 +9,19 @@ class Transaksi extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
     public function getRouteKeyName()
     {
         return 'no_transaksi';
+    }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'id_event');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

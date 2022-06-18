@@ -73,9 +73,11 @@ class TransactionController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
-
+        // $user = $transaksi->load(['user', 'event']);
+        
         return view('pages.customer.chekout.show', [
             'transaksi' => $transaksi,
+            'event' =>  Event::find($transaksi->id_event),
         ]);
     }
 
