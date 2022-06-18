@@ -4,7 +4,7 @@
     <section>
         <div class="hero-section">
             <div class="image-wrapper relative	">
-                <img src="{{ asset('/image/usni_bg.jpg') }}" alt="usni_image_hero"
+                <img src="{{ asset('/image/usni_bg.jpg') }}" loading="lazy" alt="usni_image_hero"
                     class="w-full  object-cover object-top h-[300px] ">
                 <div class="bg-overlay bg-gradient-to-b from-slate-500 to-gray-600 opacity-60"></div>
                 <div class="bg-overlay search-bar-wrapper container h-full flex flex-wrap flex-col justify-center"
@@ -40,12 +40,11 @@
 
 
         {{-- Rekomendasi Event --}}
-
         <div class='mt-16'>
             <div class="container">
                 <div class="title-wrapper flex justify-between">
                     <h2 class="text-2xl font-bold  text-slate-700">
-                        Rekomendasi Event
+                        Event Terdekat
                     </h2>
                     <a href="{{ route('event_index') }}" class='text-base under font-semibold items-center'>
                         Lihat Semua
