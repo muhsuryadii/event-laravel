@@ -19,6 +19,7 @@ class CreateTransaksisTable extends Migration
             $table->bigInteger('id_peserta');
             $table->dateTime('tanggal_transaksi')->default(now());
             $table->integer('total_harga');
+            $table->dateTime('waktu_pembayaran')->nullable();
 
             $table->string('no_transaksi');
             $table->string('status_transaksi')->default('not_paid');

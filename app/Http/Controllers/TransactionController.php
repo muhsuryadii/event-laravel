@@ -74,7 +74,7 @@ class TransactionController extends Controller
     public function show(Transaksi $transaksi)
     {
         // $user = $transaksi->load(['user', 'event']);
-        
+
         return view('pages.customer.chekout.show', [
             'transaksi' => $transaksi,
             'event' =>  Event::find($transaksi->id_event),
@@ -99,9 +99,29 @@ class TransactionController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Transaksi $transaction)
+    public function update(Request $request, Transaksi $transaksi)
     {
         //
+        // return dd($request, $transaksi);
+
+        $image = null;
+
+        if ($request->file('bukti_transaksi')) {
+            $image =  $request->file('bukti_transaksi') ? $request->file('bukti_transaksi')->store('images/bukti_transaksi') : null;
+            $this->validate($request, [
+                'bukti_transaksi' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+        }
+
+        $transaksi->update([
+            'bukti_transaksi' => $image,
+            'status_transaksi' => 'pending',
+            'waktu_pembayaran' => now(),
+        ]);
+
+
+        // return redirect()->route('checkout_show', $no_transaksi);
+        return redirect()->route('checkout_show', $request->no_transaksi);
     }
 
     /**

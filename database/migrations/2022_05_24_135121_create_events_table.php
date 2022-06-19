@@ -25,6 +25,8 @@ class CreateEventsTable extends Migration
             $table->integer('kuota_tiket');
             $table->string('famplet_acara_path', 2048)->nullable();
             $table->longText('deskripsi_acara');
+            $table->integer('kuota')->nullable();
+            $table->boolean('is_certificate_ready')->default(false);
             $table->timestamps();
         });
     }

@@ -78,12 +78,15 @@
                                 <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4"> Pesan
                                     Tiket</button>
                             @endif
+
+                            @if ($transaction)
+                                <button type="submit" class="btn btn-success w-100 btn-simpan mb-4 disabled"> Tiket
+                                    Sudah
+                                    Dibeli </button>
+                            @endif
                         </form>
 
-                        @if ($transaction)
-                            <button type="submit" class="btn btn-success w-100 btn-simpan mb-4 disabled"> Tiket Sudah
-                                Dibeli </button>
-                        @endif
+
 
                     </div>
                 </div>
