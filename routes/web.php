@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TransactionController;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -19,15 +20,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('pages.customer.homepage', [
         'events' => Event::orderBy('waktu_acara')
             ->where('waktu_acara', '>=', now())
             ->limit(5)->get(),
     ]);
-})->name('home');
+})->name('home'); */
+
+/* Auth Root */
 
 Route::middleware([
     'auth:sanctum',
@@ -58,8 +59,8 @@ Route::middleware([
 });
 
 
-
-Route::group(["middleware" => ['auth:sanctum']], function () {
+/* Guest Root */
+Route::group([], function () {
     /* Homepage User */
     Route::get('/', function () {
         return view('pages.customer.homepage', [
@@ -78,6 +79,22 @@ Route::group(["middleware" => ['auth:sanctum']], function () {
         'edit' => 'event_edit',
         'update' => 'event_update',
         'destroy' => 'event_destroy',
-    
+    ]);
+});
+
+/* Login Root */
+Route::group([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+], function () {
+
+    Route::resource('/transaksi', TransactionController::class)->names([
+        'index' => 'checkout_index',
+        'create' => 'checkout_create',
+        'store' => 'checkout_store',
+        'show' => 'checkout_show',
+        'edit' => 'checkout_edit',
+        'update' => 'checkout_update',
+        'destroy' => 'checkout_destroy',
     ]);
 });
