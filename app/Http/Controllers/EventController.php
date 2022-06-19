@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Models\Transaksi;
 
 class EventController extends Controller
 {
@@ -53,8 +54,20 @@ class EventController extends Controller
     public function show(Event $event)
     {
         //
+
+        if (auth()->user()) {
+
+            $transaction = Transaksi::where('id_event', $event->id)
+                ->where('id_peserta', auth()->user()->id)
+                ->first();
+        } else {
+            $transaction = null;
+        }
+
+
         return view('pages.customer.event.show', [
             'event' => $event,
+            'transaction' => $transaction,
 
         ]);
     }
@@ -81,6 +94,7 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         //
+        
     }
 
     /**

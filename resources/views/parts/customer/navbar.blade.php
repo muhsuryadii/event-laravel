@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg bg-white shadow-md sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="#">
-            <img src=" {{ asset('image/logo_usni.png') }}" alt="logo" class="block mx-auto w-14 h-14  object-contain ">
+        <a class="navbar-brand" href="/">
+            <img src=" {{ asset('image/logo_usni.png') }}" alt="logo"
+                class="block mx-auto w-14 h-14  object-contain ">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +11,8 @@
         <div class="collapse navbar-collapse justify-end" id="navbarNavDropdown">
             <ul class="navbar-nav text-xl">
                 <li class="nav-item">
-                    <a class="nav-link  {{ Request::is('/') ? 'active' : ' ' }}" aria-current="page" href="/">Home</a>
+                    <a class="nav-link  {{ Request::is('/') ? 'active' : ' ' }}" aria-current="page"
+                        href="/">Home</a>
                 </li>
                 <li class="nav-item  ">
                     <a class="nav-link {{ (Request::is('event') ? 'active' : Request::is('event/*')) ? 'active' : ' ' }}"
@@ -18,24 +20,30 @@
                 </li>
 
                 @if (Auth::check())
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle capitalize" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Hi,
 
-                            @if (str_word_count(Auth::user()->name) === 0)
+                            @if (str_word_count(Auth::user()->nama_user) === 0)
                                 {{ Auth::user()->nama_user }}
                             @else
-                                {{ explode(' ', Auth::user()->nama_user, 0) }}
+                                {{ explode(' ', Auth::user()->nama_user)[0] }}
                             @endif
+
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">
-                                    <i class="fa-regular fa-user text-slate-600 mr-3"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="/profil">
+                                    <i class="fa-regular fa-user text-slate-600 mr-3"></i>Profil</a></li>
+                            <li>
+                            <li><a class="dropdown-item" href="/transaksi">
+                                    <i class="fa-solid fa-receipt text-slate-600 mr-3"></i>
+                                    Transaksi</a>
+
+                            </li>
                             <li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/cek-sertifikat">
                                     <i class="fa-regular fa-file-lines text-slate-600 mr-3"></i> Cek Sertifikat
                                 </a>
                             </li>
