@@ -20,6 +20,8 @@ class PanitiaSeeder extends Seeder
         User::create([
             'nama_user' => 'BEM Fakultas Teknik',
             'email' => 'teknik@example.com',
+            'uuid' => Str::uuid()->getHex(),
+
 
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -35,6 +37,8 @@ class PanitiaSeeder extends Seeder
         User::create([
             'nama_user' => 'BEM Fakultas Ekonomi',
             'email' => 'ekonomi@example.com',
+            'uuid' => Str::uuid()->getHex(),
+
 
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -50,6 +54,8 @@ class PanitiaSeeder extends Seeder
         User::create([
             'nama_user' => 'BEM Fakultas FISIP',
             'email' => 'fisip@example.com',
+            'uuid' => Str::uuid()->getHex(),
+
 
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -65,6 +71,8 @@ class PanitiaSeeder extends Seeder
         User::create([
             'nama_user' => 'BEM Fakultas Perikanan',
             'email' => 'perikanan@example.com',
+            'uuid' => Str::uuid()->getHex(),
+
 
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -79,6 +87,7 @@ class PanitiaSeeder extends Seeder
         User::create([
             'nama_user' => 'BEM Fakultas Hukum',
             'email' => 'hukum@example.com',
+            'uuid' => Str::uuid()->getHex(),
 
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

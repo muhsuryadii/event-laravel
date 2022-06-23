@@ -1257,6 +1257,9 @@ select {
 .h-full {
   height: 100%;
 }
+.h-\[100vh\] {
+  height: 100vh;
+}
 .h-14 {
   height: 3.5rem;
 }
@@ -1276,9 +1279,6 @@ select {
 }
 .h-3 {
   height: 0.75rem;
-}
-.h-\[100vh\] {
-  height: 100vh;
 }
 .min-h-screen {
   min-height: 100vh;

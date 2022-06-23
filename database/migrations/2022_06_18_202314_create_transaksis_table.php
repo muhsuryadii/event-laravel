@@ -15,8 +15,13 @@ class CreateTransaksisTable extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_event');
-            $table->bigInteger('id_peserta');
+            // $table->uuid('uuid')->unique();
+            $table->string('uuid', 32)->unique();
+
+
+
+            $table->foreignId('id_event');
+            $table->foreignId('id_peserta');
             $table->dateTime('tanggal_transaksi')->default(now());
             $table->integer('total_harga');
             $table->dateTime('waktu_pembayaran')->nullable();

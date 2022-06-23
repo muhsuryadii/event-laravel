@@ -15,7 +15,12 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_panitia');
+            $table->foreignId('id_panitia');
+            // $table->uuid('uuid')->unique();
+            $table->string('uuid', 32)->unique();
+
+
+
             $table->string('nama_event');
             $table->string('slug');
             $table->integer('harga_tiket');

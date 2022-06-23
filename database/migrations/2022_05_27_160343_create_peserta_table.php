@@ -15,8 +15,8 @@ class CreatePesertaTable extends Migration
     {
         Schema::create('pesertas', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_users');
-            $table->bigInteger('id_fakultas')->nullable();
+            $table->foreignId('id_users');
+            $table->foreignId('id_fakultas')->nullable();
             $table->string('instansi_peserta');
             $table->string('no_telepon');
             $table->string('jurusan_peserta')->nullable();
