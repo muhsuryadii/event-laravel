@@ -46,6 +46,7 @@ class AdminEventController extends Controller
      */
     public function store(Request $request)
     {
+        return dd($request);
         //store data to new variable
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
         $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
@@ -131,7 +132,7 @@ class AdminEventController extends Controller
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
         $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
 
-        
+
 
         if ($request->file('image')) {
             if ($request->oldImage) {

@@ -77,18 +77,19 @@
 
                             {{-- Harga Tiket --}}
                             <div class="mb-4">
-                                <label for="name" class="form-label text-sm " value="{{ old('harga_tiket') }}">Harga
+                                <label for="name" class="form-label text-sm "
+                                    value="{{ old('harga_tiket') }}">Harga
                                     Tiket</label>
 
                                 <div class="radio mt-3 d-flex">
                                     <div class="form-check mb-3 mr-3">
 
                                         @if (old('harga_tiket') == null)
-                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                                value='gratis' id="priceFree" checked>
+                                            <input class="form-check-input ticketPrice" type="radio"
+                                                name="harga_tiket" value='gratis' id="priceFree" checked>
                                         @else
-                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                                value='gratis' id="priceFree"
+                                            <input class="form-check-input ticketPrice" type="radio"
+                                                name="harga_tiket" value='gratis' id="priceFree"
                                                 {{ old('harga_tiket') === 'gratis' ? 'checked' : ' ' }}>
                                         @endif
 
@@ -107,8 +108,9 @@
                                 <div id='inputPriceWrapper'
                                     class="input-group mb-4 {{ old('harga_tiket') === null ? 'd-none' : (old('harga_tiket') !== 'gratis' ? '' : 'd-none') }}">
                                     <span class="input-group-text">Rp. </span>
-                                    <input class="form-control @error('harga_tiket') is-invalid @enderror" type="number"
-                                        placeholder="Masukan harga tiket" pattern="[0-9]" name="harga_tiket_bayar"
+                                    <input class="form-control @error('harga_tiket') is-invalid @enderror"
+                                        type="number" placeholder="Masukan harga tiket" pattern="[0-9]"
+                                        name="harga_tiket_bayar"
                                         @if (old('harga_tiket') === null) disabled
                                         @else
                                             @if (old('harga_tiket') !== 'gratis')
@@ -173,18 +175,19 @@
 
                     {{-- Tipe Acara --}}
                     <div class="mb-4">
-                        <label for="name" class="form-label text-sm @error('tipe_acara') is-invalid @enderror">Tipe
+                        <label for="name"
+                            class="form-label text-sm @error('tipe_acara') is-invalid @enderror">Tipe
                             Event</label>
                         <div class="radio mt-3 d-flex">
                             <div class="form-check mb-3 mr-3">
-                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='online'
-                                    id="online"
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara"
+                                    value='online' id="online"
                                     {{ old('tipe_acara') === null ? 'checked' : (old('tipe_acara') == 'online' ? 'checked' : ' ') }}>
                                 <label class="custom-control-label py-1 px-2" for="online">Online</label>
                             </div>
                             <div class="form-check ">
-                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='offline'
-                                    id="offline"
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara"
+                                    value='offline' id="offline"
                                     {{ old('tipe_acara') === null ? ' ' : (old('tipe_acara') == 'offline' ? 'checked' : ' ') }}>
                                 <label class="custom-control-label  py-1 px-1" for="offline">Offline</label>
                             </div>
@@ -246,10 +249,17 @@
                         <label for="deskripsi_acara" class="form-label text-sm ">Deskripsi Event
                             <span class="text-xxs text-danger">(*)</span>
                         </label>
-                        <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
-                            name='deskripsi_acara' autofocus='true' required="required"
-                            value="{{ old('deskripsi_acara') }}" id="floatingTextarea"
-                            placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea>
+                        {{-- <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
+                            name='deskripsi_acara' autofocus='true' required="required" value="{{ old('deskripsi_acara') }}"
+                            id="floatingTextarea" placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea> --}}
+                        {{-- <div id="editor" name='deskripsi_acara' value="{{ old('deskripsi_acara') }}">
+                            {{ old('deskripsi_acara') }}
+                        </div> --}}
+
+
+                        <textarea rows="10" class="form-control mb-5 @error('deskripsi_acara') is-invalid @enderror"
+                            name='deskripsi_acara' autofocus='true' required="required" value="{{ old('deskripsi_acara') }}"
+                            id="ckeditor" placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea>
 
                         @error('deskripsi_acara')
                             <div id="deskripsi_acara_feedback" class="invalid-feedback">
@@ -259,7 +269,6 @@
                             </div>
                         @enderror
                     </div>
-
 
 
 
