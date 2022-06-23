@@ -25,5 +25,8 @@ class Event extends Model
         ];
     }
 
-   
+    public function panitia()
+    {
+        return $this->belongsTo(Panitia::class, 'id_panitia');
+    }
 }

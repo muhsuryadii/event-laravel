@@ -3,6 +3,7 @@
 
 
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Event;
@@ -53,6 +54,13 @@ Route::middleware([
         'edit' => 'admin_events_edit',
         'update' => 'admin_events_update',
         'destroy' => 'admin_events_destroy',
+    ]);
+
+    /* Transaction Route */
+    Route::resource('/admin/transaksi', AdminTransaksiController::class)->names([
+        'index' => 'admin_transaksi_index',
+        'show' => 'admin_transaksi_show', 'update' => 'admin_transaksi_update',
+
     ]);
 
     /*  Route::get('/admin/events/create', [AdminEventController::class, 'createPage'])->name('admin_events_create'); */

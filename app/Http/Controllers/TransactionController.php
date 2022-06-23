@@ -49,7 +49,8 @@ class TransactionController extends Controller
             'id_event' => $request->event_id,
             'id_peserta' => $request->user_id,
             'total_harga' => $request->harga_tiket,
-            'no_transaksi' => $no_transaksi
+            'no_transaksi' => $no_transaksi,
+            'status_transaksi' => $request->harga_tiket == 0 ? 'pending' : 'not_paid',
         ];
 
         $validator =  Validator::make($chekoutData, [

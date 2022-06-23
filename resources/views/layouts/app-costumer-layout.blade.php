@@ -30,7 +30,7 @@
         @include('parts.customer.navbar')
 
         <!-- Page Content -->
-        <main>
+        <main class='h-[100vh]'>
             {{ $slot }}
         </main>
     </div>

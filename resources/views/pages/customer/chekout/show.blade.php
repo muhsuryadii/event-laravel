@@ -31,20 +31,23 @@
                                 Lunas
                             </span>
                         @endif
-                        <p class="text-sm text-slate-500">
-                            Waktu Pembayaran :
-                            {{ Carbon\Carbon::parse($transaksi->waktu_pembayaran)->translatedFormat('d-F-Y H:i:s') }}
 
-                            <span class='ml-2'>
-                                <a href="{{ asset('storage/' . $transaksi->bukti_transaksi) }}" target="_blank">
-                                    Lihat Bukti Pembayaran
-                                </a>
-                            </span>
-                        </p>
+                        @if ($transaksi->waktu_pembayaran)
+                            <p class="text-sm text-slate-500">
+                                Waktu Pembayaran :
+                                {{ Carbon\Carbon::parse($transaksi->waktu_pembayaran)->translatedFormat('d-F-Y H:i:s') }}
+
+                                <span class='ml-2'>
+                                    <a href="{{ asset('storage/' . $transaksi->bukti_transaksi) }}" target="_blank">
+                                        Lihat Bukti Pembayaran
+                                    </a>
+                                </span>
+                            </p>
+                        @endif
                     </div>
 
                     <div class="mt-4">
-                        @if ($transaksi->status_transaksi == 'not_paid')
+                        @if ($transaksi->status_transaksi != 'paid')
                             <h4 class="text-lg font-semibold text-slate-700 ">
                                 Upload Bukti Pembayaran
                             </h4>

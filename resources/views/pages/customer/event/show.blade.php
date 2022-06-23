@@ -1,4 +1,5 @@
 <x-app-costumer-layout>
+    {{-- {{ dd($event) }} --}}
     <section>
         {{-- Hero Section --}}
         <div class="hero-section">
