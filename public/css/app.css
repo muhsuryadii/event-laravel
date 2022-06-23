@@ -1179,6 +1179,9 @@ select {
 .mt-0 {
   margin-top: 0px;
 }
+.mb-5 {
+  margin-bottom: 1.25rem;
+}
 .mr-8 {
   margin-right: 2rem;
 }
@@ -1196,9 +1199,6 @@ select {
 }
 .-mb-0 {
   margin-bottom: -0px;
-}
-.mb-5 {
-  margin-bottom: 1.25rem;
 }
 .block {
   display: block;
@@ -2098,6 +2098,9 @@ select {
 }
 .capitalize {
   text-transform: capitalize;
+}
+.italic {
+  font-style: italic;
 }
 .leading-5 {
   line-height: 1.25rem;
