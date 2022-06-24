@@ -6,7 +6,7 @@
             <div class="card mb-4">
 
                 <form action='{{ route('admin_events_store') }}' method="POST" enctype="multipart/form-data"
-                    class="p-[1.5rem]">
+                    class="p-[1.5rem]" id="formCreateEvent">
                     @csrf
 
                     <div class="row">
@@ -47,8 +47,8 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                <input type="hidden" class="form-control" name="slug" id="slug"
-                                    value="{{ old('slug') }}">
+                                {{-- <input type="hidden" class="form-control" name="slug" id="slug"
+                                    value="{{ old('slug') }}"> --}}
                             </div>
 
                             {{-- Watku Event --}}
@@ -77,18 +77,19 @@
 
                             {{-- Harga Tiket --}}
                             <div class="mb-4">
-                                <label for="name" class="form-label text-sm " value="{{ old('harga_tiket') }}">Harga
+                                <label for="name" class="form-label text-sm "
+                                    value="{{ old('harga_tiket') }}">Harga
                                     Tiket</label>
 
                                 <div class="radio mt-3 d-flex">
                                     <div class="form-check mb-3 mr-3">
 
                                         @if (old('harga_tiket') == null)
-                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                                value='gratis' id="priceFree" checked>
+                                            <input class="form-check-input ticketPrice" type="radio"
+                                                name="harga_tiket" value='gratis' id="priceFree" checked>
                                         @else
-                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                                value='gratis' id="priceFree"
+                                            <input class="form-check-input ticketPrice" type="radio"
+                                                name="harga_tiket" value='gratis' id="priceFree"
                                                 {{ old('harga_tiket') === 'gratis' ? 'checked' : ' ' }}>
                                         @endif
 
@@ -107,8 +108,9 @@
                                 <div id='inputPriceWrapper'
                                     class="input-group mb-4 {{ old('harga_tiket') === null ? 'd-none' : (old('harga_tiket') !== 'gratis' ? '' : 'd-none') }}">
                                     <span class="input-group-text">Rp. </span>
-                                    <input class="form-control @error('harga_tiket') is-invalid @enderror" type="number"
-                                        placeholder="Masukan harga tiket" pattern="[0-9]" name="harga_tiket_bayar"
+                                    <input class="form-control @error('harga_tiket') is-invalid @enderror"
+                                        type="number" placeholder="Masukan harga tiket" pattern="[0-9]"
+                                        name="harga_tiket_bayar"
                                         @if (old('harga_tiket') === null) disabled
                                         @else
                                             @if (old('harga_tiket') !== 'gratis')
@@ -173,18 +175,19 @@
 
                     {{-- Tipe Acara --}}
                     <div class="mb-4">
-                        <label for="name" class="form-label text-sm @error('tipe_acara') is-invalid @enderror">Tipe
+                        <label for="name"
+                            class="form-label text-sm @error('tipe_acara') is-invalid @enderror">Tipe
                             Event</label>
                         <div class="radio mt-3 d-flex">
                             <div class="form-check mb-3 mr-3">
-                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='online'
-                                    id="online"
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara"
+                                    value='online' id="online"
                                     {{ old('tipe_acara') === null ? 'checked' : (old('tipe_acara') == 'online' ? 'checked' : ' ') }}>
                                 <label class="custom-control-label py-1 px-2" for="online">Online</label>
                             </div>
                             <div class="form-check ">
-                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='offline'
-                                    id="offline"
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara"
+                                    value='offline' id="offline"
                                     {{ old('tipe_acara') === null ? ' ' : (old('tipe_acara') == 'offline' ? 'checked' : ' ') }}>
                                 <label class="custom-control-label  py-1 px-1" for="offline">Offline</label>
                             </div>
@@ -236,8 +239,6 @@
                                 @enderror
                             </div>
                         </div>
-                        {{-- <input type="text" class="form-control" id="harga_tiket" name='harga_tiket' autofocus='true'> --}}
-
 
                     </div>
 
@@ -246,10 +247,10 @@
                         <label for="deskripsi_acara" class="form-label text-sm ">Deskripsi Event
                             <span class="text-xxs text-danger">(*)</span>
                         </label>
-                        <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
-                            name='deskripsi_acara' autofocus='true' required="required"
-                            value="{{ old('deskripsi_acara') }}" id="floatingTextarea"
-                            placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea>
+
+                        <textarea rows="10" class="form-control mb-5 @error('deskripsi_acara') is-invalid @enderror"
+                            name='deskripsi_acara' autofocus='true' required="required" value="{{ old('deskripsi_acara') }}"
+                            id="ckeditor" placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea>
 
                         @error('deskripsi_acara')
                             <div id="deskripsi_acara_feedback" class="invalid-feedback">
@@ -259,12 +260,9 @@
                             </div>
                         @enderror
                     </div>
+                    <button class="btn btn-primary w-100 btn-simpan mb-4" id="buttonSimpanEvent">Simpan</button>
 
 
-
-
-
-                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4">Simpan</button>
                 </form>
             </div>
         </div>
@@ -297,10 +295,8 @@
 
         <script>
             /* Script for Event Type toogle */
-
             const radioEventType = document.querySelectorAll('input[type=radio][name=tipe_acara]');
             const locationInput = document.querySelectorAll('.event-location-input');
-
             radioEventType.forEach(function(radio) {
                 radio.addEventListener('click', function() {
 
@@ -344,16 +340,45 @@
             }
         </script>
 
-        <script>
-            /* Add Slug */
-            const name = document.querySelector('#nama_event');
-            const slug = document.querySelector('#slug');
 
-            name.addEventListener('change', function() {
-                fetch(`{{ route('admin_events_checkslug') }}?name=${name.value}`)
-                    .then(response => response.json())
-                    .then(data => slug.value = data.slug)
-            });
+        {{-- CK editor --}}
+        <script>
+            ClassicEditor
+                .create(document.querySelector('#ckeditor'), {
+                    removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'CKTable', 'EasyImage', 'Image',
+                        'ImageCaption', 'ImageStyle',
+                        'ImageToolbar', 'ImageUpload', 'MediaEmbed', 'insertTable '
+                    ],
+                })
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
+
+        {{-- Sweet alert --}}
+        <script>
+            const btnSimpan = document.querySelector('#buttonSimpanEvent');
+
+            btnSimpan.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Testing');
+                Swal.fire({
+                    title: 'Apakah Data Sudah Benar ?',
+                    icon: 'question',
+                    showDenyButton: true,
+                    confirmButtonText: 'Sudah, Simpan!',
+                    denyButtonText: `Belum`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        // Swal.fire('Event Tersimpan!', '', 'success');
+                        document.getElementById('formCreateEvent').submit();
+                    }
+                })
+            })
         </script>
     @endpush
 

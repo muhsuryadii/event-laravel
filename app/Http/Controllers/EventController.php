@@ -56,7 +56,6 @@ class EventController extends Controller
         //
 
         if (auth()->user()) {
-
             $transaction = Transaksi::where('id_event', $event->id)
                 ->where('id_peserta', auth()->user()->id)
                 ->first();
@@ -68,6 +67,8 @@ class EventController extends Controller
         return view('pages.customer.event.show', [
             'event' => $event,
             'transaction' => $transaction,
+            'panitias' => $event->panitia,
+
 
         ]);
     }
@@ -94,7 +95,7 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         //
-        
+
     }
 
     /**

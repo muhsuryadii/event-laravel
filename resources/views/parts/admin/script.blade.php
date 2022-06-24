@@ -16,3 +16,8 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src={{ asset('argon/js/argon-dashboard.min.js?v=2.0.2') }}></script>
+<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+{{-- <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script> --}}
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

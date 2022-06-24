@@ -30,7 +30,7 @@
         @include('parts.customer.navbar')
 
         <!-- Page Content -->
-        <main>
+        <main class='h-[100vh]'>
             {{ $slot }}
         </main>
     </div>
@@ -40,8 +40,9 @@
     @include('parts.customer.footer')
 
     <section class="script-sections">
-        @livewireScripts
         @include('parts.customer.script')
+        @livewireScripts
+        @stack('js')
 
 
     </section>

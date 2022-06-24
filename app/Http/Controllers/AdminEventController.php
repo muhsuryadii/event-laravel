@@ -3,27 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use Illuminate\Support\Facades\Storage;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AdminEventController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // 
+        //
         return view('pages.admin.event.index', [
-            'events' => Event::all()->where('id_panitia', Auth::user()->id)->sortByDesc('waktu_acara'),
+            'events' => Event::all()
+                ->where('id_panitia', Auth::user()->id)
+                ->where('waktu_acara', '>=', now())
+                ->sortBy('waktu_acara'),
         ]);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -46,7 +49,8 @@ class AdminEventController extends Controller
      */
     public function store(Request $request)
     {
-        //store data to new variable
+        //
+        // return dd($request);
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
         $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
         $image = null;
@@ -62,7 +66,8 @@ class AdminEventController extends Controller
         $eventData = [
             'id_panitia' => $request->id_penyelenggara_event,
             'nama_event' => $request->nama_event,
-            'slug' => $request->slug != null ? $request->slug : SlugService::createSlug(Event::class, 'slug', $request->nama_event),
+            // 'slug' => $request->slug != null ? $request->slug : SlugService::createSlug(Event::class, 'slug', $request->nama_event),
+            'uuid' => Str::uuid()->getHex(),
             'waktu_acara' => $request->waktu_acara,
             'harga_tiket' => $harga_tiket,
             'kuota_tiket' => (int) $request->kuota_tiket,
@@ -76,41 +81,46 @@ class AdminEventController extends Controller
         $validator =  Validator::make($eventData, [
             'id_panitia' => 'required|exists:users,id',
             'nama_event' => 'required|max:255',
-            'slug' => 'required|unique:events|max:255',
+            'uuid' => 'required|unique:events,uuid',
             'waktu_acara' => 'required|after_or_equal:today',
             'harga_tiket' => 'required|numeric',
             'kuota_tiket' => 'required|numeric',
-            'lokasi_acara' => 'required|max:150',
+            'lokasi_acara' => 'required|max:255',
             'tipe_acara' => 'required',
             'deskripsi_acara' => 'required',
             'famplet_acara_path' => 'nullable'
         ])->validate();
 
         Event::create($validator);
-        return redirect(route('admin_events_index'))->with('EventSuccess', 'Event berhasil ditambahkan');
+        return redirect(route('admin_events_index'))->with('EventCreateSuccess', 'Event Berhasil Ditambahkan');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Event $event)
     {
         //
+        // $eventData = Event::where('slug', $id)->firstOrFail();
+
+        return view('pages.admin.event.edit', [
+            'event' => $event,
+            'user' => Auth::user(),
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Event $event)
     {
-        $event = Event::where('slug', $id)->firstOrFail();
-
+        //
         return view('pages.admin.event.edit', [
             'event' => $event,
             'user' => Auth::user(),
@@ -121,17 +131,15 @@ class AdminEventController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Event $event)
     {
         //
         // return dd($request->all());
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
         $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
-
-        
 
         if ($request->file('image')) {
             if ($request->oldImage) {
@@ -150,7 +158,6 @@ class AdminEventController extends Controller
         $eventData = [
             'id_panitia' => $request->id_penyelenggara_event,
             'nama_event' => $request->nama_event,
-            'slug' => $request->slug,
             'waktu_acara' => $request->waktu_acara,
             'harga_tiket' => $harga_tiket,
             'kuota_tiket' => (int) $request->kuota_tiket,
@@ -160,44 +167,19 @@ class AdminEventController extends Controller
             'famplet_acara_path' => $image,
         ];
 
-        // return dd($eventData);
 
         // Validate Input
-
-        $event = Event::where('slug', $id)->firstOrFail();
-        if ($request->slug != $event->slug) {
-            array_push($eventData, [
-                'slug' => $request->slug,
-            ]);
-
-            $validator =  Validator::make(
-                $eventData,
-                [
-                    'slug' => 'required|unique:events|max:255',
-                    'id_panitia' => 'required|exists:users,id',
-                    'nama_event' => 'required|max:255',
-                    'waktu_acara' => 'required|after_or_equal:today',
-                    'harga_tiket' => 'required|numeric',
-                    'kuota_tiket' => 'required|numeric',
-                    'lokasi_acara' => 'required|max:150',
-                    'tipe_acara' => 'required',
-                    'deskripsi_acara' => 'required',
-                    'famplet_acara_path' => 'nullable'
-                ]
-            );
-        } else {
-            $validator =  Validator::make($eventData, [
-                'id_panitia' => 'required|exists:users,id',
-                'nama_event' => 'required|max:255',
-                'waktu_acara' => 'required|after_or_equal:today',
-                'harga_tiket' => 'required|numeric',
-                'kuota_tiket' => 'required|numeric',
-                'lokasi_acara' => 'required|max:150',
-                'tipe_acara' => 'required',
-                'deskripsi_acara' => 'required',
-                'famplet_acara_path' => 'nullable'
-            ]);
-        }
+        $validator =  Validator::make($eventData, [
+            'id_panitia' => 'required|exists:users,id',
+            'nama_event' => 'required|max:255',
+            'waktu_acara' => 'required|after_or_equal:today',
+            'harga_tiket' => 'required|numeric',
+            'kuota_tiket' => 'required|numeric',
+            'lokasi_acara' => 'required|max:150',
+            'tipe_acara' => 'required',
+            'deskripsi_acara' => 'required',
+            'famplet_acara_path' => 'nullable'
+        ]);
 
 
         $updateData = $validator->validate();
@@ -206,37 +188,23 @@ class AdminEventController extends Controller
 
         Event::where('id', $event->id)->update($updateData);
 
-        return redirect(route('admin_events_index'))->with('updateSuccess', 'Update Berhasil');
+        return redirect(route('admin_events_index'))->with('updateEventSuccess', 'Update Event Berhasil');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Event $event)
     {
         //
 
-        $event = Event::where('slug', $id)->firstOrFail();
-        Event::destroy($event->id);
-
-        /* delete image form local when it is deleted */
         if ($event->famplet_acara_path) {
             Storage::delete($event->famplet_acara_path);
         }
-
-
-        return redirect(route('admin_events_index'))->with('deleteSuccess', 'Event berhasil dihapus');
-    }
-
-
-    /* Check Sluggable For Create Event */
-    public function checkSlug(Request $request)
-    {
-        // echo $request->name;
-        $slug = SlugService::createSlug(Event::class, 'slug', $request->name);
-        return response()->json(['slug' => $slug]);
+        Event::destroy($event->id);
+        return redirect(route('admin_events_index'))->with('deleteEventSuccess', 'Event Berhasil Dihapus');
     }
 }

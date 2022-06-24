@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid', 32)->unique();
+
             $table->string('nama_user');
             $table->string('role')->default('PESERTA'); //ADMIN, PANITIA, PESERTA
             $table->string('email')->unique();
