@@ -136,8 +136,10 @@ class TransactionController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transaksi $transaction)
+    public function destroy(Transaksi $transaksi)
     {
-        //
+
+        $transaksi->delete();
+        return redirect()->route('home');
     }
 }

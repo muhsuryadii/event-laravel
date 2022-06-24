@@ -104,6 +104,6 @@ Route::group([
         'show' => 'checkout_show',
         'edit' => 'checkout_edit',
         'update' => 'checkout_update',
-        'destroy' => 'checkout_destroy',
+        'destroy' => 'checkout_destroy'
     ]);
 });

@@ -54,7 +54,7 @@
                             </h4>
                             <div class="mt-2">
                                 <form action="{{ route('checkout_update', $transaksi->uuid) }}" method="POST"
-                                    enctype="multipart/form-data" class='flex justify-between'>
+                                    enctype="multipart/form-data" class='flex justify-between' id='formUploadBukti'>
                                     @csrf
                                     @method('patch')
                                     <div class="form-group">
@@ -64,7 +64,7 @@
                                             value="{{ $transaksi->no_transaksi }}">
                                         <input type="hidden" name="id_pembayaran" value="{{ $transaksi->id }}">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                    <button type="submit" id='btnUploadBukti' class="btn btn-primary">Upload</button>
                                 </form>
                             </div>
                         @endif
@@ -121,8 +121,42 @@
                                 {{ number_format($event->harga_tiket) }}</span>
                         </div>
                     </div>
+                    @if ($transaksi->status_transaksi == 'not_paid')
+                        <form action="{{ route('checkout_destroy', $transaksi->uuid) }}" method="POST"
+                            class='flex justify-between' id='formBatalPesanan'>
+                            @csrf
+                            @method('delete')
+                            <div class="form-group">
+                                <input type="hidden" name="no_transaksi" value="{{ $transaksi->no_transaksi }}">
+                                <input type="hidden" name="id_pembayaran" value="{{ $transaksi->id }}">
+                            </div>
+                            <button type="submit" id='btnBatalPesanan' class="btn btn-danger block w-full">Batalkan
+                                Pemesanan</button>
+                        </form>
+                        <script>
+                            const btnBatalPesanan = document.querySelector('#btnBatalPesanan');
+                            btnBatalPesanan.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                console.log('Testing');
+                                Swal.fire({
+                                    title: 'Batalkan Pemesanan Tiket ?',
+                                    text: "Pemesanan tiket akan dihapus dari sistem",
+                                    icon: 'warning',
+                                    showDenyButton: true,
+                                    confirmButtonText: 'Ya, Batalkan',
+                                    denyButtonText: `Tidak`,
+                                }).then((result) => {
+                                    /* Read more about isConfirmed, isDenied below */
+                                    if (result.isConfirmed) {
+                                        // Swal.fire('Event Tersimpan!', '', 'success');
+                                        document.getElementById('formBatalPesanan').submit();
+                                    }
+                                })
+                            })
+                        </script>
+                    @endif
 
-                    @if ($event->status_transaksi == 'paid' && $event->is_certificate_ready == true)
+                    {{-- @if ($event->status_transaksi == 'paid' && $event->is_certificate_ready == true)
                         <div class="wrapper ">
                             <button type="button" class="btn btn-primary w-100 btn-simpan ">Cetak
                                 Sertifikat</button>
@@ -132,11 +166,34 @@
                             <button type="button" class="btn btn-primary w-100 btn-simpan disabled">Sertifikat
                                 Belum Siap</button>
                         </div>
-                    @endif
+                    @endif --}}
 
                 </div>
             </div>
         </div>
     </section>
-
+    @push('js')
+        {{-- Sweet alert --}}
+        <script>
+            const btnUploadBukti = document.querySelector('#btnUploadBukti');
+            btnUploadBukti.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Testing');
+                Swal.fire({
+                    title: 'Apakah Sudah Benar ?',
+                    text: "Apakah data yang diinput sudah sesuai",
+                    icon: 'question',
+                    showDenyButton: true,
+                    confirmButtonText: 'Yakin',
+                    denyButtonText: `Tidak`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        // Swal.fire('Event Tersimpan!', '', 'success');
+                        document.getElementById('formUploadBukti').submit();
+                    }
+                })
+            })
+        </script>
+    @endpush
 </x-app-costumer-layout>
