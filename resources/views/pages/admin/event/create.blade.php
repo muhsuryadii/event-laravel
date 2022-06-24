@@ -6,7 +6,7 @@
             <div class="card mb-4">
 
                 <form action='{{ route('admin_events_store') }}' method="POST" enctype="multipart/form-data"
-                    class="p-[1.5rem]">
+                    class="p-[1.5rem]" id="formCreateEvent">
                     @csrf
 
                     <div class="row">
@@ -269,11 +269,9 @@
                             </div>
                         @enderror
                     </div>
+                    <button class="btn btn-primary w-100 btn-simpan mb-4" id="buttonSimpanEvent">Simpan</button>
 
 
-
-
-                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4">Simpan</button>
                 </form>
             </div>
         </div>
@@ -306,10 +304,8 @@
 
         <script>
             /* Script for Event Type toogle */
-
             const radioEventType = document.querySelectorAll('input[type=radio][name=tipe_acara]');
             const locationInput = document.querySelectorAll('.event-location-input');
-
             radioEventType.forEach(function(radio) {
                 radio.addEventListener('click', function() {
 
@@ -363,6 +359,48 @@
                     .then(response => response.json())
                     .then(data => slug.value = data.slug)
             });
+        </script>
+
+        <script>
+            const btnSimpan = document.querySelector('#buttonSimpanEvent');
+
+            btnSimpan.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Testing');
+                Swal.fire({
+                    title: 'Apakah Data Sudah Benar ?',
+                    icon: 'question',
+                    showDenyButton: true,
+                    confirmButtonText: 'Sudah, Simpan!',
+                    denyButtonText: `Belum`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        Swal.fire('Event Tersimpan!', '', 'success');
+                        setTimeout(() => {
+                            document.getElementById('formCreateEvent').submit();
+                        }, 1500);
+                    }
+                })
+            })
+
+            const onClickHandler = (e) => {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Do you want to save the changes?',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Save',
+                    denyButtonText: `Don't save`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        Swal.fire('Saved!', '', 'success')
+                    } else if (result.isDenied) {
+                        Swal.fire('Changes are not saved', '', 'info')
+                    }
+                })
+            }
         </script>
     @endpush
 

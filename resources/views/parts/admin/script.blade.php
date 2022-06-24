@@ -20,12 +20,6 @@
 {{-- <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script> --}}
 
 <script>
-    /*     var konten = document.getElementById("ckeditor");
-    CKEDITOR.replace(konten, {
-        language: 'en-gb'
-    });
-    CKEDITOR.config.allowedContent = true; */
-
     ClassicEditor
         .create(document.querySelector('#ckeditor'), {
             removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'CKTable', 'EasyImage', 'Image',
@@ -41,3 +35,4 @@
             console.error(error);
         });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

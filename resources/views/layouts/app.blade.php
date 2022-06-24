@@ -42,9 +42,9 @@
     @stack('modals')
 
     <section class="script-sections">
-        @stack('js')
-        @livewireScripts
         @include('parts.admin.script')
+        @livewireScripts
+        @stack('js')
     </section>
 </body>
 
