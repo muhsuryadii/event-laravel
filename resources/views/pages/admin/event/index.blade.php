@@ -58,8 +58,12 @@
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <span class=''>Rp.
-                                                    {{ number_format($event->harga_tiket) }}</span>
+                                                @if ($event->harga_tiket == 0)
+                                                    <span class='upercase font-bold'>Gratis</span>
+                                                @else
+                                                    <span class=''>Rp.
+                                                        {{ number_format($event->harga_tiket) }}</span>
+                                                @endif
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">
@@ -109,23 +113,31 @@
     </div>
 
     @push('js')
-        @if (session()->has('EventCreateSuccess'))
-            <script>
-                Swal.fire({
-                    title: '{{ session('EventCreateSuccess') }}',
-                    icon: 'success'
-                })
-            </script>
+        @if (session())
+            @if (session()->has('EventCreateSuccess'))
+                <script>
+                    Swal.fire({
+                        title: '{{ session('EventCreateSuccess') }}',
+                        icon: 'success'
+                    })
+                </script>
+            @elseif (session()->has('deleteEventSuccess'))
+                <script>
+                    Swal.fire({
+                        title: '{{ session('deleteEventSuccess') }}',
+                        icon: 'success'
+                    })
+                </script>
+            @elseif (session()->has('updateEventSuccess'))
+                <script>
+                    Swal.fire({
+                        title: '{{ session('updateEventSuccess') }}',
+                        icon: 'success'
+                    })
+                </script>
+            @endif
         @endif
 
-        @if (session()->has('deleteEventSuccess'))
-            <script>
-                Swal.fire({
-                    title: '{{ session('deleteEventSuccess') }}',
-                    icon: 'success'
-                })
-            </script>
-        @endif
 
 
         <script>
@@ -135,12 +147,13 @@
                     e.preventDefault();
                     Swal.fire({
                         title: 'Apakah kamu yakin ?',
-                        text: "Data yang dihapus tidak dapat dikembalikan",
+                        html: "<span style='color:#ef4444; font-size:1rem'>Data yang dihapus tidak dapat dikembalikan</span>",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya Hapus'
+                        confirmButtonText: 'Ya Hapus',
+                        cancelButtonText: 'Jangan Hapus'
                     }).then((result) => {
                         if (result.value) {
                             btn.parentElement.submit();

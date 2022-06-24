@@ -4,8 +4,8 @@
         <div class="col-12">
             <div class="card mb-4">
 
-                <form action='{{ route('admin_events_update', $event->slug) }}' method="POST"
-                    enctype="multipart/form-data" class="p-[1.5rem]">
+                <form action='{{ route('admin_events_update', $event->uuid) }}' method="POST"
+                    enctype="multipart/form-data" class="p-[1.5rem]" id='formEditEvent'>
                     @csrf
                     @method('put')
 
@@ -48,8 +48,9 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                <input type="hidden" class="form-control" name="slug" id="slug"
-                                    value={{ old('slug', $event->slug) }}>
+                                {{-- <input type="hidden" class="form-control" name="uuid" id="uuid"
+                                    value={{ old('uuid', $event->uuid) }}> --}}
+
                                 <input type="hidden" class="form-control" name="id" id="id"
                                     value={{ $event->id }}>
                             </div>
@@ -251,20 +252,9 @@
                         @enderror
                     </div>
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="list-unstyled">
-                                {{-- @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach --}}
-                                {{ $errors }}
-                            </ul>
-                        </div>
-                    @endif
 
-
-
-                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4">Update</button>
+                    <button type="submit" id='buttonEditEvent'
+                        class="btn btn-primary w-100 btn-simpan mb-4">Update</button>
                 </form>
             </div>
         </div>
@@ -344,16 +334,44 @@
             }
         </script>
 
+        {{-- ckeditor --}}
         <script>
-            /* Add Slug */
-            const name = document.querySelector('#nama_event');
-            const slug = document.querySelector('#slug');
+            ClassicEditor
+                .create(document.querySelector('#ckeditor'), {
+                    removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'CKTable', 'EasyImage', 'Image',
+                        'ImageCaption', 'ImageStyle',
+                        'ImageToolbar', 'ImageUpload', 'MediaEmbed', 'insertTable '
+                    ],
+                })
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
 
-            name.addEventListener('change', function() {
-                fetch(`{{ route('admin_events_checkslug') }}?name=${name.value}`)
-                    .then(response => response.json())
-                    .then(data => slug.value = data.slug)
-            });
+        {{-- Sweet alert --}}
+        <script>
+            const btnEdit = document.querySelector('#buttonEditEvent');
+
+            btnEdit.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Testing');
+                Swal.fire({
+                    title: 'Apakah Data Sudah Benar ?',
+                    icon: 'question',
+                    showDenyButton: true,
+                    confirmButtonText: 'Sudah, Simpan!',
+                    denyButtonText: `Belum`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        // Swal.fire('Event Tersimpan!', '', 'success');
+                        document.getElementById('formEditEvent').submit();
+                    }
+                })
+            })
         </script>
     @endpush
 

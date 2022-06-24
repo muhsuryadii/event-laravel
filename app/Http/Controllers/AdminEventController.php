@@ -21,7 +21,10 @@ class AdminEventController extends Controller
     {
         //
         return view('pages.admin.event.index', [
-            'events' => Event::all()->where('id_panitia', Auth::user()->id)->sortByDesc('waktu_acara'),
+            'events' => Event::all()
+                ->where('id_panitia', Auth::user()->id)
+                ->where('waktu_acara', '>=', now())
+                ->sortBy('waktu_acara'),
         ]);
     }
 
@@ -47,7 +50,7 @@ class AdminEventController extends Controller
     public function store(Request $request)
     {
         //
-        return dd($request);
+        // return dd($request);
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
         $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
         $image = null;
@@ -89,7 +92,7 @@ class AdminEventController extends Controller
         ])->validate();
 
         Event::create($validator);
-        return redirect(route('admin_events_index'))->with('EventCreateSuccess', 'Event berhasil ditambahkan');
+        return redirect(route('admin_events_index'))->with('EventCreateSuccess', 'Event Berhasil Ditambahkan');
     }
 
     /**
@@ -118,7 +121,10 @@ class AdminEventController extends Controller
     public function edit(Event $event)
     {
         //
-
+        return view('pages.admin.event.edit', [
+            'event' => $event,
+            'user' => Auth::user(),
+        ]);
     }
 
     /**
@@ -131,6 +137,58 @@ class AdminEventController extends Controller
     public function update(Request $request, Event $event)
     {
         //
+        // return dd($request->all());
+        $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
+        $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
+
+        if ($request->file('image')) {
+            if ($request->oldImage) {
+                Storage::delete(['file', 'otherFile']);
+                ($request->oldImage);
+            }
+            $image = $request->file('image')->store('images/events');
+
+            $this->validate($request, [
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+        } else {
+            $image = $request->oldImage;
+        }
+
+        $eventData = [
+            'id_panitia' => $request->id_penyelenggara_event,
+            'nama_event' => $request->nama_event,
+            'waktu_acara' => $request->waktu_acara,
+            'harga_tiket' => $harga_tiket,
+            'kuota_tiket' => (int) $request->kuota_tiket,
+            'lokasi_acara' => $lokasi_acara,
+            'tipe_acara' => $request->tipe_acara,
+            'deskripsi_acara' => $request->deskripsi_acara,
+            'famplet_acara_path' => $image,
+        ];
+
+
+        // Validate Input
+        $validator =  Validator::make($eventData, [
+            'id_panitia' => 'required|exists:users,id',
+            'nama_event' => 'required|max:255',
+            'waktu_acara' => 'required|after_or_equal:today',
+            'harga_tiket' => 'required|numeric',
+            'kuota_tiket' => 'required|numeric',
+            'lokasi_acara' => 'required|max:150',
+            'tipe_acara' => 'required',
+            'deskripsi_acara' => 'required',
+            'famplet_acara_path' => 'nullable'
+        ]);
+
+
+        $updateData = $validator->validate();
+
+        // return dd($updateData);
+
+        Event::where('id', $event->id)->update($updateData);
+
+        return redirect(route('admin_events_index'))->with('updateEventSuccess', 'Update Event Berhasil');
     }
 
     /**
@@ -147,6 +205,6 @@ class AdminEventController extends Controller
             Storage::delete($event->famplet_acara_path);
         }
         Event::destroy($event->id);
-        return redirect(route('admin_events_index'))->with('deleteEventSuccess', 'Event berhasil dihapus');
+        return redirect(route('admin_events_index'))->with('deleteEventSuccess', 'Event Berhasil Dihapus');
     }
 }

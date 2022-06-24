@@ -340,18 +340,6 @@
             }
         </script>
 
-        {{-- <script>
-            /* Add Slug */
-            const name = document.querySelector('#nama_event');
-            const slug = document.querySelector('#slug');
-
-            name.addEventListener('change', function() {
-                fetch(`{{ route('admin_events_checkslug') }}?name=${name.value}`)
-                    .then(response => response.json())
-                    .then(data => slug.value = data.slug)
-            });
-        </script> --}}
-
 
         {{-- CK editor --}}
         <script>
@@ -391,24 +379,6 @@
                     }
                 })
             })
-
-            const onClickHandler = (e) => {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Do you want to save the changes?',
-                    showDenyButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: 'Save',
-                    denyButtonText: `Don't save`,
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        Swal.fire('Saved!', '', 'success')
-                    } else if (result.isDenied) {
-                        Swal.fire('Changes are not saved', '', 'info')
-                    }
-                })
-            }
         </script>
     @endpush
 

@@ -36,7 +36,7 @@
             <div class="text-white mt-3">
                 <h4 class="alert-heading">Oops!</h4>
                 <p>
-                    Belum ada transaksi pada event yang dilakukan.
+                    Belum ada transaksi pada salah satu event yang dilakukan.
                 </p>
             </div>
         @endif
