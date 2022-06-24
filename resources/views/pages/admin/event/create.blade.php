@@ -47,8 +47,8 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                <input type="hidden" class="form-control" name="slug" id="slug"
-                                    value="{{ old('slug') }}">
+                                {{-- <input type="hidden" class="form-control" name="slug" id="slug"
+                                    value="{{ old('slug') }}"> --}}
                             </div>
 
                             {{-- Watku Event --}}
@@ -239,8 +239,6 @@
                                 @enderror
                             </div>
                         </div>
-                        {{-- <input type="text" class="form-control" id="harga_tiket" name='harga_tiket' autofocus='true'> --}}
-
 
                     </div>
 
@@ -249,13 +247,6 @@
                         <label for="deskripsi_acara" class="form-label text-sm ">Deskripsi Event
                             <span class="text-xxs text-danger">(*)</span>
                         </label>
-                        {{-- <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
-                            name='deskripsi_acara' autofocus='true' required="required" value="{{ old('deskripsi_acara') }}"
-                            id="floatingTextarea" placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea> --}}
-                        {{-- <div id="editor" name='deskripsi_acara' value="{{ old('deskripsi_acara') }}">
-                            {{ old('deskripsi_acara') }}
-                        </div> --}}
-
 
                         <textarea rows="10" class="form-control mb-5 @error('deskripsi_acara') is-invalid @enderror"
                             name='deskripsi_acara' autofocus='true' required="required" value="{{ old('deskripsi_acara') }}"
@@ -349,7 +340,7 @@
             }
         </script>
 
-        <script>
+        {{-- <script>
             /* Add Slug */
             const name = document.querySelector('#nama_event');
             const slug = document.querySelector('#slug');
@@ -359,8 +350,27 @@
                     .then(response => response.json())
                     .then(data => slug.value = data.slug)
             });
+        </script> --}}
+
+
+        {{-- CK editor --}}
+        <script>
+            ClassicEditor
+                .create(document.querySelector('#ckeditor'), {
+                    removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'CKTable', 'EasyImage', 'Image',
+                        'ImageCaption', 'ImageStyle',
+                        'ImageToolbar', 'ImageUpload', 'MediaEmbed', 'insertTable '
+                    ],
+                })
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         </script>
 
+        {{-- Sweet alert --}}
         <script>
             const btnSimpan = document.querySelector('#buttonSimpanEvent');
 
@@ -376,10 +386,8 @@
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                        Swal.fire('Event Tersimpan!', '', 'success');
-                        setTimeout(() => {
-                            document.getElementById('formCreateEvent').submit();
-                        }, 1500);
+                        // Swal.fire('Event Tersimpan!', '', 'success');
+                        document.getElementById('formCreateEvent').submit();
                     }
                 })
             })

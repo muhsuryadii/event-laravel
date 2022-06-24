@@ -19,20 +19,5 @@
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 {{-- <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script> --}}
 
-<script>
-    ClassicEditor
-        .create(document.querySelector('#ckeditor'), {
-            removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'CKTable', 'EasyImage', 'Image',
-                'ImageCaption', 'ImageStyle',
-                'ImageToolbar', 'ImageUpload', 'MediaEmbed', 'insertTable '
-            ],
 
-        })
-        .then(editor => {
-            console.log(editor);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-</script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

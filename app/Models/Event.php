@@ -13,7 +13,7 @@ class Event extends Model
 
     public function getRouteKeyName()
     {
-        return 'slug';
+        return 'uuid';
     }
 
     public function sluggable(): array

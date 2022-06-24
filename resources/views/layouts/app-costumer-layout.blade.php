@@ -40,8 +40,9 @@
     @include('parts.customer.footer')
 
     <section class="script-sections">
-        @livewireScripts
         @include('parts.customer.script')
+        @livewireScripts
+        @stack('js')
 
 
     </section>

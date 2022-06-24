@@ -22,7 +22,7 @@ class CreateEventsTable extends Migration
 
 
             $table->string('nama_event');
-            $table->string('slug');
+
             $table->integer('harga_tiket');
             $table->dateTime('waktu_acara');
             $table->string('lokasi_acara');
