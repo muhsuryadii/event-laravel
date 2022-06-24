@@ -6,6 +6,7 @@ use App\Models\Event;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -88,7 +89,7 @@ class AdminEventController extends Controller
         ])->validate();
 
         Event::create($validator);
-        return redirect(route('admin_events_index'))->with('EventSuccess', 'Event berhasil ditambahkan');
+        return redirect(route('admin_events_index'))->with('EventCreateSuccess', 'Event berhasil ditambahkan');
     }
 
     /**
@@ -141,13 +142,11 @@ class AdminEventController extends Controller
     public function destroy(Event $event)
     {
         //
-    }
 
-    /* Check Sluggable For Create Event */
-    public function checkSlug(Request $request)
-    {
-        // echo $request->name;
-        $slug = SlugService::createSlug(Event::class, 'slug', $request->name);
-        return response()->json(['slug' => $slug]);
+        if ($event->famplet_acara_path) {
+            Storage::delete($event->famplet_acara_path);
+        }
+        Event::destroy($event->id);
+        return redirect(route('admin_events_index'))->with('deleteEventSuccess', 'Event berhasil dihapus');
     }
 }

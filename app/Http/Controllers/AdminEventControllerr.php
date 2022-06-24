@@ -88,7 +88,7 @@ class AdminEventController extends Controller
         ])->validate();
 
         Event::create($validator);
-        return redirect(route('admin_events_index'))->with('EventSuccess', 'Event berhasil ditambahkan');
+        return redirect(route('admin_events_index'))->with('EventCreateSuccess', 'Event berhasil ditambahkan');
     }
 
     /**
@@ -230,14 +230,5 @@ class AdminEventController extends Controller
 
 
         return redirect(route('admin_events_index'))->with('deleteSuccess', 'Event berhasil dihapus');
-    }
-
-
-    /* Check Sluggable For Create Event */
-    public function checkSlug(Request $request)
-    {
-        // echo $request->name;
-        $slug = SlugService::createSlug(Event::class, 'slug', $request->name);
-        return response()->json(['slug' => $slug]);
     }
 }

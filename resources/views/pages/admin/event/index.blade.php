@@ -77,7 +77,7 @@
                                             </td>
                                             <td
                                                 class="align-middle flex flex-wrap flex-col mx-auto justify-center px-3">
-                                                <a href='{{ route('admin_events_edit', $event->slug) }}'
+                                                <a href='{{ route('admin_events_edit', $event->uuid) }}'
                                                     class="text-primary font-weight-bold text-xs btn btn-outline-primary"
                                                     data-toggle="tooltip" data-original-title="Edit event">
                                                     Edit
@@ -85,18 +85,17 @@
 
 
 
-                                                <form action="{{ route('admin_events_destroy', $event->slug) }}"
+                                                <form action="{{ route('admin_events_destroy', $event->uuid) }}"
                                                     method="POST" class="d-inline">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit"
-                                                        class="text-danger font-weight-bold text-xs btn btn-outline-danger">
+                                                        class="btn-delete-event text-danger font-weight-bold text-xs btn btn-outline-danger">
                                                         Delete
                                                 </form>
                                             </td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>
@@ -108,6 +107,51 @@
             </div>
         </div>
     </div>
+
+    @push('js')
+        @if (session()->has('EventCreateSuccess'))
+            <script>
+                Swal.fire({
+                    title: '{{ session('EventCreateSuccess') }}',
+                    icon: 'success'
+                })
+            </script>
+        @endif
+
+        @if (session()->has('deleteEventSuccess'))
+            <script>
+                Swal.fire({
+                    title: '{{ session('deleteEventSuccess') }}',
+                    icon: 'success'
+                })
+            </script>
+        @endif
+
+
+        <script>
+            /* Confirm Dialog For Delete Item */
+            document.querySelectorAll('.btn-delete-event').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'Apakah kamu yakin ?',
+                        text: "Data yang dihapus tidak dapat dikembalikan",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya Hapus'
+                    }).then((result) => {
+                        if (result.value) {
+                            btn.parentElement.submit();
+                        }
+                    })
+                })
+            })
+        </script>
+
+
+    @endpush
 
 
 </x-app-layout>
