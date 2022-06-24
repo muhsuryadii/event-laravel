@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {
@@ -46,6 +47,7 @@ class TransactionController extends Controller
         $no_transaksi = 'INV-' . date('YmdHi') . $request->event_id . $request->user_id;
 
         $chekoutData = [
+            'uuid' => Str::uuid()->getHex(),
             'id_event' => $request->event_id,
             'id_peserta' => $request->user_id,
             'total_harga' => $request->harga_tiket,
@@ -54,16 +56,17 @@ class TransactionController extends Controller
         ];
 
         $validator =  Validator::make($chekoutData, [
+            'uuid' => 'required|string|max:36|unique:transaksis,uuid',
             'id_event' => 'required|exists:events,id',
             'id_peserta' => 'required|exists:users,id',
             'total_harga' => 'required|numeric',
-            'no_transaksi' => 'required|unique:transaksis,no_transaksi'
+            'no_transaksi' => 'required'
         ])->validate();
 
-        Transaksi::create($validator);
+        $transaksi = Transaksi::create($validator);
 
 
-        return redirect()->route('checkout_show', $no_transaksi);
+        return redirect()->route('checkout_show', $transaksi->uuid);
     }
 
     /**
@@ -75,6 +78,7 @@ class TransactionController extends Controller
     public function show(Transaksi $transaksi)
     {
         // $user = $transaksi->load(['user', 'event']);
+
 
         return view('pages.customer.chekout.show', [
             'transaksi' => $transaksi,

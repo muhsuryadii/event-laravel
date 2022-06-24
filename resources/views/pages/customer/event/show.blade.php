@@ -1,5 +1,5 @@
 <x-app-costumer-layout>
-    {{-- {{ dd($event) }} --}}
+    {{-- {{ dd($panitia) }} --}}
     <section>
         {{-- Hero Section --}}
         <div class="hero-section">
@@ -16,9 +16,14 @@
                                 loading="lazy">
                         </div>
                         <div class="col-lg-9">
-                            <h3 class="text-4xl  leading-normal text-white mt-4 line-clamp-2">
+                            <h3 class="text-4xl  leading-normal text-white mt-4 line-clamp-3">
                                 {{ $event->nama_event }}
                             </h3>
+                            <h4 class="text-3xl  leading-normal text-white mt-3 ">Oleh :
+                                <a href="/event-by/{{ $panitia->uuid }}" class="text-white ">
+                                    {{ $panitia->nama_user }}
+                                </a>
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -29,7 +34,7 @@
                 <div class="col-lg-9">
                     <h2 class='font-semibold text-4xl text-slate-800'>Deskripsi Event</h2>
 
-                    <p class="text-xl my-10">{{ $event->deskripsi_acara }}</p>
+                    <p class="text-xl my-10">{!! $event->deskripsi_acara !!}</p>
                 </div>
                 <div class="col-lg-3">
                     <div class="card-event-info-wrapper px-4 bg-white rounded-2xl border shadow-md border-slate-600">
@@ -67,7 +72,7 @@
                         </div>
 
 
-                        <form action='{{ route('checkout_store') }}' method="POST">
+                        <form action='{{ route('checkout_store') }}' id='formEventStore' method="POST">
                             @csrf
                             @if (auth()->user())
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
@@ -76,18 +81,22 @@
                             @endif
 
                             @if (!$transaction)
-                                <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4"> Pesan
+                                <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4" id='btnPesanTiket'>
+                                    Pesan
                                     Tiket</button>
                             @endif
 
                             @if ($transaction)
-                                <button type="submit" class="btn btn-success w-100 btn-simpan mb-4 disabled"> Tiket
-                                    Sudah
-                                    Dibeli </button>
+                                @if ($transaction->status_transaksi == 'not_paid')
+                                    <a href="{{ route('checkout_show', $transaction->uuid) }}"
+                                        class="btn btn-primary w-100 btn-simpan mb-4 ">Bayar
+                                        Pesanan</a>
+                                @else
+                                    <button type="submit" class="btn btn-success w-100 btn-simpan mb-4 disabled"> Tiket
+                                        Sudah Dibeli </button>
+                                @endif
                             @endif
                         </form>
-
-
 
                     </div>
                 </div>
@@ -95,8 +104,32 @@
         </div>
         </div>
         {{-- End Hero Section --}}
-
-
     </section>
+
+    @push('js')
+        {{-- Sweet alert --}}
+        <script>
+            const btnPesan = document.querySelector('#btnPesanTiket');
+
+            btnPesan.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Testing');
+                Swal.fire({
+                    title: 'Apakah anda yakin ?',
+                    text: "Pesanan akan langsung masuk kedalam sistem",
+                    icon: 'question',
+                    showDenyButton: true,
+                    confirmButtonText: 'Yakin',
+                    denyButtonText: `Tidak`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        // Swal.fire('Event Tersimpan!', '', 'success');
+                        document.getElementById('formEventStore').submit();
+                    }
+                })
+            })
+        </script>
+    @endpush
 
 </x-app-costumer-layout>

@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Transaksi;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -63,11 +64,18 @@ class EventController extends Controller
             $transaction = null;
         }
 
+        $panitia = DB::table('users')
+            ->join('events', 'id_panitia', '=', 'users.id')
+            ->where('events.id_panitia', $event->id_panitia)
+            ->select('users.*')
+            ->groupBy('users.id')
+            ->first();
+
 
         return view('pages.customer.event.show', [
             'event' => $event,
             'transaction' => $transaction,
-            'panitias' => $event->panitia,
+            'panitia' =>  $panitia,
 
 
         ]);

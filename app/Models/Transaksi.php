@@ -12,7 +12,7 @@ class Transaksi extends Model
 
     public function getRouteKeyName()
     {
-        return 'no_transaksi';
+        return 'uuid';
     }
 
     public function event()
