@@ -27,7 +27,6 @@ class AdminTransaksiController extends Controller
             ->groupBy('transaksis.id_event')
             ->get();
  */
-        // $transaksi =  Event::all()->where('id_panitia', Auth::user()->id)->sortByDesc('waktu_acara');
 
         $transaksi =
             DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')->where('id_panitia', Auth::user()->id)->get();
@@ -61,20 +60,23 @@ class AdminTransaksiController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Transaksi  $transaksi
+     * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show($idEvent)
+    public function show($uuid)
     {
         //
-        // return dd($idEvent);
+
+        $event = DB::table('events')->where('uuid', $uuid)->first();
+
         $eventTransaksi = DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')
             ->join('users', 'transaksis.id_peserta', '=', 'users.id')
             ->join('pesertas', 'users.id', '=', 'pesertas.id_users')
-            ->where('transaksis.id_event', $idEvent)
+            ->where('transaksis.id_event', $event->id)
             ->where('transaksis.status_transaksi', '!=', 'not_paid')
+            ->select('transaksis.*', 'users.uuid as usersId', 'users.nama_user', 'no_telepon')
             ->get();
-        $event = DB::table('events')->where('id', $idEvent)->first();
+
 
 
         return view('pages.admin.transaksi.show', [
@@ -103,13 +105,16 @@ class AdminTransaksiController extends Controller
      */
     public function update(Request $request, Transaksi $transaksi)
     {
-        //
-        // return dd($transaksi);
+        $event = Transaksi::join('events', 'transaksis.id_event', '=', 'events.id')
+            ->where('events.id', $transaksi->id_event)
+            ->select('events.*')
+            ->first();
+
         $transaksi->update([
-            'status_transaksi' => 'success'
+            'status_transaksi' => $request->status_transaksi
         ]);
 
-        return redirect()->route('admin_transaksi_show', $transaksi->id_event);
+        return redirect()->route('admin_transaksi_show', $event->uuid);
     }
 
     /**

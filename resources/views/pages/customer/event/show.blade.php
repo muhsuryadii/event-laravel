@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="card-event-info-wrapper px-4 bg-white rounded-2xl border shadow-md border-slate-600">
-                        <div class="wrapper py-3">
+                        <div class="wrapper pt-3">
                             <div class="price-wrapper mb-3">
                                 <h4 class="card-event-price text-xl font-semibold text-slate-500">Harga Event</h4>
                                 @if ($event->harga_tiket == 0)
@@ -51,6 +51,12 @@
                             </div>
                         </div>
 
+                        <div class="date-wrapper mb-3">
+                            <h4 class="card-event-date text-xl font-semibold text-slate-500">Sisa Kuota Tiket</h4>
+                            <span class='text-slate-700 text-xl  font-semibold'>
+                                {{ $event->kuota_tiket }}
+                            </span>
+                        </div>
                         <div class="date-wrapper mb-3">
                             <h4 class="card-event-date text-xl font-semibold text-slate-500">Tanggal</h4>
                             <span class='text-slate-700 text-xl  font-semibold'>
@@ -90,7 +96,7 @@
                                 @if ($transaction->status_transaksi == 'not_paid')
                                     <a href="{{ route('checkout_show', $transaction->uuid) }}"
                                         class="btn btn-primary w-100 btn-simpan mb-4 ">Bayar
-                                        Pesanan</a>
+                                        Tiket</a>
                                 @else
                                     <button type="submit" class="btn btn-success w-100 btn-simpan mb-4 disabled"> Tiket
                                         Sudah Dibeli </button>
@@ -102,7 +108,7 @@
                 </div>
             </div>
         </div>
-        </div>
+
         {{-- End Hero Section --}}
     </section>
 
@@ -110,7 +116,6 @@
         {{-- Sweet alert --}}
         <script>
             const btnPesan = document.querySelector('#btnPesanTiket');
-
             btnPesan.addEventListener('click', function(e) {
                 e.preventDefault();
                 console.log('Testing');

@@ -40,33 +40,37 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         //
+        // return dd($request->all());
         if (!auth()->user()) {
             return redirect()->route('login');
         }
 
         $no_transaksi = 'INV-' . date('YmdHi') . $request->event_id . $request->user_id;
+        $uuid = Str::uuid()->getHex();
 
         $chekoutData = [
-            'uuid' => Str::uuid()->getHex(),
+            'uuid' => $uuid,
             'id_event' => $request->event_id,
             'id_peserta' => $request->user_id,
             'total_harga' => $request->harga_tiket,
             'no_transaksi' => $no_transaksi,
-            'status_transaksi' => $request->harga_tiket == 0 ? 'pending' : 'not_paid',
+            'status_transaksi' => $request->harga_tiket == 0 ? 'paid' : 'not_paid',
         ];
 
+
         $validator =  Validator::make($chekoutData, [
-            'uuid' => 'required|string|max:36|unique:transaksis,uuid',
+            'uuid' => 'required|unique:events,uuid',
             'id_event' => 'required|exists:events,id',
             'id_peserta' => 'required|exists:users,id',
             'total_harga' => 'required|numeric',
             'no_transaksi' => 'required'
         ])->validate();
 
-        $transaksi = Transaksi::create($validator);
+
+        Transaksi::create($validator);
 
 
-        return redirect()->route('checkout_show', $transaksi->uuid);
+        return redirect()->route('checkout_show', $uuid);
     }
 
     /**
@@ -77,9 +81,6 @@ class TransactionController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
-        // $user = $transaksi->load(['user', 'event']);
-
-
         return view('pages.customer.chekout.show', [
             'transaksi' => $transaksi,
             'event' =>  Event::find($transaksi->id_event),
@@ -120,13 +121,13 @@ class TransactionController extends Controller
 
         $transaksi->update([
             'bukti_transaksi' => $image,
-            'status_transaksi' => 'pending',
+            'status_transaksi' => 'paid',
             'waktu_pembayaran' => now(),
         ]);
 
 
         // return redirect()->route('checkout_show', $no_transaksi);
-        return redirect()->route('checkout_show', $request->no_transaksi);
+        return redirect()->route('checkout_show', $transaksi->uuid);
     }
 
     /**

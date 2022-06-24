@@ -1,7 +1,7 @@
 <x-app-costumer-layout>
 
     <section class="container py-10">
-        <h2 class="text-slate-700 font-bold">Detail Tiket</h2>
+        <h2 class="text-slate-700 font-bold">Detail Transaksi</h2>
         <div class="row mt-4">
             <div class="col-lg-8 ">
                 <div class="summary-info-wrapper bg-white rounded-2xl border shadow-md border-slate-600 p-4">
@@ -22,13 +22,13 @@
                             <span class="text-red-500 text-lg font-semibold">
                                 Belum Dibayar
                             </span>
-                        @elseif($transaksi->status_transaksi == 'pending')
+                        @elseif($transaksi->status_transaksi == 'paid')
                             <span class="text-sky-600  text-lg font-semibold capitalize">
                                 pembayaran sedang diperiksa
                             </span>
                         @else
                             <span class="text-green-600 text-lg font-semibold">
-                                Lunas
+                                Pembayaran Telah diverifikasi
                             </span>
                         @endif
 
@@ -38,8 +38,9 @@
                                 {{ Carbon\Carbon::parse($transaksi->waktu_pembayaran)->translatedFormat('d-F-Y H:i:s') }}
 
                                 <span class='ml-2'>
-                                    <a href="{{ asset('storage/' . $transaksi->bukti_transaksi) }}" target="_blank">
-                                        Lihat Bukti Pembayaran
+                                    <a href="{{ asset('storage/' . $transaksi->bukti_transaksi) }}" target="_blank"
+                                        class='no-underline'>
+                                        Lihat Bukti Pembayaran <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                     </a>
                                 </span>
                             </p>
@@ -47,18 +48,18 @@
                     </div>
 
                     <div class="mt-4">
-                        @if ($transaksi->status_transaksi != 'paid')
+                        @if ($transaksi->status_transaksi != 'verified')
                             <h4 class="text-lg font-semibold text-slate-700 ">
                                 Upload Bukti Pembayaran
                             </h4>
                             <div class="mt-2">
-                                <form action="{{ route('checkout_update', $transaksi->no_transaksi) }}" method="POST"
+                                <form action="{{ route('checkout_update', $transaksi->uuid) }}" method="POST"
                                     enctype="multipart/form-data" class='flex justify-between'>
                                     @csrf
                                     @method('patch')
                                     <div class="form-group">
                                         <input type="file" class="form-control-file form-control"
-                                            id="bukti_pembayaran" name="bukti_transaksi">
+                                            id="bukti_pembayaran" required name="bukti_transaksi">
                                         <input type="hidden" name="no_transaksi"
                                             value="{{ $transaksi->no_transaksi }}">
                                         <input type="hidden" name="id_pembayaran" value="{{ $transaksi->id }}">
@@ -78,7 +79,11 @@
                         </div>
                         <div class="col">
                             <p class="text-lg font-weight-bold mb-0 capitalize font-semibold">
-                                {{ $event->nama_event }}
+                                <a href="{{ route('event_show', $event->uuid) }}" class="text-slate-700 no-underline">
+
+                                    {{ $event->nama_event }}
+
+                                </a>
                             </p>
                             <p class="text-secondary text-base font-semibold mt-2 mb-2">
                                 <i

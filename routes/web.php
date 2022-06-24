@@ -59,7 +59,8 @@ Route::middleware([
     /* Transaction Route */
     Route::resource('/admin/transaksi', AdminTransaksiController::class)->names([
         'index' => 'admin_transaksi_index',
-        'show' => 'admin_transaksi_show', 'update' => 'admin_transaksi_update',
+        'show' => 'admin_transaksi_show',
+        'update' => 'admin_transaksi_update',
 
     ]);
 
