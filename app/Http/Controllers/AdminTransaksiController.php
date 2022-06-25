@@ -18,18 +18,11 @@ class AdminTransaksiController extends Controller
     public function index()
     {
         //
-        /*  $transaksi = DB::table('transaksis')
-            ->join('event', 'transaksi.id_event', '=', 'event.id'); */
-        /*  $transaksi = Transaksi::join('events', 'transaksis.id_event', '=', 'events.id')
-            ->join('users', 'events.id_panitia', '=', 'users.id')
-            ->where('events.id_panitia', '=', auth()->user()->id)
-            ->select('events.*', 'transaksis.*')
+        $transaksi =
+            DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')
+            ->where('id_panitia', Auth::user()->id)
             ->groupBy('transaksis.id_event')
             ->get();
- */
-
-        $transaksi =
-            DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')->where('id_panitia', Auth::user()->id)->get();
 
         return view('pages.admin.transaksi.index', [
             'events' => $transaksi
@@ -74,6 +67,7 @@ class AdminTransaksiController extends Controller
             ->join('pesertas', 'users.id', '=', 'pesertas.id_users')
             ->where('transaksis.id_event', $event->id)
             ->where('transaksis.status_transaksi', '!=', 'not_paid')
+            ->where('transaksis.status_transaksi', '!=', 'rejected')
             ->select('transaksis.*', 'users.uuid as usersId', 'users.nama_user', 'no_telepon')
             ->get();
 

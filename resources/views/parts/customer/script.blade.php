@@ -25,6 +25,13 @@
                 icon: 'error'
             })
         </script>
+    @elseif (session()->has('info'))
+        <script>
+            Swal.fire({
+                title: '{{ session('info') }}',
+                icon: 'info'
+            })
+        </script>
     @endif
 
 

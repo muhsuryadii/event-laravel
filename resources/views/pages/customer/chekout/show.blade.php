@@ -23,12 +23,20 @@
                             </span>
                         @elseif($transaksi->status_transaksi == 'paid')
                             <span class="text-sky-600  text-lg font-semibold capitalize">
-                                pembayaran sedang diperiksa
+                                Pembayaran sedang diverifikasi oleh panitia
                             </span>
-                        @else
-                            <span class="text-green-600 text-lg font-semibold">
+                        @elseif($transaksi->status_transaksi == 'verified')
+                            <span class="text-green-600 text-lg font-semibold capitalize">
                                 Pembayaran Telah diverifikasi
                             </span>
+                        @else
+                            <span class="text-red-600 text-lg font-semibold capitalize">
+                                Verifikasi Pembayaran Ditolak
+                            </span>
+                            <p>
+                                Pastikan anda telah melakukan pembayaran dengan benar, jika merasa butuh bantuan
+                                silahkan hubungi panitia.
+                            </p>
                         @endif
 
                         @if ($transaksi->waktu_pembayaran)

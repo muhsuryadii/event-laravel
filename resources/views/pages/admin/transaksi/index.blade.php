@@ -21,7 +21,7 @@
                                 <span class="text-secondary text-xs font-weight-bold">
                                     {{ Carbon\Carbon::parse($event->waktu_acara)->translatedFormat('d F Y') }}
                                 </span>
-                                <h3 class="text-base  font-semibold mt-2 line-clamp-3"
+                                <h3 class="text-base  font-semibold mt-2 line-clamp-2"
                                     title="{{ $event->nama_event }}">
                                     {{ $event->nama_event }}
                                 </h3>

@@ -99,7 +99,7 @@ class TransactionController extends Controller
         Transaksi::create($validator);
 
 
-        return redirect()->route('checkout_show', $uuid)->with('success', 'Pemesanan Tiket Berhasil, Silahkan Lakukan Pembayaran');
+        return redirect()->route('checkout_show', $uuid)->with('info', 'Pemesanan Tiket Berhasil, Silahkan Lakukan Pembayaran');
     }
 
     /**
