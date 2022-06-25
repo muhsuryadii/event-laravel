@@ -7,6 +7,7 @@ use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -73,7 +74,6 @@ class TransactionController extends Controller
         if ($request->harga_tiket == 0) {
             DB::beginTransaction();
             $event = DB::table('events')->where('id', $request->event_id)->first();
-            $eventUuid = $event->uuid;
             try {
                 if ($event->kuota_tiket == 0) {
                     throw new \Exception('Kuota tiket sudah habis');
@@ -91,7 +91,7 @@ class TransactionController extends Controller
                 DB::rollBack();
                 // return dd($e);
 
-                return redirect()->route('event_show', $eventUuid)->with('error', $e ? $e->getMessage() : 'Pemesanan Gagal, silahkan coba lagi');
+                return redirect()->route('event_show', $event->uuid)->with('error', $e ? $e->getMessage() : 'Pemesanan Gagal, silahkan coba lagi');
             }
         }
 
@@ -140,28 +140,54 @@ class TransactionController extends Controller
         //
         // return dd($request, $transaksi);
 
+        /* Kalau kedapatan belum login, langsung ngarahin ke login */
         if (!Auth::user()) {
-            return redirect()->route('home');
+            return redirect()->route('login');
         }
 
-        $image = null;
+
+        /* manajemen file image untuk upload*/
+        $image =  $request->old_bukti_transaksi ?? null;
 
         if ($request->file('bukti_transaksi')) {
             $image =  $request->file('bukti_transaksi') ? $request->file('bukti_transaksi')->store('images/bukti_transaksi') : null;
             $this->validate($request, [
                 'bukti_transaksi' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
+
+            if ($request->old_bukti_transaksi) {
+                Storage::delete($request->old_bukti_transaksi);
+            }
         }
 
-        $transaksi->update([
-            'bukti_transaksi' => $image,
-            'status_transaksi' => 'paid',
-            'waktu_pembayaran' => now(),
-        ]);
 
+        /* Transaction untuk events */
+        DB::beginTransaction();
+        $event = DB::table('events')->where('id', $transaksi->id_event)->first();
 
-        // return redirect()->route('checkout_show', $no_transaksi);
-        return redirect()->route('checkout_show', $transaksi->uuid);
+        try {
+            if ($event->kuota_tiket == 0) {
+                throw new \Exception('Kuota tiket sudah habis');
+            }
+
+            $newkuota = $event->kuota_tiket - 1;
+            DB::table('events')->where('id', $transaksi->id_event)->update(['kuota_tiket' => $newkuota]);
+
+            // Transaksi::create($validator);
+
+            $transaksi->update([
+                'bukti_transaksi' => $image,
+                'status_transaksi' => 'paid',
+                'waktu_pembayaran' => now(),
+            ]);
+
+            DB::commit();
+            return redirect()->route('checkout_show', $transaksi->uuid);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('checkout_show', $transaksi->uuid)->with('error', $e ? $e->getMessage() : 'Pembayaran Gagal, silahkan coba lagi atau hubungi panitia');
+        }
     }
 
     /**

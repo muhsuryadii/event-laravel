@@ -143,8 +143,10 @@ class AdminEventController extends Controller
 
         if ($request->file('image')) {
             if ($request->oldImage) {
-                Storage::delete(['file', 'otherFile']);
-                ($request->oldImage);
+                Storage::delete($request->oldImage);
+
+                /* Storage::delete(['file', 'otherFile']);
+                ($request->oldImage); */
             }
             $image = $request->file('image')->store('images/events');
 

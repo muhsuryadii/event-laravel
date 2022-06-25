@@ -1,6 +1,4 @@
 <x-app-costumer-layout>
-   
-
     <section class="container py-10">
         <h2 class="text-slate-700 font-bold">Detail Transaksi</h2>
         <div class="row mt-4">
@@ -64,6 +62,8 @@
                                         <input type="hidden" name="no_transaksi"
                                             value="{{ $transaksi->no_transaksi }}">
                                         <input type="hidden" name="id_pembayaran" value="{{ $transaksi->id }}">
+                                        <input type="hidden" name="old_bukti_transaksi"
+                                            value="{{ $transaksi->bukti_transaksi }}">
                                     </div>
                                     <button type="submit" id='btnUploadBukti' class="btn btn-primary">Upload</button>
                                 </form>
