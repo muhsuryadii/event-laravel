@@ -30,7 +30,7 @@
         @include('parts.customer.navbar')
 
         <!-- Page Content -->
-        <main class='h-[100vh]'>
+        <main class=' min-h-[100vh]'>
             {{ $slot }}
         </main>
     </div>
@@ -44,6 +44,7 @@
         @livewireScripts
         @stack('js')
 
+       
 
     </section>
 </body>

@@ -2,7 +2,7 @@
     {{-- {{ dd($transaksi) }} --}}
     <div class="row">
         <div class="col-12">
-            <h4 class='font-bold text-white text-xl mt-3'>Event : {{ $event->nama_event }}</h4>
+            <h4 class='font-bold text-white text-xl mt-3'>Nama Event : {{ $event->nama_event }}</h4>
 
             @if (count($transaksi) == 0)
                 <div class="text-white mt-3">
@@ -66,31 +66,57 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0 capitalize text-center">
+                                                <p
+                                                    class="text-xs font-weight-bold mb-0 capitalize text-center no-underline ">
 
-                                                    <a class="underline"
-                                                        href="{{ asset('storage/' . $trans->bukti_transaksi) }}"
-                                                        target="_blank">
-                                                        Lihat Bukti Pembayaran
+                                                    <a href="{{ asset('storage/' . $trans->bukti_transaksi) }}"
+                                                        target="_blank" class='text-primary'>
+                                                        Lihat Bukti Pembayaran <i
+                                                            class="fa-solid fa-arrow-up-right-from-square"></i>
                                                     </a>
                                                 </p>
                                             </td>
                                             <td>
-                                                @if ($trans->status_transaksi == 'pending')
-                                                    <form
-                                                        action='{{ route('admin_transaksi_update', $trans->no_transaksi) }}'
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('put')
-                                                        <button type="submit"
-                                                            class="btn btn-primary btn-simpan btn-sm">
-                                                            Verifikasi</button>
-                                                    </form>
-                                                @else
+                                                <form action='{{ route('admin_transaksi_update', $trans->uuid) }}'
+                                                    method="POST" class="flex justify-evenly">
+                                                    @csrf
+                                                    @method('put')
+                                                    <input type="hidden" name="status_transaksi">
+
+                                                    {{-- <button type="button" class="btn btn-primary verify-button"
+                                                        id="btnVerifyOrder" onclick="return verifyButton(this.form)">
+                                                        <i class="fa-solid fa-check text-lg"></i>
+                                                    </button> --}}
+
+                                                    @if ($trans->status_transaksi != 'verified')
+                                                        <button type="button" class="btn btn-primary verify-button"
+                                                            id="btnVerifyOrder" onclick="return verifyButton(this.form)"
+                                                            title="Verifikasi Pembayaran">
+
+                                                            <i class="fa-solid fa-check text-lg"></i>
+                                                        </button>
+                                                    @else
+                                                        <span class="btn btn-success verify-button disabled" disabled
+                                                            title="Verifikasi Pembayaran">
+                                                            <i class="fa-solid fa-check text-lg text-white"></i>
+                                                        </span>
+                                                    @endif
+
+
+                                                    <button type="button" class="btn btn-danger reject-button"
+                                                        onclick="return rejectButton(this.form)"
+                                                        title="Tolak Pembayaran">
+                                                        <i class="fa-solid fa-xmark text-lg"></i>
+                                                    </button>
+
+                                                </form>
+
+
+                                                {{-- @if ($trans->status_transaksi != 'not_paid')
                                                     <button type="submit" disabled
-                                                        class="btn btn-success btn-simpan btn-sm text-white">
+                                                        class="btn btn-success btn-sm text-white">
                                                         Success</button>
-                                                @endif
+                                                @endif --}}
 
                                             </td>
 
@@ -105,4 +131,44 @@
             @endif
         </div>
     </div>
+    @push('js')
+        {{-- Sweet alert --}}
+        <script>
+            const verifyButton = (form) => {
+                Swal.fire({
+                    title: 'Pembayaran Diverifikasi ?',
+                    text: "Pastikan bukti pembayaran sudah sesuai dengan harga event",
+                    icon: 'question',
+                    showDenyButton: true,
+                    confirmButtonText: 'Ya, Verifikasi Pembayaran',
+                    denyButtonText: `Batal`,
+                }).then((result) => {
+                    if (result.value) {
+                        const input = form.querySelector('input[name="status_transaksi"]');
+                        input.value = 'verified';
+                        form.submit();
+                    }
+                })
+            }
+
+
+            const rejectButton = (form) => {
+
+                Swal.fire({
+                    title: 'Tolak Verfikasi Pembayaran ?',
+                    text: "Pembayaran akan dihapus dari halaman ini dan peserta harus input ulang bukti pembayaran jika verifikasi pembayaran ditolak",
+                    icon: 'warning',
+                    showDenyButton: true,
+                    confirmButtonText: 'Ya, Tolak Verifikasi Pembayaran',
+                    denyButtonText: `Batal`,
+                }).then((result) => {
+                    if (result.value) {
+                        const input = form.querySelector('input[name="status_transaksi"]');
+                        input.value = 'rejected';
+                        form.submit();
+                    }
+                })
+            }
+        </script>
+    @endpush
 </x-app-layout>

@@ -22,10 +22,9 @@ class CreateEventsTable extends Migration
             $table->dateTime('waktu_acara');
             $table->string('lokasi_acara');
             $table->string('tipe_acara');
-            $table->integer('kuota_tiket');
+            $table->integer('kuota_tiket')->default(0);
             $table->string('famplet_acara_path', 2048)->nullable();
             $table->longText('deskripsi_acara');
-            $table->integer('kuota')->nullable();
             $table->boolean('is_certificate_ready')->default(false);
             $table->timestamps();
         });
