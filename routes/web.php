@@ -9,6 +9,7 @@ use App\Http\Controllers\TransactionController;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*app\Http\Livewire\Admin\Event\Show.php
 |--------------------------------------------------------------------------
@@ -72,6 +73,7 @@ Route::middleware([
 Route::group([], function () {
     /* Homepage User */
     Route::get('/', function () {
+        // Session::flash('errorFeedback', 'Selamat Datang di Website Kami');
         return view('pages.customer.homepage', [
             'events' => Event::orderBy('waktu_acara')
                 ->where('waktu_acara', '>=', now())

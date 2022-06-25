@@ -76,7 +76,7 @@ class EventController extends Controller
             'event' => $event,
             'transaction' => $transaction,
             'panitia' =>  $panitia,
-
+    
 
         ]);
     }

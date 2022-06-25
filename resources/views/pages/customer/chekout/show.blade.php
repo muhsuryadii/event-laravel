@@ -1,4 +1,5 @@
 <x-app-costumer-layout>
+   
 
     <section class="container py-10">
         <h2 class="text-slate-700 font-bold">Detail Transaksi</h2>

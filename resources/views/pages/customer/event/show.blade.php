@@ -1,5 +1,5 @@
 <x-app-costumer-layout>
-    {{-- {{ dd($panitia) }} --}}
+
     <section>
         {{-- Hero Section --}}
         <div class="hero-section">
@@ -80,6 +80,7 @@
 
                         <form action='{{ route('checkout_store') }}' id='formEventStore' method="POST">
                             @csrf
+
                             @if (auth()->user())
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -87,9 +88,15 @@
                             @endif
 
                             @if (!$transaction)
-                                <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4" id='btnPesanTiket'>
-                                    Pesan
-                                    Tiket</button>
+                                @if ($event->kuota_tiket != 0)
+                                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4"
+                                        id='btnPesanTiket'>
+                                        Pesan
+                                        Tiket</button>
+                                @else
+                                    <span class="btn btn-danger w-100 btn-simpan mb-4 disabled" id='btnPesanTiket'>
+                                        Tiket Sudah Habis</span>
+                                @endif
                             @endif
 
                             @if ($transaction)

@@ -44,6 +44,7 @@
         @livewireScripts
         @stack('js')
 
+       
 
     </section>
 </body>

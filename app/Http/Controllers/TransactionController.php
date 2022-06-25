@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -55,23 +56,50 @@ class TransactionController extends Controller
             'id_peserta' => $request->user_id,
             'total_harga' => $request->harga_tiket,
             'no_transaksi' => $no_transaksi,
-            'status_transaksi' => $request->harga_tiket == 0 ? 'paid' : 'not_paid',
+            'status_transaksi' => (int)$request->harga_tiket == 0 ? 'verified' : 'not_paid',
         ];
-
+        // return dd($chekoutData);
 
         $validator =  Validator::make($chekoutData, [
             'uuid' => 'required|unique:events,uuid',
             'id_event' => 'required|exists:events,id',
             'id_peserta' => 'required|exists:users,id',
             'total_harga' => 'required|numeric',
-            'no_transaksi' => 'required'
+            'no_transaksi' => 'required',
+            'status_transaksi' => 'required',
         ])->validate();
 
+        /* Transaksi jika harga event  == 0 status pembayaran otomatis dibayar dan kuota event berkurang  */
+        if ($request->harga_tiket == 0) {
+            DB::beginTransaction();
+            $event = DB::table('events')->where('id', $request->event_id)->first();
+            $eventUuid = $event->uuid;
+            try {
+                if ($event->kuota_tiket == 0) {
+                    throw new \Exception('Kuota tiket sudah habis');
+                }
 
+                $newkuota = $event->kuota_tiket - 1;
+                DB::table('events')->where('id', $request->event_id)->update(['kuota_tiket' => $newkuota]);
+
+                Transaksi::create($validator);
+
+                DB::commit();
+
+                return redirect()->route('checkout_show', $uuid)->with('success', 'Pemesanan Tiket Berhasil');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                // return dd($e);
+
+                return redirect()->route('event_show', $eventUuid)->with('error', $e ? $e->getMessage() : 'Pemesanan Gagal, silahkan coba lagi');
+            }
+        }
+
+        /* Transaksi jika harga event  != 0, status pembayaran berubah jadi paid namun harus diverfiikasi terlebih dahulu pada sisi admin */
         Transaksi::create($validator);
 
 
-        return redirect()->route('checkout_show', $uuid);
+        return redirect()->route('checkout_show', $uuid)->with('success', 'Pemesanan Tiket Berhasil, Silahkan Lakukan Pembayaran');
     }
 
     /**
@@ -85,6 +113,7 @@ class TransactionController extends Controller
         return view('pages.customer.chekout.show', [
             'transaksi' => $transaksi,
             'event' =>  Event::find($transaksi->id_event),
+
         ]);
     }
 
