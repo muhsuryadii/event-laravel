@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -109,6 +110,10 @@ class TransactionController extends Controller
     {
         //
         // return dd($request, $transaksi);
+
+        if (!Auth::user()) {
+            return redirect()->route('home');
+        }
 
         $image = null;
 

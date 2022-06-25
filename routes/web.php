@@ -92,10 +92,10 @@ Route::group([], function () {
 });
 
 /* Login Root */
-Route::group([
+Route::middleware([
     'auth:sanctum',
-    config('jetstream.auth_session'),
-], function () {
+    config('jetstream.auth_session')
+])->group(function () {
 
     Route::resource('/transaksi', TransactionController::class)->names([
         'index' => 'checkout_index',

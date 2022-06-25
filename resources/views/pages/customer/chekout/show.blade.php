@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="mt-4">
-                        @if ($transaksi->status_transaksi != 'verified')
+                        @if ($transaksi->status_transaksi != 'verified' && Auth::user())
                             <h4 class="text-lg font-semibold text-slate-700 ">
                                 Upload Bukti Pembayaran
                             </h4>
