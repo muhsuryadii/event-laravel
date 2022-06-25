@@ -18,6 +18,12 @@
                              Event
                          </a>
                      </li>
+                 @elseif (Request::is('admin/transaksi*'))
+                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">
+                         <a href={{ route('admin_transaksi_index') }} class='text-white'>
+                             Transaksi
+                         </a>
+                     </li>
                  @endif
 
 
@@ -34,6 +40,8 @@
                      @elseif (Request::is('admin/events/*/edit'))
                          Edit Event
                      @endif
+                 @elseif (Request::is('admin/transaksi*'))
+                     Transaksi
                  @endif
              </h3>
          </nav>+

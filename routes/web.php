@@ -3,11 +3,13 @@
 
 
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*app\Http\Livewire\Admin\Event\Show.php
 |--------------------------------------------------------------------------
@@ -55,6 +57,14 @@ Route::middleware([
         'destroy' => 'admin_events_destroy',
     ]);
 
+    /* Transaction Route */
+    Route::resource('/admin/transaksi', AdminTransaksiController::class)->names([
+        'index' => 'admin_transaksi_index',
+        'show' => 'admin_transaksi_show',
+        'update' => 'admin_transaksi_update',
+
+    ]);
+
     /*  Route::get('/admin/events/create', [AdminEventController::class, 'createPage'])->name('admin_events_create'); */
 });
 
@@ -63,6 +73,7 @@ Route::middleware([
 Route::group([], function () {
     /* Homepage User */
     Route::get('/', function () {
+        // Session::flash('errorFeedback', 'Selamat Datang di Website Kami');
         return view('pages.customer.homepage', [
             'events' => Event::orderBy('waktu_acara')
                 ->where('waktu_acara', '>=', now())
@@ -83,10 +94,10 @@ Route::group([], function () {
 });
 
 /* Login Root */
-Route::group([
+Route::middleware([
     'auth:sanctum',
-    config('jetstream.auth_session'),
-], function () {
+    config('jetstream.auth_session')
+])->group(function () {
 
     Route::resource('/transaksi', TransactionController::class)->names([
         'index' => 'checkout_index',
@@ -95,6 +106,6 @@ Route::group([
         'show' => 'checkout_show',
         'edit' => 'checkout_edit',
         'update' => 'checkout_update',
-        'destroy' => 'checkout_destroy',
+        'destroy' => 'checkout_destroy'
     ]);
 });

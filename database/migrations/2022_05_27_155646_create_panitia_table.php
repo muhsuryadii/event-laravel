@@ -15,8 +15,8 @@ class CreatePanitiaTable extends Migration
     {
         Schema::create('panitias', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_users');
-            $table->bigInteger('id_fakultas');
+            $table->foreignId('id_users');
+            $table->foreignId('id_fakultas');
             $table->timestamps();
         });
     }

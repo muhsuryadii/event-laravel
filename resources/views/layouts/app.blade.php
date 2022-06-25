@@ -32,7 +32,7 @@
 
 
     <!-- Page Content -->
-    <main class="main-content position-relative border-radius-lg ">
+    <main class="main-content position-relative border-radius-lg  min-h-[100vh]">
         @include('parts.admin.navbar')
         <div class="content px-3 mx-4 ">
             {{ $slot }}
@@ -42,9 +42,9 @@
     @stack('modals')
 
     <section class="script-sections">
-        @stack('js')
-        @livewireScripts
         @include('parts.admin.script')
+        @livewireScripts
+        @stack('js')
     </section>
 </body>
 

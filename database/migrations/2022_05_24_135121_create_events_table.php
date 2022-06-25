@@ -15,17 +15,16 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_panitia');
+            $table->foreignId('id_panitia');
+            $table->string('uuid', 32)->unique();
             $table->string('nama_event');
-            $table->string('slug');
             $table->integer('harga_tiket');
             $table->dateTime('waktu_acara');
             $table->string('lokasi_acara');
             $table->string('tipe_acara');
-            $table->integer('kuota_tiket');
+            $table->integer('kuota_tiket')->default(0);
             $table->string('famplet_acara_path', 2048)->nullable();
             $table->longText('deskripsi_acara');
-            $table->integer('kuota')->nullable();
             $table->boolean('is_certificate_ready')->default(false);
             $table->timestamps();
         });

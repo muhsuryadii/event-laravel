@@ -1,4 +1,5 @@
 <x-app-costumer-layout>
+
     <section>
         {{-- Hero Section --}}
         <div class="hero-section">
@@ -15,9 +16,14 @@
                                 loading="lazy">
                         </div>
                         <div class="col-lg-9">
-                            <h3 class="text-4xl  leading-normal text-white mt-4 line-clamp-2">
+                            <h3 class="text-4xl  leading-normal text-white mt-4 line-clamp-3">
                                 {{ $event->nama_event }}
                             </h3>
+                            <h4 class="text-3xl  leading-normal text-white mt-3 ">Oleh :
+                                <a href="/event-by/{{ $panitia->uuid }}" class="text-white ">
+                                    {{ $panitia->nama_user }}
+                                </a>
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -28,11 +34,11 @@
                 <div class="col-lg-9">
                     <h2 class='font-semibold text-4xl text-slate-800'>Deskripsi Event</h2>
 
-                    <p class="text-xl my-10">{{ $event->deskripsi_acara }}</p>
+                    <p class="text-xl my-10">{!! $event->deskripsi_acara !!}</p>
                 </div>
                 <div class="col-lg-3">
                     <div class="card-event-info-wrapper px-4 bg-white rounded-2xl border shadow-md border-slate-600">
-                        <div class="wrapper py-3">
+                        <div class="wrapper pt-3">
                             <div class="price-wrapper mb-3">
                                 <h4 class="card-event-price text-xl font-semibold text-slate-500">Harga Event</h4>
                                 @if ($event->harga_tiket == 0)
@@ -45,6 +51,12 @@
                             </div>
                         </div>
 
+                        <div class="date-wrapper mb-3">
+                            <h4 class="card-event-date text-xl font-semibold text-slate-500">Sisa Kuota Tiket</h4>
+                            <span class='text-slate-700 text-xl  font-semibold'>
+                                {{ $event->kuota_tiket }}
+                            </span>
+                        </div>
                         <div class="date-wrapper mb-3">
                             <h4 class="card-event-date text-xl font-semibold text-slate-500">Tanggal</h4>
                             <span class='text-slate-700 text-xl  font-semibold'>
@@ -66,8 +78,9 @@
                         </div>
 
 
-                        <form action='{{ route('checkout_store') }}' method="POST">
+                        <form action='{{ route('checkout_store') }}' id='formEventStore' method="POST">
                             @csrf
+
                             @if (auth()->user())
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -75,27 +88,60 @@
                             @endif
 
                             @if (!$transaction)
-                                <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4"> Pesan
-                                    Tiket</button>
+                                @if ($event->kuota_tiket != 0)
+                                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4"
+                                        id='btnPesanTiket'>
+                                        Pesan
+                                        Tiket</button>
+                                @else
+                                    <span class="btn btn-danger w-100 btn-simpan mb-4 disabled" id='btnPesanTiket'>
+                                        Tiket Sudah Habis</span>
+                                @endif
                             @endif
 
                             @if ($transaction)
-                                <button type="submit" class="btn btn-success w-100 btn-simpan mb-4 disabled"> Tiket
-                                    Sudah
-                                    Dibeli </button>
+                                @if ($transaction->status_transaksi == 'not_paid')
+                                    <a href="{{ route('checkout_show', $transaction->uuid) }}"
+                                        class="btn btn-primary w-100 btn-simpan mb-4 ">Bayar
+                                        Tiket</a>
+                                @else
+                                    <button type="submit" class="btn btn-success w-100 btn-simpan mb-4 disabled"> Tiket
+                                        Sudah Dibeli </button>
+                                @endif
                             @endif
                         </form>
-
-
 
                     </div>
                 </div>
             </div>
         </div>
-        </div>
+
         {{-- End Hero Section --}}
-
-
     </section>
+
+    @push('js')
+        {{-- Sweet alert --}}
+        <script>
+            const btnPesan = document.querySelector('#btnPesanTiket');
+            btnPesan.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Testing');
+                Swal.fire({
+                    title: 'Apakah anda yakin ?',
+                    text: "Pesanan akan langsung masuk kedalam sistem",
+                    icon: 'question',
+                    showDenyButton: true,
+                    confirmButtonText: 'Yakin',
+                    denyButtonText: `Tidak`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        // Swal.fire('Event Tersimpan!', '', 'success');
+                        document.getElementById('formEventStore').submit();
+                    }
+                })
+            })
+        </script>
+    @endpush
 
 </x-app-costumer-layout>

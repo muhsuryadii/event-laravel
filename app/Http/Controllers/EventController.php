@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Transaksi;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -56,7 +57,6 @@ class EventController extends Controller
         //
 
         if (auth()->user()) {
-
             $transaction = Transaksi::where('id_event', $event->id)
                 ->where('id_peserta', auth()->user()->id)
                 ->first();
@@ -64,10 +64,19 @@ class EventController extends Controller
             $transaction = null;
         }
 
+        $panitia = DB::table('users')
+            ->join('events', 'id_panitia', '=', 'users.id')
+            ->where('events.id_panitia', $event->id_panitia)
+            ->select('users.*')
+            ->groupBy('users.id')
+            ->first();
+
 
         return view('pages.customer.event.show', [
             'event' => $event,
             'transaction' => $transaction,
+            'panitia' =>  $panitia,
+    
 
         ]);
     }
@@ -94,7 +103,7 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         //
-        
+
     }
 
     /**

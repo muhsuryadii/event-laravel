@@ -4,8 +4,8 @@
         <div class="col-12">
             <div class="card mb-4">
 
-                <form action='{{ route('admin_events_update', $event->slug) }}' method="POST"
-                    enctype="multipart/form-data" class="p-[1.5rem]">
+                <form action='{{ route('admin_events_update', $event->uuid) }}' method="POST"
+                    enctype="multipart/form-data" class="p-[1.5rem]" id='formEditEvent'>
                     @csrf
                     @method('put')
 
@@ -48,9 +48,11 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                <input type="hidden" class="form-control" name="slug" id="slug"
-                                    value={{ old('slug', $event->slug) }}>
-                                <input type="hidden" class="form-control" name="id" id="id" value={{ $event->id }}>
+                                {{-- <input type="hidden" class="form-control" name="uuid" id="uuid"
+                                    value={{ old('uuid', $event->uuid) }}> --}}
+
+                                <input type="hidden" class="form-control" name="id" id="id"
+                                    value={{ $event->id }}>
                             </div>
 
                             {{-- Watku Event --}}
@@ -79,12 +81,12 @@
                                     <div class="form-check mb-3 mr-3">
 
                                         @if (old('harga_tiket') == null)
-                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                                value='gratis' id="priceFree"
+                                            <input class="form-check-input ticketPrice" type="radio"
+                                                name="harga_tiket" value='gratis' id="priceFree"
                                                 {{ $event->harga_tiket == 0 ? 'checked' : ' ' }}>
                                         @else
-                                            <input class="form-check-input ticketPrice" type="radio" name="harga_tiket"
-                                                value='gratis' id="priceFree"
+                                            <input class="form-check-input ticketPrice" type="radio"
+                                                name="harga_tiket" value='gratis' id="priceFree"
                                                 {{ old('harga_tiket', $event->harga_tiket) === 'gratis' ? 'checked' : ' ' }}>
                                         @endif
 
@@ -102,9 +104,9 @@
                                 <div id='inputPriceWrapper'
                                     class="input-group mb-4 {{ $event->harga_tiket == 0 ? 'd-none' : ' ' }}">
                                     <span class="input-group-text">Rp. </span>
-                                    <input class="form-control @error('harga_tiket') is-invalid @enderror" type="number"
-                                        placeholder="Masukan harga tiket" pattern="[0-9]" name="harga_tiket_bayar"
-                                        {{ $event->harga_tiket == 0 ? 'disabled' : ' ' }}
+                                    <input class="form-control @error('harga_tiket') is-invalid @enderror"
+                                        type="number" placeholder="Masukan harga tiket" pattern="[0-9]"
+                                        name="harga_tiket_bayar" {{ $event->harga_tiket == 0 ? 'disabled' : ' ' }}
                                         value={{ old('harga_tiket_bayar', $event->harga_tiket) }}>
                                 </div>
                                 {{-- <input type="text" class="form-control" id="harga_tiket" name='harga_tiket' autofocus='true'> --}}
@@ -149,7 +151,8 @@
                             Tiket <span class="text-xxs text-danger">(*)</span> </label>
                         <input type="number" class="form-control  @error('kuota_tiket') is-invalid @enderror"
                             id="kuota_tiket" name='kuota_tiket' autofocus='true' required
-                            value="{{ old('kuota_tiket', $event->kuota_tiket) }}" placeholder="Masukan Kuota Tiket">
+                            value="{{ old('kuota_tiket', $event->kuota_tiket) }}"
+                            placeholder="Masukan Kuota Tiket">
 
                         @error('kuota_tiket')
                             <div id="kuota_tiket_feedback" class="invalid-feedback">
@@ -160,20 +163,21 @@
 
                     {{-- Tipe Acara --}}
                     <div class="mb-4">
-                        <label for="name" class="form-label text-sm @error('nama_event') is-invalid @enderror">Tipe
+                        <label for="name"
+                            class="form-label text-sm @error('nama_event') is-invalid @enderror">Tipe
                             Event</label>
                         <div class="radio mt-3 d-flex">
                             <div class="form-check mb-3 mr-3">
-                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='online'
-                                    id="online"
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara"
+                                    value='online' id="online"
                                     {{ strtolower($event->tipe_acara) == 'online' || old('tipe_acara') == 'online' ? 'checked' : ' ' }}>
                                 <label class="custom-control-label py-1 px-2" for="online">Online</label>
                             </div>
 
 
                             <div class="form-check ">
-                                <input class="form-check-input eventType" type="radio" name="tipe_acara" value='offline'
-                                    id="offline" required
+                                <input class="form-check-input eventType" type="radio" name="tipe_acara"
+                                    value='offline' id="offline" required
                                     {{ strtolower($event->tipe_acara) == 'offline' || old('tipe_acara') == 'offline' ? 'checked' : ' ' }}>
                                 <label class="custom-control-label  py-1 px-1" for="offline">Offline</label>
                             </div>
@@ -238,9 +242,8 @@
                         <label for="deskripsi_acara" class="form-label text-sm ">Deskripsi Event
                             <span class="text-xxs text-danger">(*)</span>
                         </label>
-                        <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
-                            name='deskripsi_acara' autofocus='true' required="required"
-                            placeholder="Masukan Deskripsi Event">{{ old('deskripsi_acara', $event->deskripsi_acara) }}</textarea>
+                        <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror" id="ckeditor"
+                            name='deskripsi_acara' autofocus='true' required="required" placeholder="Masukan Deskripsi Event">{{ old('deskripsi_acara', $event->deskripsi_acara) }}</textarea>
 
                         @error('deskripsi_acara')
                             <div id="deskripsi_acara_feedback" class="invalid-feedback">
@@ -249,20 +252,9 @@
                         @enderror
                     </div>
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="list-unstyled">
-                                {{-- @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach --}}
-                                {{ $errors }}
-                            </ul>
-                        </div>
-                    @endif
 
-
-
-                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4">Update</button>
+                    <button type="submit" id='buttonEditEvent'
+                        class="btn btn-primary w-100 btn-simpan mb-4">Update</button>
                 </form>
             </div>
         </div>
@@ -342,16 +334,44 @@
             }
         </script>
 
+        {{-- ckeditor --}}
         <script>
-            /* Add Slug */
-            const name = document.querySelector('#nama_event');
-            const slug = document.querySelector('#slug');
+            ClassicEditor
+                .create(document.querySelector('#ckeditor'), {
+                    removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'CKTable', 'EasyImage', 'Image',
+                        'ImageCaption', 'ImageStyle',
+                        'ImageToolbar', 'ImageUpload', 'MediaEmbed', 'insertTable '
+                    ],
+                })
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
 
-            name.addEventListener('change', function() {
-                fetch(`{{ route('admin_events_checkslug') }}?name=${name.value}`)
-                    .then(response => response.json())
-                    .then(data => slug.value = data.slug)
-            });
+        {{-- Sweet alert --}}
+        <script>
+            const btnEdit = document.querySelector('#buttonEditEvent');
+
+            btnEdit.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Testing');
+                Swal.fire({
+                    title: 'Apakah Data Sudah Benar ?',
+                    icon: 'question',
+                    showDenyButton: true,
+                    confirmButtonText: 'Sudah, Simpan!',
+                    denyButtonText: `Belum`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        // Swal.fire('Event Tersimpan!', '', 'success');
+                        document.getElementById('formEditEvent').submit();
+                    }
+                })
+            })
         </script>
     @endpush
 

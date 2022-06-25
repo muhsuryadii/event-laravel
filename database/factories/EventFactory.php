@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EventFactory extends Factory
@@ -16,11 +17,12 @@ class EventFactory extends Factory
         return [
             'id_panitia' => $this->faker->numberBetween(1, 5),
             'nama_event' => $this->faker->sentence,
-            'slug' => $this->faker->slug,
+
+            'uuid' => Str::uuid()->getHex(),
             'harga_tiket' => $this->faker->numberBetween(100000, 1000000),
             'waktu_acara' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
             'lokasi_acara' => 'Google Meet',
-            'kuota_tiket'=> $this->faker->numberBetween(50, 200),
+            'kuota_tiket' => $this->faker->numberBetween(50, 200),
             'tipe_acara' => 'Online',
             'deskripsi_acara' => $this->faker->paragraph,
         ];

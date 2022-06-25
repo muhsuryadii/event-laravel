@@ -12,7 +12,7 @@ class Transaksi extends Model
 
     public function getRouteKeyName()
     {
-        return 'no_transaksi';
+        return 'uuid';
     }
 
     public function event()
@@ -20,8 +20,15 @@ class Transaksi extends Model
         return $this->belongsTo(Event::class, 'id_event');
     }
 
+    public function panitia()
+    {
+        return $this->belongsTo(User::class, 'id_panitia');
+    }
+
+
+
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id_user');
     }
 }

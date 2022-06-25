@@ -54,7 +54,7 @@
 
                 <div class="flex flex-wrap flex-row justify-center pb-5 pt-3">
                     @foreach ($events as $event)
-                        <a href="event/{{ $event->slug }}"
+                        <a href="event/{{ $event->uuid }}"
                             class="events-card w-full md:w-1/2 lg:w-1/5 p-2 text-slate-600 no-underline ">
                             <div
                                 class="bg-white border-2 border-gray-200 rounded-3xl overflow-hidden  h-full content-wrapper shadow-md hover:shadow-lg 
