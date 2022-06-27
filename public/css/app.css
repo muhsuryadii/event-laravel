@@ -1369,6 +1369,12 @@ select {
 .w-3 {
   width: 0.75rem;
 }
+.w-\[400px\] {
+  width: 400px;
+}
+.w-\[500px\] {
+  width: 500px;
+}
 .min-w-0 {
   min-width: 0px;
 }
@@ -2097,6 +2103,10 @@ select {
   font-size: 1.875rem;
   line-height: 2.25rem;
 }
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
 .font-medium {
   font-weight: 500;
 }
@@ -2135,6 +2145,9 @@ select {
 }
 .leading-none {
   line-height: 1;
+}
+.leading-snug {
+  line-height: 1.375;
 }
 .tracking-widest {
   letter-spacing: 0.1em;
@@ -3011,6 +3024,18 @@ select {
 
   .md\:w-1\/3 {
     width: 33.333333%;
+  }
+
+  .md\:w-96 {
+    width: 24rem;
+  }
+
+  .md\:w-1 {
+    width: 0.25rem;
+  }
+
+  .md\:w-\[400px\] {
+    width: 400px;
   }
 
   .md\:grid-cols-3 {

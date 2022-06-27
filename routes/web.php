@@ -5,9 +5,11 @@
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\MyEventController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -108,4 +110,8 @@ Route::middleware([
         'update' => 'checkout_update',
         'destroy' => 'checkout_destroy'
     ]);
+
+
+    Route::get('/my-events', [MyEventController::class, 'index'])->name('my-events_index');
+    Route::get('/my-events/{uuid}', [MyEventController::class, 'show'])->name('my-events_show');
 });

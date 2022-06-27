@@ -41,7 +41,10 @@
                                     @elseif($trans->status_transaksi == 'verified')
                                         <p class="mb-[3px] font-semibold text-green-500">Sukses</p>
                                     @else
-                                        <p class="mb-[3px] font-semibold text-red-500">Ditolak</p>
+                                        <p class="mb-[3px] font-semibold text-red-500">
+                                            <i class="fa-solid fa-check-circle mr-1"></i>
+                                            Ditolak
+                                        </p>
                                     @endif
 
 
