@@ -13,6 +13,7 @@
                         </span>
                     </div>
                     <div class="status">
+
                         <span class="text-slate-700 text-lg font-semibold">
                             Status Pembayaran :
                         </span>
@@ -89,9 +90,7 @@
                         <div class="col">
                             <p class="text-lg font-weight-bold mb-0 capitalize font-semibold">
                                 <a href="{{ route('event_show', $event->uuid) }}" class="text-slate-700 no-underline">
-
                                     {{ $event->nama_event }}
-
                                 </a>
                             </p>
                             <p class="text-secondary text-base font-semibold mt-2 mb-2">

@@ -21,7 +21,17 @@ class TransactionController extends Controller
     public function index()
     {
         //
-        return redirect()->route('home');
+        // return redirect()->route('home');
+
+        $transaksi = DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')
+            ->where('id_peserta', Auth::user()->id)
+            ->select('transaksis.*', 'events.nama_event', 'events.famplet_acara_path', 'events.harga_tiket')
+            ->groupBy('transaksis.id_event')
+            ->get();
+
+        return view('pages.customer.chekout.index', [
+            'transaksi' => $transaksi
+        ]);
     }
 
     /**

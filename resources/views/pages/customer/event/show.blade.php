@@ -78,6 +78,7 @@
                         </div>
 
 
+
                         <form action='{{ route('checkout_store') }}' id='formEventStore' method="POST">
                             @csrf
 
@@ -89,9 +90,10 @@
 
                             @if (!$transaction)
                                 @if ($event->kuota_tiket != 0)
-                                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4"
-                                        id='btnPesanTiket'>
-                                        Pesan
+                                    <button type="submit"
+                                        class="btn btn-primary w-100 btn-simpan mb-4                                    "
+                                        id='btnPesanTiket'
+                                        {{ auth()->user() ? (auth()->user()->role != 'PESERTA' ? 'hidden' : ' ') : ' ' }}>Pesan
                                         Tiket</button>
                                 @else
                                     <span class="btn btn-danger w-100 btn-simpan mb-4 disabled" id='btnPesanTiket'>
@@ -102,14 +104,14 @@
                             @if ($transaction)
                                 @if ($transaction->status_transaksi == 'not_paid')
                                     <a href="{{ route('checkout_show', $transaction->uuid) }}"
-                                        class="btn btn-primary w-100 btn-simpan mb-4 ">Bayar
-                                        Tiket</a>
+                                        class="btn btn-primary w-100 btn-simpan mb-4 ">Bayar Tiket</a>
                                 @else
-                                    <button type="submit" class="btn btn-success w-100 btn-simpan mb-4 disabled"> Tiket
-                                        Sudah Dibeli </button>
+                                    <button type="submit" class="btn btn-success w-100 btn-simpan mb-4 disabled">
+                                        Tiket Sudah Dibeli </button>
                                 @endif
                             @endif
                         </form>
+
 
                     </div>
                 </div>
@@ -121,27 +123,29 @@
 
     @push('js')
         {{-- Sweet alert --}}
-        <script>
-            const btnPesan = document.querySelector('#btnPesanTiket');
-            btnPesan.addEventListener('click', function(e) {
-                e.preventDefault();
-                console.log('Testing');
-                Swal.fire({
-                    title: 'Apakah anda yakin ?',
-                    text: "Pesanan akan langsung masuk kedalam sistem",
-                    icon: 'question',
-                    showDenyButton: true,
-                    confirmButtonText: 'Yakin',
-                    denyButtonText: `Tidak`,
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        // Swal.fire('Event Tersimpan!', '', 'success');
-                        document.getElementById('formEventStore').submit();
-                    }
+        @if (auth()->user() && auth()->user()->role == 'PESERTA')
+            <script>
+                const btnPesan = document.querySelector('#btnPesanTiket');
+                btnPesan.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Testing');
+                    Swal.fire({
+                        title: 'Apakah anda yakin ?',
+                        text: "Pesanan akan langsung masuk kedalam sistem",
+                        icon: 'question',
+                        showDenyButton: true,
+                        confirmButtonText: 'Yakin',
+                        denyButtonText: `Tidak`,
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            // Swal.fire('Event Tersimpan!', '', 'success');
+                            document.getElementById('formEventStore').submit();
+                        }
+                    })
                 })
-            })
-        </script>
+            </script>
+        @endif
     @endpush
 
 </x-app-costumer-layout>
