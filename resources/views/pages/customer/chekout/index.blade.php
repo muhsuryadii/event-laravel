@@ -3,7 +3,9 @@
     <section class="container py-10">
 
         <div class="card-list-wrapper mx-auto lg:max-w-[700px]  ">
-
+            <h2 class="text-2xl font-bold mb-4 uppercase text-slate-600">
+                List Transaksi
+            </h2>
             @foreach ($transaksi as $trans)
                 <a href="{{ route('checkout_show', $trans->uuid) }}"
                     class="text-slate-600 no-underline hover:text-slate-600">

@@ -27,7 +27,6 @@ class MyEventController extends Controller
 
     public function show(Request $request, string $uuid)
     {
-        // return dd($uuid);
         $event = DB::table('events')
             ->join('transaksis', 'events.id', '=', 'transaksis.id_event')
             ->where('events.uuid', $uuid)
