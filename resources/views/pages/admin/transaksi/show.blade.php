@@ -102,12 +102,14 @@
                                                         </span>
                                                     @endif
 
+                                                    @if ($trans->total_harga != 0)
+                                                        <button type="button" class="btn btn-danger reject-button"
+                                                            onclick="return rejectButton(this.form)"
+                                                            title="Tolak Pembayaran">
+                                                            <i class="fa-solid fa-xmark text-lg"></i>
+                                                        </button>
+                                                    @endif
 
-                                                    <button type="button" class="btn btn-danger reject-button"
-                                                        onclick="return rejectButton(this.form)"
-                                                        title="Tolak Pembayaran">
-                                                        <i class="fa-solid fa-xmark text-lg"></i>
-                                                    </button>
 
                                                 </form>
 

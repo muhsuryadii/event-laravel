@@ -21,7 +21,18 @@ class TransactionController extends Controller
     public function index()
     {
         //
-        return redirect()->route('home');
+        // return redirect()->route('home');
+
+        $transaksi = DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')
+            ->where('id_peserta', Auth::user()->id)
+            ->select('transaksis.*', 'events.nama_event', 'events.famplet_acara_path', 'events.harga_tiket', 'events.waktu_acara')
+            ->groupBy('transaksis.id_event')
+            ->orderBy('events.waktu_acara', 'desc')
+            ->get();
+
+        return view('pages.customer.chekout.index', [
+            'transaksi' => $transaksi
+        ]);
     }
 
     /**
@@ -47,6 +58,16 @@ class TransactionController extends Controller
         if (!auth()->user()) {
             return redirect()->route('login');
         }
+
+        $transaksiCheck = DB::table('transaksis')->where('id_event', $request->event_id)->where('id_peserta', Auth::user()->id)->first();
+
+        // return dd($transaksiCheck);
+
+        if ($transaksiCheck) {
+            // throw new \Exception('Anda sudah membeli tiket ini');
+            return redirect()->route('checkout_index')->with('error', 'Anda sudah membeli tiket ini');
+        }
+
 
         $no_transaksi = 'INV-' . date('YmdHi') . $request->event_id . $request->user_id;
         $uuid = Str::uuid()->getHex();
@@ -110,10 +131,18 @@ class TransactionController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
+
+        if (!auth()->user()) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user()->id != $transaksi->id_peserta) {
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses');
+        }
+
         return view('pages.customer.chekout.show', [
             'transaksi' => $transaksi,
             'event' =>  Event::find($transaksi->id_event),
-
         ]);
     }
 

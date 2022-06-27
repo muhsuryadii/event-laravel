@@ -21,7 +21,9 @@ class AdminTransaksiController extends Controller
         $transaksi =
             DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')
             ->where('id_panitia', Auth::user()->id)
+            // ->where('events.waktu_acara', '>=', now())
             ->groupBy('transaksis.id_event')
+            ->orderBy('events.waktu_acara', 'asc')
             ->get();
 
         return view('pages.admin.transaksi.index', [
@@ -107,6 +109,13 @@ class AdminTransaksiController extends Controller
         $transaksi->update([
             'status_transaksi' => $request->status_transaksi
         ]);
+
+        if ($request->status_transaksi == 'rejected') {
+            $kuota = $event->kuota_tiket + 1;
+            Event::where('id', $transaksi->id_event)->update([
+                'kuota_tiket' => $kuota
+            ]);
+        }
 
         return redirect()->route('admin_transaksi_show', $event->uuid);
     }
