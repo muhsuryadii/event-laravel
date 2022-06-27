@@ -34,22 +34,30 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="/profil">
-                                    <i class="fa-regular fa-user text-slate-600 mr-3"></i>Profil</a></li>
-                            <li>
-                            <li><a class="dropdown-item" href="/transaksi">
-                                    <i class="fa-solid fa-receipt text-slate-600 mr-3"></i>
-                                    Transaksi</a>
-
-                            </li>
-                            <li>
-                            <li>
-                                <a class="dropdown-item" href="/cek-sertifikat">
-                                    <i class="fa-regular fa-file-lines text-slate-600 mr-3"></i> Cek Sertifikat
+                                    <i class="bi bi-person text-xl text-slate-600 mr-3"></i>
+                                    Profil
                                 </a>
                             </li>
+
+
+                            <li>
+                                <a class="dropdown-item " href="/transaksi">
+                                    <i class="bi bi-receipt text-xl text-slate-600 mr-3 active:!text-white"></i>
+                                    Transaksi
+                                </a>
+
+                            </li>
+                            <li class='active:text-white'>
+                                <a class="dropdown-item " href="/my-events">
+                                    <i class="bi bi-ticket-perforated text-xl text-slate-600 mr-3 "></i>
+                                    My Events
+                                </a>
+                            </li>
+
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
+
                             <li>
                                 <div class="dropdown-item">
                                     <form method="POST" action="{{ route('logout') }}">

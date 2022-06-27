@@ -21,7 +21,9 @@ class AdminTransaksiController extends Controller
         $transaksi =
             DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')
             ->where('id_panitia', Auth::user()->id)
+            // ->where('events.waktu_acara', '>=', now())
             ->groupBy('transaksis.id_event')
+            ->orderBy('events.waktu_acara', 'asc')
             ->get();
 
         return view('pages.admin.transaksi.index', [
