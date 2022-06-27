@@ -110,6 +110,13 @@ class AdminTransaksiController extends Controller
             'status_transaksi' => $request->status_transaksi
         ]);
 
+        if ($request->status_transaksi == 'rejected') {
+            $kuota = $event->kuota_tiket + 1;
+            Event::where('id', $transaksi->id_event)->update([
+                'kuota_tiket' => $kuota
+            ]);
+        }
+
         return redirect()->route('admin_transaksi_show', $event->uuid);
     }
 
