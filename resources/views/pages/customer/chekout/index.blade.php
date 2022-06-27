@@ -35,23 +35,29 @@
                                 <div class="content-transaksi-info w-[50%]">
 
                                     @if ($trans->status_transaksi == 'not_paid')
-                                        <p class="mb-[3px] text-semibold ">Belum Dibayar</p>
+                                        <p class="mb-[3px] font-semibold">Belum Dibayar</p>
                                     @elseif($trans->status_transaksi == 'paid')
-                                        <p class="mb-[3px] text-semibold text-sky-500">Diproses</p>
+                                        <p class="mb-[3px] font-semibold text-sky-500">Diproses</p>
                                     @elseif($trans->status_transaksi == 'verified')
-                                        <p class="mb-[3px] text-semibold text-green-500">Sukses</p>
+                                        <p class="mb-[3px] font-semibold text-green-500">Sukses</p>
                                     @else
-                                        <p class="mb-[3px] text-semibold text-red-500">Ditolak</p>
+                                        <p class="mb-[3px] font-semibold text-red-500">Ditolak</p>
                                     @endif
 
 
 
                                     <p class="mb-[3px] ">{{ $trans->no_transaksi }}</p>
                                     <p class="mb-[3px] ">
+
                                         {{ Carbon\Carbon::parse($trans->tanggal_transaksi)->translatedFormat('d-F-Y H:i:s') }}
                                     </p>
-                                    <p class="mb-[3px] ">
-                                        {{ $trans->waktu_pembayaran ? Carbon\Carbon::parse($trans->waktu_pembayaran)->translatedFormat('d-F-Y H:i:s') : 'Pesanan Belum Dibayar' }}
+
+                                    <p class="mb-[3px] font-semibold">
+                                        @if ($trans->harga_tiket == 0)
+                                            {{ Carbon\Carbon::parse($trans->tanggal_transaksi)->translatedFormat('d-F-Y H:i:s') }}
+                                        @else
+                                            {{ $trans->waktu_pembayaran ? Carbon\Carbon::parse($trans->waktu_pembayaran)->translatedFormat('d-F-Y H:i:s') : 'Pesanan Belum Dibayar' }}
+                                        @endif
                                     </p>
 
 
