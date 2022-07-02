@@ -43,7 +43,18 @@
 
             </div>
             <div class="summary-info-wrapper bg-white rounded-2xl border shadow-md border-slate-600 p-4">
-                @if (now() >= $event->waktu_acara)
+                <form action="{{ route('my-events_absent', $event->uuid_event) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id_event" value="{{ $event->id_event }}">
+                    <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
+                    <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
+
+
+                    <button type="submit" id='btnBatalPesanan' class="btn btn-primary !rounded-md block w-full">Absen
+                        Event</button>
+
+                </form>
+                {{-- @if (now() >= $event->waktu_acara)
                     <form action="{{ route('my-events_absent', $event->uuid) }}">
 
                     </form>
@@ -57,40 +68,43 @@
 
                         </div>
                     </div>
-                @endif
+                    @push('js')
+                        <script>
+                            // Set the date we're counting down to
+                            const countDownDate = new Date("{{ $event->waktu_acara }}").getTime();
+
+                            // Update the count down every 1 second
+                            const x = setInterval(function() {
+
+                                // Get todays date and time
+                                const now = new Date().getTime();
+
+                                // Find the distance between now and the count down date
+                                const distance = countDownDate - now;
+
+                                // Time calculations for days, hours, minutes and seconds
+                                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                                // Display the result in the element with id="demo"
+                                document.getElementById("demo").innerHTML = days + " Hari " + hours + " Jam  " +
+                                    minutes + " Menit dan " + seconds + " detik!";
+
+                                // If the count down is finished, write some text 
+                                if (distance < 0) {
+                                    clearInterval(x);
+                                    document.getElementById("demo").innerHTML = "EXPIRED";
+                                    location.reload();
+                                }
+                            }, 1000);
+                        </script>
+                    @endpush
+                @endif --}}
             </div>
         </div>
     </section>
-    @push('js')
-        <script>
-            // Set the date we're counting down to
-            const countDownDate = new Date("{{ $event->waktu_acara }}").getTime();
 
-            // Update the count down every 1 second
-            const x = setInterval(function() {
 
-                // Get todays date and time
-                const now = new Date().getTime();
-
-                // Find the distance between now and the count down date
-                const distance = countDownDate - now;
-
-                // Time calculations for days, hours, minutes and seconds
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                // Display the result in the element with id="demo"
-                document.getElementById("demo").innerHTML = days + " Hari " + hours + " Jam  " +
-                    minutes + " Menit dan " + seconds + " detik!";
-
-                // If the count down is finished, write some text 
-                if (distance < 0) {
-                    clearInterval(x);
-                    document.getElementById("demo").innerHTML = "EXPIRED";
-                }
-            }, 1000);
-        </script>
-    @endpush
 </x-app-costumer-layout>
