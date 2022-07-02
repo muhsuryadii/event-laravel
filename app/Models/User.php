@@ -57,6 +57,11 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function hasRole($role)
+    {
+        return User::where('role', $role)->get();
+    }
+
     public function transaksi()
     {
         return $this->hasMany(Transaksi::class);

@@ -37,14 +37,22 @@
                                 <div class="content-transaksi-info w-[50%]">
 
                                     @if ($trans->status_transaksi == 'not_paid')
-                                        <p class="mb-[3px] font-semibold">Belum Dibayar</p>
+                                        <p class="mb-[3px] font-semibold text-warning">
+                                            <i class="fa-solid fa-circle-exclamation  mr-1"></i>Belum Dibayar
+                                        </p>
                                     @elseif($trans->status_transaksi == 'paid')
-                                        <p class="mb-[3px] font-semibold text-sky-500">Diproses</p>
+                                        <p class="mb-[3px] font-semibold text-sky-500">
+                                            <i class="fa-solid fa-circle-info  mr-1"></i>
+                                            Diproses
+                                        </p>
                                     @elseif($trans->status_transaksi == 'verified')
-                                        <p class="mb-[3px] font-semibold text-green-500">Sukses</p>
+                                        <p class="mb-[3px] font-semibold text-green-500">
+                                            <i class="fa-solid fa-check-circle mr-1"></i>
+                                            Sukses
+                                        </p>
                                     @else
                                         <p class="mb-[3px] font-semibold text-red-500">
-                                            <i class="fa-solid fa-check-circle mr-1"></i>
+                                            <i class="fa-solid fa-circle-xmark  mr-1"></i>
                                             Ditolak
                                         </p>
                                     @endif

@@ -1,7 +1,7 @@
 <x-app-costumer-layout>
-
+    {{-- {{ dd($event) }} --}}
     <section class="container py-10">
-        <div class="card-list-wrapper mx-auto lg:max-w-[700px]  ">
+        <div class="card-list-wrapper mx-auto lg:max-w-[700px]">
             <div
                 class="p-4 mb-3 card-wrapper bg-white rounded-2xl border shadow-[0_3px_10px_rgb(0,0,0,0.2)] border-slate-600 flex">
                 <div class="image-wrapper  lg:max-w-[30%] lg:w-full lg:mr-5">
@@ -43,10 +43,68 @@
 
             </div>
             <div class="summary-info-wrapper bg-white rounded-2xl border shadow-md border-slate-600 p-4">
-                <button type="submit" id='btnBatalPesanan' class="btn btn-primary !rounded-md block w-full">Absen
-                    Event</button>
+                <form action="{{ route('my-events_absent', $event->uuid_event) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id_event" value="{{ $event->id_event }}">
+                    <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
+                    <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
+
+
+                    <button type="submit" id='btnBatalPesanan' class="btn btn-primary !rounded-md block w-full">Absen
+                        Event</button>
+
+                </form>
+                {{-- @if (now() >= $event->waktu_acara)
+                    <form action="{{ route('my-events_absent', $event->uuid) }}">
+
+                    </form>
+                    <button type="submit" id='btnBatalPesanan' class="btn btn-primary !rounded-md block w-full">Absen
+                        Event</button>
+                @else
+                    <div class="container">
+                        <div class="element text-center font-mono">
+                            <h3>Event Akan Berjalan pada : </h3>
+                            <p id="demo">Loading...</p>
+
+                        </div>
+                    </div>
+                    @push('js')
+                        <script>
+                            // Set the date we're counting down to
+                            const countDownDate = new Date("{{ $event->waktu_acara }}").getTime();
+
+                            // Update the count down every 1 second
+                            const x = setInterval(function() {
+
+                                // Get todays date and time
+                                const now = new Date().getTime();
+
+                                // Find the distance between now and the count down date
+                                const distance = countDownDate - now;
+
+                                // Time calculations for days, hours, minutes and seconds
+                                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                                // Display the result in the element with id="demo"
+                                document.getElementById("demo").innerHTML = days + " Hari " + hours + " Jam  " +
+                                    minutes + " Menit dan " + seconds + " detik!";
+
+                                // If the count down is finished, write some text 
+                                if (distance < 0) {
+                                    clearInterval(x);
+                                    document.getElementById("demo").innerHTML = "EXPIRED";
+                                    location.reload();
+                                }
+                            }, 1000);
+                        </script>
+                    @endpush
+                @endif --}}
             </div>
         </div>
-
     </section>
+
+
 </x-app-costumer-layout>
