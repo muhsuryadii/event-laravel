@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Humas extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
@@ -16,12 +15,9 @@ class Event extends Model
         return 'uuid';
     }
 
-    public function panitia()
+    public function event()
     {
-        return $this->belongsTo(Panitia::class, 'id_panitia');
+        return $this->belongsTo(Event::class, 'id_event');
     }
-    public function humas()
-    {
-        return $this->hasMany(Humas::class, 'id_event');
-    }
+
 }

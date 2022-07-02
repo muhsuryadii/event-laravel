@@ -114,4 +114,5 @@ Route::middleware([
 
     Route::get('/my-events', [MyEventController::class, 'index'])->name('my-events_index');
     Route::get('/my-events/{uuid}', [MyEventController::class, 'show'])->name('my-events_show');
+    Route::post('/my-events/{uuid}', [MyEventController::class, 'absent'])->name('my-events_absent');
 });

@@ -32,10 +32,15 @@ class MyEventController extends Controller
             ->where('events.uuid', $uuid)
             ->where('transaksis.id_peserta', Auth::user()->id)
             ->where('transaksis.status_transaksi', 'verified')
+            ->select('events.*', )
             ->first();
 
         return view('pages.customer.my-events.show', [
             'event' => $event,
         ]);
+    }
+
+    public function absent(Request $request, string $uuid)
+    {
     }
 }
