@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Laporan;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AdminTransaksiController extends Controller
 {
@@ -106,9 +108,19 @@ class AdminTransaksiController extends Controller
             ->select('events.*')
             ->first();
 
+
         $transaksi->update([
             'status_transaksi' => $request->status_transaksi
         ]);
+
+        $report = [
+            'uuid' => Str::uuid()->getHex(),
+            'id_event' => $request->event_id,
+            'id_peserta' => $request->user_id,
+            'id_transaksi' =>   $transaksi->id,
+        ];
+
+        Laporan::create($report);
 
         if ($request->status_transaksi == 'rejected') {
             $kuota = $event->kuota_tiket + 1;

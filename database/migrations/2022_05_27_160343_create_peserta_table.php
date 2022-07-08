@@ -13,14 +13,21 @@ class CreatePesertaTable extends Migration
      */
     public function up()
     {
+
         Schema::create('pesertas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_users');
+            $table->string('instansi_peserta')->default('USNI');
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('gender')->nullable(); // PRIA WANITA
+            $table->string('domisili')->nullable();
+            $table->string('no_telepon')->nullable();
+
+            /* KHUSUS MAHASISWA USNI */
             $table->foreignId('id_fakultas')->nullable();
-            $table->string('instansi_peserta');
-            $table->string('no_telepon');
             $table->string('jurusan_peserta')->nullable();
-            $table->string('tahun_masuk')->nullable();
+            $table->string('angkatan')->nullable();
+
 
             $table->timestamps();
         });

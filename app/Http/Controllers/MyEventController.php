@@ -59,6 +59,7 @@ class MyEventController extends Controller
             'id_transaksi' => $request->id_transaksi,
             'status_absen' => true,
         ];
+
         $validator =  Validator::make($reportData, [
             'uuid' => 'required|unique:laporans,uuid',
             'id_event' => 'required|exists:events,id',
