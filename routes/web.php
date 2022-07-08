@@ -3,6 +3,7 @@
 
 
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MyEventController;
@@ -65,6 +66,12 @@ Route::middleware([
         'show' => 'admin_transaksi_show',
         'update' => 'admin_transaksi_update',
 
+    ]);
+
+    Route::resource('/admin/report',AdminReportController::class)->names([
+        'index' => 'admin_report_index',
+        'show' => 'admin_report_show',
+        'update' => 'admin_report_update',
     ]);
 
     /*  Route::get('/admin/events/create', [AdminEventController::class, 'createPage'])->name('admin_events_create'); */
