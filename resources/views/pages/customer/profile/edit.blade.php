@@ -1,5 +1,5 @@
 <x-app-costumer-layout>
-    {{-- {{ dd($peserta) }} --}}
+    {{-- {{ dd($provinsi[0]['nama']) }} --}}
     <section class="section py-10 ">
         <div class="container">
             <div class="user-wrapper lg:w-2/3 mx-auto">
@@ -46,12 +46,14 @@
                     <div class="mb-4">
                         <label for="domisili" class="form-label font-medium text-base ">Domisili</label>
 
-                        <select id="select-beast" placeholder="Select a person..." autocomplete="off">
-                            <option value="">Select a person...</option>
-                            <option value="4">Thomas Edison</option>
-                            <option value="1">Nikola</option>
-                            <option value="3">Nikola Tesla</option>
-                            <option value="5">Arnold Schwarzenegger</option>
+                        <select id="select-domisili" placeholder="Select a person..." autocomplete="off">
+                            <option>Pilih Domisili</option>
+
+
+
+                            @foreach ($provinsi as $prov)
+                                <option value="{{ $prov['nama'] }}">{{ $prov['nama'] }}</option>
+                            @endforeach
                         </select>
 
                         @error('domisili')
@@ -148,13 +150,16 @@
         <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
 
-        new TomSelect("#select-beast",{
-        create: true,
-        sortField: {
-        field: "text",
-        direction: "asc"
-        }
-        });
+
+        <script>
+            new TomSelect("#select-domisili", {
+                create: true,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+        </script>
 
         {{-- Script for instansi --}}
         <script>
