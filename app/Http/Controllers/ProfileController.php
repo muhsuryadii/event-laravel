@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -47,6 +48,9 @@ class ProfileController extends Controller
     public function show($id)
     {
         //
+        if (Auth::user()->uuid != $id) {
+            return redirect()->route('home');
+        }
         $user  = DB::table('users')
             ->where('uuid', $id)
             ->first();
@@ -70,6 +74,16 @@ class ProfileController extends Controller
     public function edit($id)
     {
         //
+        $user  = DB::table('users')
+            ->where('uuid', $id)
+            ->first();
+        $peserta = DB::table('pesertas')->where('id_users', $user->id)->first();
+
+        return view('pages.customer.profile.edit', [
+            'user' => $user,
+            'peserta' => $peserta,
+
+        ]);
     }
 
     /**
