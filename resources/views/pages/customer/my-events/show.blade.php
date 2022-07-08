@@ -54,6 +54,8 @@
                         Event</button>
 
                 </form>
+
+                {{-- For Production --}}
                 {{-- @if (now() >= $event->waktu_acara)
                     <form action="{{ route('my-events_absent', $event->uuid) }}">
 

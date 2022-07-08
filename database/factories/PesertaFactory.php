@@ -22,7 +22,12 @@ class PesertaFactory extends Factory
             'instansi_peserta' => $this->faker->company,
             'no_telepon' => $this->faker->phoneNumber,
             'jurusan_peserta' => $this->faker->jobTitle,
-            'tahun_masuk' => $this->faker->numberBetween(2010, 2020),
+            'angkatan' => $this->faker->numberBetween(2010, 2020),
+
+            'tanggal_lahir' => $this->faker->date,
+            'gender' =>  $this->faker->randomElement(['male', 'female']),
+            'domisili' => $this->faker->city
+
         ];
     }
 }
