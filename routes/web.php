@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MyEventController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +69,7 @@ Route::middleware([
 
     ]);
 
-    Route::resource('/admin/report',AdminReportController::class)->names([
+    Route::resource('/admin/report', AdminReportController::class)->names([
         'index' => 'admin_report_index',
         'show' => 'admin_report_show',
         'update' => 'admin_report_update',
@@ -116,6 +117,13 @@ Route::middleware([
         'edit' => 'checkout_edit',
         'update' => 'checkout_update',
         'destroy' => 'checkout_destroy'
+    ]);
+
+    Route::resource('/profile', ProfileController::class)->names([
+        'show' => 'profile_show',
+        'edit' => 'profile_edit',
+        'update' => 'profile_update',
+        'destroy' => 'profile_destroy'
     ]);
 
 

@@ -33,7 +33,7 @@
 
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/profil">
+                            <li><a class="dropdown-item" href="{{ route('profile_show', Auth::user()->uuid) }}">
                                     <i class="bi bi-person text-xl text-slate-600 mr-3"></i>
                                     Profil
                                 </a>

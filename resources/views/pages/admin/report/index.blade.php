@@ -3,7 +3,7 @@
     <div class="flex flex-wrap flex-row justify-start pb-5 pt-3">
         @if (count($reportEvent) > 0)
             @foreach ($reportEvent as $event)
-                <a href="{{ route('admin_transaksi_show', $event->uuid) }}"
+                <a href="{{ route('admin_report_show', $event->uuid) }}"
                     class="events-card w-full md:w-1/2 lg:w-1/5 p-2 text-slate-600 no-underline ">
                     <div
                         class="bg-white border-2 border-gray-200 rounded-3xl overflow-hidden  h-full content-wrapper shadow-md hover:shadow-lg 

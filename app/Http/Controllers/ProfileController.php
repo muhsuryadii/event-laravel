@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AdminReportController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,27 +15,6 @@ class AdminReportController extends Controller
     public function index()
     {
         //
-        /* For Development */
-        $reportEvent = DB::table('laporans')
-            ->join('events', 'laporans.id_event', '=', 'events.id')
-            ->where('waktu_acara', '>=', now())
-            ->select('events.*')
-            ->groupBy('events.id')
-            ->get();
-
-        /* For Production */
-        /* $reportEvent = DB::table('laporans')
-            ->join('events', 'laporans.id_event', '=', 'events.id')
-            ->where('waktu_acara', '<=', now())
-            ->groupBy('events.id')
-            ->get(); */
-
-
-        // return dd($reportEvent);
-
-        return view('pages.admin.report.index', [
-            'reportEvent' => $reportEvent,
-        ]);
     }
 
     /**
@@ -69,9 +47,18 @@ class AdminReportController extends Controller
     public function show($id)
     {
         //
-        $event = Event::where('uuid', $id)->first();
+        $user  = DB::table('users')
+            ->where('uuid', $id)
+            ->first();
 
-        return view('pages.admin.report.show', []);
+        $peserta = DB::table('pesertas')->where('id_users', $user->id)->first();
+
+
+
+        return view('pages.customer.profile.show', [
+            'user' => $user,
+            'peserta' => $peserta,
+        ]);
     }
 
     /**

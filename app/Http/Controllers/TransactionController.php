@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Laporan;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -103,7 +104,17 @@ class TransactionController extends Controller
                 $newkuota = $event->kuota_tiket - 1;
                 DB::table('events')->where('id', $request->event_id)->update(['kuota_tiket' => $newkuota]);
 
-                Transaksi::create($validator);
+                $transaksi = Transaksi::create($validator);
+
+                /* Add to report */
+                $report = [
+                    'uuid' => Str::uuid()->getHex(),
+                    'id_event' => $request->event_id,
+                    'id_peserta' => $request->user_id,
+                    'id_transaksi' =>   $transaksi->id,
+                ];
+
+                Laporan::create($report);
 
                 DB::commit();
 
@@ -117,7 +128,18 @@ class TransactionController extends Controller
         }
 
         /* Transaksi jika harga event  != 0, status pembayaran berubah jadi paid namun harus diverfiikasi terlebih dahulu pada sisi admin */
-        Transaksi::create($validator);
+        $transaksi = Transaksi::create($validator);
+
+
+        /* Add to report */
+        $report = [
+            'uuid' => Str::uuid()->getHex(),
+            'id_event' => $request->event_id,
+            'id_peserta' => $request->user_id,
+            'id_transaksi' =>   $transaksi->id,
+        ];
+
+        Laporan::create($report);
 
 
         return redirect()->route('checkout_show', $uuid)->with('info', 'Pemesanan Tiket Berhasil, Silahkan Lakukan Pembayaran');
