@@ -115,8 +115,8 @@ class AdminTransaksiController extends Controller
 
         $report = [
             'uuid' => Str::uuid()->getHex(),
-            'id_event' => $request->event_id,
-            'id_peserta' => $request->user_id,
+            'id_event' => $transaksi->id_event,
+            'id_peserta' => Auth::user()->id,
             'id_transaksi' =>   $transaksi->id,
         ];
 

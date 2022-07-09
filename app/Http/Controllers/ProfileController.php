@@ -82,12 +82,14 @@ class ProfileController extends Controller
         $peserta = DB::table('pesertas')->where('id_users', $user->id)->first();
         $response = Http::get('https://ibnux.github.io/data-indonesia/provinsi.json');
         $prov = $response->json();
+        $fakultas = DB::table('fakultas')->get();
 
         // return dd($prov);
         return view('pages.customer.profile.edit', [
             'user' => $user,
             'peserta' => $peserta,
-            'provinsi' => $prov
+            'provinsi' => $prov,
+            'fakultas' => $fakultas,
 
         ]);
     }
