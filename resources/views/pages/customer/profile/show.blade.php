@@ -51,7 +51,9 @@
                         </h6>
                         <h6 class="mb-[8px] ">{{ $peserta ? ($peserta->gender == 'male' ? 'Pria' : 'Wanita') : '-' }}
                         </h6>
-                        <h6 class="mb-[8px] ">{{ $peserta ? $peserta->instansi_peserta : '-' }}</h6>
+                        <h6 class="mb-[8px] ">
+                            {{ $peserta && $peserta->instansi_peserta ? ($peserta->instansi_peserta === 'usni' ? 'Universitas Satya Negara Indonesia' : $peserta->instansi_peserta) : '-' }}
+                        </h6>
 
                         @if ($peserta)
                             @if ($peserta->instansi_peserta == 'USNI')

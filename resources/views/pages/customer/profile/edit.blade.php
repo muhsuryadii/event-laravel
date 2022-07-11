@@ -5,25 +5,23 @@
     <section class="section py-10 ">
         <div class="container">
             <div class="user-wrapper lg:w-2/3 mx-auto">
-                <form method="POST" class="form-wrapper w-full " action="{{ route('profile_update', $user->uuid) }}">
+                <form method="POST" class="form-wrapper w-full " action="{{ route('profile_update', $user->uuid) }}"
+                    id='formEditProfile'>
                     @csrf
+                    @method('PUT')
                     {{-- Nama Peserta --}}
                     <div class="mb-4">
                         <label for="nama_peserta" class="form-label font-medium capitalize text-base">Nama Peserta <span
                                 class="text-sm text-danger">(*)</span>
                         </label>
-                        <input type="text" class="form-control @error('nama_peserta') is-invalid @enderror"
-                            value="{{ old('nama_peserta', $user->nama_user) }}" id="nama_peserta" name='nama_peserta'
-                            required>
-                        <p class='text-xs mt-1 text-danger'>
-                            Nama digunakan untuk sertifikat, mohon input data yang benar
-                        </p>
+                        <input type="text" class="form-control capitalize @error('nama_user') is-invalid @enderror"
+                            value="{{ old('nama_user', $user->nama_user) }}" id="nama_user" name='nama_user' required>
 
                         <input hidden type="text" class="form-control d-none" value={{ $user->id }}
                             id="id_user" name='id_user'>
 
-                        @error('nama_peserta')
-                            <div id="nama_peserta_feedback" class="invalid-feedback">
+                        @error('nama_user')
+                            <div id="nama_user_feedback" class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
@@ -48,13 +46,14 @@
                     <div class="mb-4">
                         <label for="domisili" class="form-label font-medium text-base ">Domisili</label>
 
-                        <select id="select-domisili" placeholder="Select a person..." autocomplete="off">
+                        <select id="select-domisili" name="domisili" placeholder="Select a province..."
+                            autocomplete="off">
                             <option>Pilih Domisili</option>
 
-
-
                             @foreach ($provinsi as $prov)
-                                <option value="{{ $prov['nama'] }}">{{ $prov['nama'] }}</option>
+                                <option value="{{ $prov['nama'] }}"
+                                    {{ old('domisili', $peserta && $peserta->domisili) == $prov['nama'] ? 'selected' : '' }}>
+                                    {{ $prov['nama'] }}</option>
                             @endforeach
                         </select>
 
@@ -73,7 +72,7 @@
                         @if ($peserta && $peserta->tanggal_lahir)
                             <input type="date" class="form-control  @error('tanggal_lahir') is-invalid @enderror"
                                 id="tanggal_lahir" name="tanggal_lahir"
-                                value="{{ old('tanggal_lahir', date('Y-m-d\TH:i', strtotime($peserta->tanggal_lahir))) }}">
+                                value="{{ old('tanggal_lahir', date('Y-m-d', strtotime($peserta->tanggal_lahir))) }}">
                         @else
                             <input type="date" class="form-control  @error('tanggal_lahir') is-invalid @enderror"
                                 id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
@@ -110,28 +109,30 @@
 
                     {{-- Instansi Peserta --}}
                     <div class="mb-4">
-                        <label for="instansi" class="form-label font-medium  text-base ">Instansi</label>
+                        <label for="instansi" class="form-label font-medium  text-base ">Instansi <span
+                                class="text-sm text-danger">(*)</span></label>
+                        {{-- <input type="hidden" name="instansi_hidden" id=""> --}}
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="instansi" value="usni"
-                                id="usni">
+                                id="usni "{{ $peserta && $peserta->instansi_peserta === 'usni' ? ' checked' : '' }}>
                             <label class="form-check-label capitalize" for="usni">
                                 Universitas Satya Negara Indonesia
                             </label>
+
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="instansi" value="others"
-                                id="others">
+                            <input class="form-check-input" type="radio" name="instansi" value="others" id="others"
+                                {{ $peserta && $peserta->instansi_peserta !== 'usni' ? ' checked' : '' }}>
                             <label class="form-check-label" for="others">
                                 Lainnya
                             </label>
-
                         </div>
                         <div>
                             <input type="text"
-                                class="form-control capitalize d-none @error('instansi') is-invalid @enderror"
-                                id="instansi_lain" name='instansi'
+                                class="form-control capitalize d-none @error('instansi_lain') is-invalid @enderror"
+                                id="instansi_lain" name='instansi_lain'
                                 placeholder="Perusahaan/ Yayasan/ Universitas/ Sekolah ">
-                            @error('instansi')
+                            @error('instansi_lain')
                                 <div id="instansi_feedback" class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -141,11 +142,27 @@
 
                     {{-- End Instansi Peserta --}}
 
+                    {{-- No Telepon Peserta --}}
+                    <div class="mb-4">
+                        <label for="no_telepon" class="form-label font-medium capitalize text-base">No Telepon
+                        </label>
+                        <input type="number" class="form-control @error('no_telepon') is-invalid @enderror"
+                            value="{{ old('no_telepon', $peserta && $peserta->no_telepon ? $peserta->no_telepon : '') }}"
+                            id="no_telepon" name='no_telepon' placeholder='62xxxx-xxxx'>
+
+
+                        @error('no_telepon')
+                            <div id="no_telepon_feedback" class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    {{-- End No Telepon Peserta --}}
+
+
                     {{-- Form Khsusus Mahasiswa USNI --}}
-
-
-
-                    <div class="usni-staff-wrapper">
+                    <div class="usni-staff-wrapper {{ $peserta && $peserta->instansi_peserta == 'usni' ? '' : 'd-none' }}"
+                        id="usni-staff">
                         {{-- Angkatan Peserta --}}
                         <div class="mb-4">
                             <label for="angkatan" class="form-label font-medium  text-base ">Angkatan</label>
@@ -168,11 +185,13 @@
                         <div class="mb-4">
                             <label for="Fakultas" class="form-label font-medium  text-base ">Fakultas</label>
                             <select id='fakultas' name='fakultas' class="form-select" aria-label="Select fakultas">
-                                <option selected>Pilih Fakultas</option>
+                                <option>Pilih Fakultas</option>
 
                                 @foreach ($fakultas as $fak)
-                                    <option value="{{ $fak->id }}">{{ $fak->nama }}
-                                        {{ old('fakultas', $peserta && $peserta->id_fakultas ? $peserta->id_fakultas : '') === $fak->id ? 'selected' : '' }}
+                                    <option value="{{ $fak->id }}"
+                                        {{ old('fakultas', $peserta && $peserta->id_fakultas ? $peserta->id_fakultas : '') == $fak->id ? 'selected' : '' }}>
+                                        {{ $fak->nama }}
+
                                     </option>
                                 @endforeach
                             </select>
@@ -195,7 +214,6 @@
                                 value="{{ old('jurusan', $peserta && $peserta->jurusan_peserta ? $peserta->jurusan_peserta : '') }}"
                                 id="jurusan" name='jurusan'>
 
-
                             @error('jurusan')
                                 <div id="jurusan_feedback" class="invalid-feedback">
                                     {{ $message }}
@@ -205,7 +223,8 @@
                         {{-- End jurusan Peserta --}}
                     </div>
 
-
+                    <button type="submit" id='buttonEditProfile'
+                        class="btn btn-primary w-100 btn-simpan mb-4">Update Profile</button>
                 </form>
             </div>
         </div>
@@ -226,17 +245,32 @@
             });
         </script>
 
-        {{-- Script for instansi --}}
+        {{-- Toogle Script for instansi --}}
         <script>
-            const instansi = document.querySelectorAll('input[name="instansi"]');
+            const resetFormInstansi = () => {
+                document.querySelector('#instansi_lain').value = ''
+            }
 
+            const resetFormMahasiswa = () => {
+                document.querySelector('#angkatan').selectedIndex = 0;
+                document.querySelector('#fakultas').selectedIndex = 0;
+                document.querySelector('#jurusan').value = ''
+            }
+
+            const instansi = document.querySelectorAll('input[name="instansi"]');
+            const usniFormWrapper = document.querySelector('#usni-staff');
+            // const instansiHidden = document.querySelector('input[name="instansi_hidden"]');
             instansi.forEach(function(instansi) {
                 instansi.addEventListener('change', function(e) {
-                    console.log(e.target.value);
+                    // instansiHidden.value = e.target.value;
                     if (e.target.value === 'others') {
                         document.querySelector('#instansi_lain').classList.remove('d-none');
+                        usniFormWrapper.classList.add('d-none');
+                        resetFormMahasiswa();
                     } else {
                         document.querySelector('#instansi_lain').classList.add('d-none');
+                        usniFormWrapper.classList.remove('d-none');
+                        resetFormInstansi();
                     }
                 });
             });
@@ -244,20 +278,45 @@
 
         {{-- Script for Angkatan --}}
         <script>
-            const startYear = 1970;
-            if ($peserta && $peserta.angkatan) {
-                let angkatan = $peserta.angkatan;
-            } else {
-                let angkatan = '';
-            }
             const endYear = new Date().getFullYear();
+
+            const startYear = endYear - 25;
+            @if ($peserta && $peserta->angkatan)
+                let angkatan = {{ $peserta->angkatan }};
+            @else
+                let angkatan = '';
+            @endif
+
             for (i = endYear; i >= startYear; i--) {
                 let option = document.createElement('option');
                 option.value = i;
                 option.text = i;
+                if (angkatan === i) {
+                    option.selected = true;
+                }
 
                 document.getElementById('angkatan').appendChild(option);
             }
+        </script>
+
+        {{-- Script for Sweet alert --}}
+        <script>
+            const btnEdit = document.querySelector('#buttonEditProfile');
+            btnEdit.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Apakah Data Sudah Benar ?',
+                    icon: 'question',
+                    showDenyButton: true,
+                    confirmButtonText: 'Sudah, Simpan!',
+                    denyButtonText: `Belum`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        document.getElementById('formEditProfile').submit();
+                    }
+                })
+            })
         </script>
     @endpush
 

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Peserta;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
@@ -104,6 +107,52 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        // return dd($request);
+
+        $instansi = $request->instansi == 'usni' ? $request->instansi : $request->instansi_lain;
+
+        $pesertaData = [
+            'id_users' => $request->id_user,
+            'nama_user' => $request->nama_user,
+            'instansi_peserta' =>  $instansi,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'gender' => $request->gender,
+            'domisili' => $request->domisili,
+            'no_telepon' => $request->no_telepon,
+            'id_fakultas' => $request->fakultas,
+            'jurusan_peserta' => $request->jurusan,
+            'angkatan' => $request->angkatan,
+        ];
+
+        $validator =  Validator::make($pesertaData, [
+            'id_users' => 'required|exists:users,id',
+            'instansi_peserta' => 'required|string|max:255',
+            'tanggal_lahir' => 'string|max:255',
+            'gender' => 'in:male,female',
+            'domisili' => 'string|max:255',
+            'no_telepon' => 'string|max:20',
+            'id_fakultas' => 'exists:fakultas,id',
+            'jurusan_peserta' => 'string',
+            'angkatan' => 'string|min:4',
+        ])->validate();
+
+        $namaValidator = Validator::make($pesertaData, [
+            'nama_user' => 'required|string|max:255',
+        ])->validate();
+
+
+        $peserta = Peserta::where('id_users', $request->id_user)->first();
+
+        if ($peserta) {
+            Peserta::where('id_users', $request->id_user)->update($validator);
+        } else {
+            Peserta::create($validator);
+        }
+
+        User::where('id', $request->id_user)->update($namaValidator);
+
+        return redirect()->route('profile_show', Auth::user()->uuid)->with('success', 'Update Profil Berhasil');
     }
 
     /**

@@ -354,7 +354,6 @@
         {{-- Sweet alert --}}
         <script>
             const btnEdit = document.querySelector('#buttonEditEvent');
-
             btnEdit.addEventListener('click', function(e) {
                 e.preventDefault();
                 console.log('Testing');
