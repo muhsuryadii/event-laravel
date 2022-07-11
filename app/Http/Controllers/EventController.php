@@ -18,10 +18,9 @@ class EventController extends Controller
     public function index()
     {
         //
+        $events = Event::orderBy('waktu_acara', 'desc')->get();
         return view('pages.customer.event.index', [
-            'events' => Event::orderBy('waktu_acara')
-                ->where('waktu_acara', '>=', now())
-                ->get(),
+            'events' => $events,
         ]);
     }
 
@@ -76,7 +75,7 @@ class EventController extends Controller
             'event' => $event,
             'transaction' => $transaction,
             'panitia' =>  $panitia,
-    
+
 
         ]);
     }

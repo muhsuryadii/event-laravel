@@ -1,5 +1,5 @@
 <x-app-costumer-layout>
-    {{-- {{ dd($event) }} --}}
+    {{-- {{ dd($absentCheck) }} --}}
     <section class="container py-10">
         <div class="card-list-wrapper mx-auto lg:max-w-[700px]">
             <div
@@ -43,17 +43,24 @@
 
             </div>
             <div class="summary-info-wrapper bg-white rounded-2xl border shadow-md border-slate-600 p-4">
-                <form action="{{ route('my-events_absent', $event->uuid_event) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="id_event" value="{{ $event->id_event }}">
-                    <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
-                    <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
+                @if ($laporan->status_absen == 0)
+                    <form action="{{ route('my-events_absent', $event->uuid_event) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id_event" value="{{ $event->id_event }}">
+                        <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
+                        <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
+                        <input type="hidden" name="id_laporan" value="{{ $laporan->id }}">
 
 
-                    <button type="submit" id='btnBatalPesanan' class="btn btn-primary !rounded-md block w-full">Absen
-                        Event</button>
+                        <button type="submit" id='btn_absen' class="btn btn-primary !rounded-md block w-full">Absen
+                            Event</button>
 
-                </form>
+                    </form>
+                @else
+                    <button type="button" disabled id='btn_absen' class="btn btn-success !rounded-md block w-full">Anda
+                        Sudah Absen</button>
+                @endif
+
 
                 {{-- For Production --}}
                 {{-- @if (now() >= $event->waktu_acara)

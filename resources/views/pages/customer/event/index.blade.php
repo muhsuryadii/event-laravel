@@ -8,7 +8,7 @@
                     List Event
                 </h2>
 
-                <div class="flex flex-wrap flex-row justify-center pb-5 pt-3">
+                <div class="flex flex-wrap flex-row  pb-5 pt-3">
                     @foreach ($events as $event)
                         <a href="event/{{ $event->uuid }}"
                             class="events-card w-full md:w-1/2 lg:w-1/5 p-2 mt-3 text-slate-600 no-underline ">
