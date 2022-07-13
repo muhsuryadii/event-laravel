@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Transaksi;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([PanitiaSeeder::class, UserSeeder::class, FakultasSeeder::class, EventSeeder::class]);
+        $this->call([
+            PanitiaSeeder::class,
+            UserSeeder::class,
+            FakultasSeeder::class,
+            EventSeeder::class,
+            TransaksiSeeder::class,
+            // LaporanSeeder::class
+        ]);
     }
 }

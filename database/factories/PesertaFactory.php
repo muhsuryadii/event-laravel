@@ -16,18 +16,21 @@ class PesertaFactory extends Factory
 
     public function definition()
     {
+        $instansi = $this->faker->randomElement(['usni', $this->faker->company]);
+        $angkatan =  $instansi == 'usni' ?  $this->faker->numberBetween(2010, 2022) : null;
+        $id_fakultas =  $instansi == 'usni' ?  $this->faker->numberBetween(1, 5) : null;
+        $jurusan_peserta =  $instansi == 'usni' ?  $this->faker->jobTitle : null;
+
         return [
-            'id_users' => $this->faker->numberBetween(7, 11),
-            'id_fakultas' => $this->faker->numberBetween(1, 5),
-            'instansi_peserta' => $this->faker->company,
+            'id_users' => $this->faker->unique()->numberBetween(7, 26),
+            'instansi_peserta' => $instansi,
             'no_telepon' => $this->faker->phoneNumber,
-            'jurusan_peserta' => $this->faker->jobTitle,
-            'angkatan' => $this->faker->numberBetween(2010, 2020),
-
             'tanggal_lahir' => $this->faker->date,
+            'domisili' => $this->faker->city,
             'gender' =>  $this->faker->randomElement(['male', 'female']),
-            'domisili' => $this->faker->city
-
+            'angkatan' =>   $angkatan,
+            'id_fakultas' => $id_fakultas,
+            'jurusan_peserta' => $jurusan_peserta,
         ];
     }
 }

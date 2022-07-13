@@ -70,8 +70,24 @@ class AdminReportController extends Controller
     {
         //
         $event = Event::where('uuid', $id)->first();
+        $laporan = DB::table('laporans')
+            ->join('events', 'laporans.id_event', '=', 'events.id')
+            ->where('events.id', $event->id)
+            ->select('laporans.*')
+            ->get();
 
-        return view('pages.admin.report.show', []);
+        $peserta  = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('users.*', 'pesertas.*')
+            ->get();
+
+        return view('pages.admin.report.show', [
+            'event' => $event,
+            'laporan' => $laporan,
+            'peserta' => $peserta,
+        ]);
     }
 
     /**
