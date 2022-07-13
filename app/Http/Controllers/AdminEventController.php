@@ -21,13 +21,12 @@ class AdminEventController extends Controller
     public function index()
     {
         //
-        
+        $events = Event::all()
+            ->where('id_panitia', Auth::user()->id)
+            ->sortByDesc('waktu_acara');
         return view('pages.admin.event.index', [
-            'events' => Event::all()
-                ->where('id_panitia', Auth::user()->id)
-                ->where('waktu_acara', '>=', now())
-                ->sortBy('waktu_acara'),
-            
+            'events' =>  $events,
+
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminReportController extends Controller
@@ -19,16 +20,19 @@ class AdminReportController extends Controller
         /* For Development */
         $reportEvent = DB::table('laporans')
             ->join('events', 'laporans.id_event', '=', 'events.id')
-            ->where('waktu_acara', '>=', now())
+            ->where('events.id_panitia', Auth::user()->id)
             ->select('events.*')
             ->groupBy('events.id')
+            ->orderBy('events.waktu_acara', 'desc')
             ->get();
 
         /* For Production */
         /* $reportEvent = DB::table('laporans')
             ->join('events', 'laporans.id_event', '=', 'events.id')
             ->where('waktu_acara', '<=', now())
+            ->where('events.id_panitia', Auth::user()->id)
             ->groupBy('events.id')
+            ->orderBy('events.waktu_acara', 'desc')
             ->get(); */
 
 
