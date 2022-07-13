@@ -25,15 +25,18 @@ class TransaksiSeeder extends Seeder
         // Transaksi::factory(50)->create();
         $faker = app(Generator::class);
 
-        for ($i = 1; $i <= 100; $i++) {
-            $id_event = $faker->numberBetween(1, 20);
-            $id_peserta = $faker->numberBetween(7, 26);
-
+        for ($i = 1; $i <= 5000; $i++) {
+            $id_event = $faker->numberBetween(1, 50);
+            $id_peserta = $faker->numberBetween(7, 106);
 
             $transaksi = DB::table('transaksis')->where('id_event', $id_event)->where('id_peserta', $id_peserta)->first();
 
             if ($transaksi) {
-                continue;
+                $id_peserta = $faker->numberBetween(7, 106);
+
+                $transaksi = DB::table('transaksis')->where('id_event', $id_event)->where('id_peserta', $id_peserta)->first();
+
+                if ($transaksi) continue;
             }
 
             $event = DB::table('events')->where('id', $id_event)->first();

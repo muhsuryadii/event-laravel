@@ -22,7 +22,7 @@ class PesertaFactory extends Factory
         $jurusan_peserta =  $instansi == 'usni' ?  $this->faker->jobTitle : null;
 
         return [
-            'id_users' => $this->faker->unique()->numberBetween(7, 26),
+            'id_users' => $this->faker->unique()->numberBetween(7, 106),
             'instansi_peserta' => $instansi,
             'no_telepon' => $this->faker->phoneNumber,
             'tanggal_lahir' => $this->faker->date,
