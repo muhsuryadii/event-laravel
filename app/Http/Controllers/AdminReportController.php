@@ -83,25 +83,21 @@ class AdminReportController extends Controller
             ->select('laporans.*')
             ->get();
 
-        /* $peserta  = DB::table('users')
+        $peserta  = DB::table('users')
             ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
             ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
             ->where('laporans.id_event', $event->id)
             ->select('users.*', 'pesertas.*')
-            ->get(); */
-        $peserta = DB::table('transaksis')
-            ->join('laporans', 'transaksis.id', '=', 'laporans.id_transaksi')
-            ->join('users', 'transaksis.id_peserta', '=', 'users.id')
-            ->join('pesertas', 'users.id', '=', 'pesertas.id_users')
-            ->where('laporans.id_event', $event->id)
-            ->select('users.nama_user', 'pesertas.*', 'laporans.*');
+            ->get();
+
         $transaksis = Laporan::class;
 
 
         return view('pages.admin.report.show', [
             'event' => $event,
             'laporan' => $laporan,
-            'peserta' => $transaksis,
+            'transaksi' => $transaksis,
+            'peserta' => $peserta
         ]);
     }
 

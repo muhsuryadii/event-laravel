@@ -9,12 +9,13 @@
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
-
-  @livewireStyles
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
   @include('parts.admin.head')
+
+
+  {{-- livewire Styles --}}
+  @livewireStyles
 
 
   <!-- Scripts -->
@@ -45,6 +46,7 @@
     @include('parts.admin.script')
     @livewireScripts
     @stack('js')
+    <script src="{{ mix('js/app.js') }}"></script>
   </section>
 </body>
 

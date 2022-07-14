@@ -25,9 +25,13 @@
           <td class="text-center">{{ $users->firstItem() + $loop->index }}</td>
           <td>{{ $user->nama_user }}</td>
           <td class="capitalize">
-            {{ $user->instansi_peserta == 'usni' ? 'UNIVERSITAS SATYA NEGARA INDONESIA' : $user->instansi_peserta }}
+            {{ $user->instansi_peserta == 'usni' ? 'Universitas Satya Negara Indonesia' : $user->instansi_peserta }}
           </td>
-          <td>{{ $user->status_absen }}</td>
+          @if ($user->status_absen)
+            <td class='text-success text-center text-base font-semibold !text-green-500'>Hadir</td>
+          @else
+            <td class='text-warning text-center text-base font-semibold !text-red-500'>Tidak Hadir</td>
+          @endif
         </tr>
       @endforeach
     </x-slot>

@@ -11,7 +11,7 @@
   crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!-- CSS Files -->
-<link id="pagestyle" href={{ asset('argon/css/argon-dashboard.css?v=2.0.2') }} rel="stylesheet" />
+<link id="pagestyle" type="text/css" href={{ asset('argon/css/argon-dashboard.css?v=2.0.2') }} rel="stylesheet" />
 <link rel="shortcut icon" href={{ asset('image/logo_usni.png') }} type="image/x-icon">
 <style>
   .ck-editor__editable_inline {

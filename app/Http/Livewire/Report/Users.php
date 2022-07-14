@@ -19,7 +19,6 @@ class Users extends Component
     public $sortField = "nama_user";
     public $sortAsc = true;
     public $search = '';
-
     protected $listeners = ["deleteItem" => "delete_item"];
 
     public function sortBy($field)
