@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Laporan;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -74,23 +76,32 @@ class AdminReportController extends Controller
     {
         //
         $event = Event::where('uuid', $id)->first();
+
         $laporan = DB::table('laporans')
             ->join('events', 'laporans.id_event', '=', 'events.id')
             ->where('events.id', $event->id)
             ->select('laporans.*')
             ->get();
 
-        $peserta  = DB::table('users')
+        /* $peserta  = DB::table('users')
             ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
             ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
             ->where('laporans.id_event', $event->id)
             ->select('users.*', 'pesertas.*')
-            ->get();
+            ->get(); */
+        $peserta = DB::table('transaksis')
+            ->join('laporans', 'transaksis.id', '=', 'laporans.id_transaksi')
+            ->join('users', 'transaksis.id_peserta', '=', 'users.id')
+            ->join('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('users.nama_user', 'pesertas.*', 'laporans.*');
+        $transaksis = Laporan::class;
+
 
         return view('pages.admin.report.show', [
             'event' => $event,
             'laporan' => $laporan,
-            'peserta' => $peserta,
+            'peserta' => $transaksis,
         ]);
     }
 

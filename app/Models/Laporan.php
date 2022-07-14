@@ -16,4 +16,19 @@ class Laporan extends Model
     {
         return 'uuid';
     }
+
+    public static function search($query)
+    {
+        return empty($query) ? static::query()
+            : static::where('nama_user', 'like', '%' . $query . '%');
+    }
+
+    public static function getReportUser($eventId)
+    {
+        return static::join('transaksis', 'laporans.id_transaksi', '=', 'transaksis.id')
+            ->join('users', 'transaksis.id_peserta', '=', 'users.id')
+            ->join('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $eventId)
+            ->select('users.nama_user', 'pesertas.*', 'laporans.*');
+    }
 }

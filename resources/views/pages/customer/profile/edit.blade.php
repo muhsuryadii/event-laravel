@@ -67,7 +67,7 @@
           {{-- Tanggal Lahir Peserta --}}
           <div class="mb-4">
             <label for="tanggal_lahir" class="form-label text-base font-medium">Tanggal Lahir</label>
-   
+
             @if ($peserta && $peserta->tanggal_lahir)
               <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir"
                 name="tanggal_lahir"
@@ -111,8 +111,8 @@
                 class="text-danger text-sm">(*)</span></label>
             {{-- <input type="hidden" name="instansi_hidden" id=""> --}}
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="instansi" value="usni"
-                id="usni "{{ $peserta && $peserta->instansi_peserta === 'usni' ? ' checked' : '' }}>
+              <input class="form-check-input" type="radio" name="instansi" value="usni" id="usni "
+                {{ $peserta && $peserta->instansi_peserta === 'usni' ? ' checked' : '' }}>
               <label class="form-check-label capitalize" for="usni">
                 Universitas Satya Negara Indonesia
               </label>
@@ -189,7 +189,9 @@
 
                 @foreach ($fakultas as $fak)
                   <option value="{{ $fak->id }}"
-                    {{ old('fakultas', $peserta && $peserta->id_fakultas ? $peserta->id_fakultas : '') == $fak->id ? 'selected' : '' }}>
+                    {{ old('fakultas', $peserta && $peserta->id_fakultas ? $peserta->id_fakultas : '') == $fak->id
+                        ? 'selected'
+                        : '' }}>
                     {{ $fak->nama }}
 
                   </option>

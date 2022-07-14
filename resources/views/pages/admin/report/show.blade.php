@@ -9,8 +9,14 @@
       </a>
     </div>
     <div class="card p-4">
+      <h3 class='mb-3 text-xl font-bold'>Laporan Absensi</h3>
+      <div class="table-responsive data-table p-0">
+        {{-- Livewire Data table --}}
+        <div>
+          <livewire:report.users name="report_user" :event="$event->id" :model="$peserta" />
+        </div>
 
-      <h1>Test</h1>
+      </div>
     </div>
   </div>
 
