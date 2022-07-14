@@ -83,21 +83,31 @@ class AdminReportController extends Controller
             ->select('laporans.*')
             ->get();
 
-        $peserta  = DB::table('users')
+        $transaksis = Laporan::class;
+
+        $gender =  DB::table('users')
             ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
             ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
             ->where('laporans.id_event', $event->id)
-            ->select('users.*', 'pesertas.*')
+            ->select('pesertas.gender', DB::raw('COUNT(pesertas.gender) as count_gender'))
+            ->groupBy('pesertas.gender')
             ->get();
 
-        $transaksis = Laporan::class;
+        $absent = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('laporans.status_absen', DB::raw('COUNT(*) as count_absent'))
+            ->groupBy('laporans.status_absen')
+            ->get();
 
 
         return view('pages.admin.report.show', [
             'event' => $event,
             'laporan' => $laporan,
             'transaksi' => $transaksis,
-            'peserta' => $peserta
+            'genders' => $gender,
+            'absents' => $absent
         ]);
     }
 

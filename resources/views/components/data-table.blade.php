@@ -1,10 +1,10 @@
 <div class="bg-gray-100 leading-normal tracking-wider text-gray-900">
-  <div class="mt-2 bg-white p-4">
+  <div class="bg-white px-4 pt-2">
 
     <div class="row mb-4 items-end">
-      <div class="col-lg-3 form-inline">
+      <div class="col-lg-3 form-inline mb-[12px] lg:mb-0">
         Per Page: &nbsp;
-        <select wire:model="perPage" class="form-control">
+        <select wire:model="perPage" class="form-control mt-1 lg:mt-0">
           <option>10</option>
           <option>15</option>
           <option>25</option>
