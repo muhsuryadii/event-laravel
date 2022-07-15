@@ -38,6 +38,10 @@
         <div class="chart-wrapper w-full lg:mt-3">
           <canvas id="instansiChart" class='h-full w-full'></canvas>
         </div>
+        {{-- Domisili chart --}}
+        <div class="chart-wrapper w-full lg:mt-3">
+          <canvas id="domisiliChart" class='h-full w-full'></canvas>
+        </div>
       </div>
     </div>
   </div>
@@ -107,6 +111,7 @@
         'rgb(153, 102, 255)',
         'rgb(201, 203, 207)'
       ];
+      let reducer = (accumulator, curr) => accumulator + curr;
     </script>
 
     {{-- Gender Chart --}}
@@ -193,17 +198,25 @@
           ' {{ $instansi->instansi_peserta == 'usni' ? 'Universitas Satya Negara Indonesia' : $instansi->instansi_peserta }} ',
         @endforeach
       ]
+      const labelsInstansiSlice = labelsInstansi.length >= 9 ? labelsInstansi.slice(0, 9) : labelsInstansi;
+      labelsInstansiSlice.push('Lainnya');
+
       let datainstansi = [
         @foreach ($instansis as $instansi)
           {{ $instansi->count_instansi }},
         @endforeach
       ]
+      const dataInstansiSlice = datainstansi.length >= 9 ? datainstansi.slice(0, 9) : datainstansi;
+
+      const sisaSlice = datainstansi.length >= 9 ? datainstansi.slice(9, datainstansi.length) : datainstansi;
+      const sisaSliceSum = sisaSlice.reduce(reducer);
+      dataInstansiSlice.push(sisaSliceSum);
 
       const backgroundColorInstansi = []
       const borderColorInstansi = []
       let loopingIndicator = 0;
 
-      for (let i = 0; i < labelsInstansi.length; i++) {
+      for (let i = 0; i < labelsInstansiSlice.length; i++) {
         backgroundColorInstansi.push(backgroundColorList[loopingIndicator])
         borderColorInstansi.push(borderColorList[loopingIndicator])
         if (loopingIndicator == backgroundColorList.length - 1) {
@@ -214,10 +227,10 @@
       }
 
       const instansiData = {
-        labels: labelsInstansi,
+        labels: labelsInstansiSlice,
         datasets: [{
           label: 'Instansi Peserta',
-          data: datainstansi,
+          data: dataInstansiSlice,
           backgroundColor: backgroundColorInstansi,
           borderColor: borderColorInstansi,
           borderWidth: 1
@@ -236,6 +249,11 @@
           }
         }
       });
+    </script>
+
+    {{-- Kota Chart --}}
+    <script>
+      const ctxDomisili = document.getElementById('domisiliChart').getContext('2d');
     </script>
   @endpush
 </x-app-layout>
