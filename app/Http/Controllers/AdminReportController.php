@@ -109,6 +109,41 @@ class AdminReportController extends Controller
             ->orderBy('count_instansi', 'desc')
             ->get();
 
+        $domisili = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('pesertas.domisili', DB::raw('COUNT(*) as count_domisili'))
+            ->groupBy('pesertas.domisili')
+            ->orderBy('count_domisili', 'desc')
+            ->get();
+        /* $ages = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select(DB::raw("DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),pesertas.tanggal_lahir)), '%Y')+0  AS age"), DB::raw('COUNT(*) as count_ages'))
+            ->groupBy('pesertas.tanggal_lahir')
+            ->orderBy('age', 'asc')
+            ->get(); */
+        $angkatan = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->where('pesertas.instansi_peserta', '=', 'usni')
+            ->select('pesertas.angkatan', DB::raw('COUNT(*) as count_angkatan'))
+            ->groupBy('pesertas.angkatan')
+            ->orderBy('count_angkatan', 'desc')
+            ->get();
+        $fakultas = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->join('fakultas', 'pesertas.id_fakultas', '=', 'fakultas.id')
+            ->where('laporans.id_event', $event->id)
+            ->where('pesertas.instansi_peserta', '=', 'usni')
+            ->select('fakultas.nama', DB::raw('COUNT(*) as count_fakultas'))
+            ->groupBy('pesertas.id_fakultas')
+            ->orderBy('count_fakultas', 'desc')
+            ->get();
 
         return view('pages.admin.report.show', [
             'event' => $event,
@@ -117,6 +152,9 @@ class AdminReportController extends Controller
             'genders' => $gender,
             'absents' => $absent,
             'instansis' => $instansi,
+            'domisilis' => $domisili,
+            'angkatan' => $angkatan,
+            'fakultas' => $fakultas
         ]);
     }
 

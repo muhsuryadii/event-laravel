@@ -1,5 +1,5 @@
 <x-app-layout>
-  {{-- {{ dd($instansis) }} --}}
+  {{-- {{ dd($fakultas) }} --}}
   <div class="card-wrapper mb-7">
     <div class="pdf-export flex items-center justify-between">
       <h5 class="text-white">Nama Event : {{ $event->nama_event }}</h5>
@@ -19,7 +19,7 @@
     </div>
 
     {{-- Chart Umum --}}
-    <div class="card mb-7 p-4">
+    <div class="card mb-5 p-4">
       <h3 class='mb-3 text-xl font-bold'>Detail Laporan Acara (Umum)</h3>
       <div class="chart-list-wrapper">
 
@@ -30,18 +30,35 @@
           </div>
 
           {{-- Absent chart --}}
-          <div class="chart-wrapper w-full lg:mt-3 lg:w-1/2">
+          <div class="chart-wrapper w-full lg:mt-5 lg:w-1/2">
             <canvas id="absentChart" class='h-full w-full'></canvas>
           </div>
         </div>
         {{-- Instansi chart --}}
-        <div class="chart-wrapper w-full lg:mt-3">
+        <div class="chart-wrapper w-full lg:mt-5">
           <canvas id="instansiChart" class='h-full w-full'></canvas>
         </div>
         {{-- Domisili chart --}}
-        <div class="chart-wrapper w-full lg:mt-3">
+        <div class="chart-wrapper w-full lg:mt-5">
           <canvas id="domisiliChart" class='h-full w-full'></canvas>
         </div>
+      </div>
+    </div>
+
+    {{-- Chart Internal Usni --}}
+    <div class="card mb-7 p-4">
+      <h3 class='mb-3 text-xl font-bold'>Detail Laporan Acara (Internal USNI)</h3>
+      <div class="chart-list-wrapper">
+
+        {{-- Angkatan chart --}}
+        <div class="chart-wrapper w-full lg:mt-5">
+          <canvas id="angkatanChart" class='h-full w-full'></canvas>
+        </div>
+        {{-- Fakultas chart --}}
+        <div class="chart-wrapper w-full lg:mt-5">
+          <canvas id="fakultasChart" class='h-full w-full'></canvas>
+        </div>
+
       </div>
     </div>
   </div>
@@ -94,13 +111,13 @@
       }
 
       const backgroundColorList = [
-        'rgba(255, 99, 132, 0.6)',
-        'rgba(255, 159, 64, 0.6)',
-        'rgba(255, 205, 86, 0.6)',
-        'rgba(75, 192, 192, 0.6)',
-        'rgba(54, 162, 235, 0.6)',
-        'rgba(153, 102, 255, 0.6)',
-        'rgba(201, 203, 207, 0.6)'
+        'rgba(255, 99, 132, 0.7)',
+        'rgba(255, 159, 64, 0.7)',
+        'rgba(255, 205, 86, 0.7)',
+        'rgba(75, 192, 192, 0.7)',
+        'rgba(54, 162, 235, 0.7)',
+        'rgba(153, 102, 255, 0.7)',
+        'rgba(201, 203, 207, 0.7)'
       ];
       const borderColorList = [
         'rgb(255, 99, 132)',
@@ -229,7 +246,7 @@
       const instansiData = {
         labels: labelsInstansiSlice,
         datasets: [{
-          label: 'Instansi Peserta',
+          label: 'Orang',
           data: dataInstansiSlice,
           backgroundColor: backgroundColorInstansi,
           borderColor: borderColorInstansi,
@@ -243,7 +260,7 @@
           plugins: {
             title: {
               display: true,
-              text: 'Instansi Peserta'
+              text: 'Jumlah Instansi Peserta'
             },
             datalabels: dataLabelsValue
           }
@@ -251,9 +268,168 @@
       });
     </script>
 
-    {{-- Kota Chart --}}
+    {{-- Domisili Chart --}}
     <script>
       const ctxDomisili = document.getElementById('domisiliChart').getContext('2d');
+      let labelsDomisili = [
+        @foreach ($domisilis as $domisili)
+          ' {{ $domisili->domisili }} ',
+        @endforeach
+      ]
+      const labelsDomisiliSlice = labelsDomisili.length >= 9 ? labelsDomisili.slice(0, 9) : labelsDomisili;
+      labelsDomisiliSlice.push('Lainnya');
+
+      let dataDomisili = [
+        @foreach ($domisilis as $domisili)
+          {{ $domisili->count_domisili }},
+        @endforeach
+      ]
+      const dataDomisiliSlice = dataDomisili.length >= 9 ? dataDomisili.slice(0, 9) : dataDomisili;
+
+      const sisaSliceDomisili = dataDomisili.length >= 9 ? dataDomisili.slice(9, dataDomisili.length) : dataDomisili;
+      const sisaSliceDomisiliSum = sisaSliceDomisili.reduce(reducer);
+      dataDomisiliSlice.push(sisaSliceDomisiliSum);
+
+      const backgroundColorDomisili = []
+      const borderColorDomisili = []
+      loopingIndicator = 0;
+
+      for (let i = 0; i < labelsDomisiliSlice.length; i++) {
+        backgroundColorDomisili.push(backgroundColorList[loopingIndicator])
+        borderColorDomisili.push(borderColorList[loopingIndicator])
+        if (loopingIndicator == backgroundColorList.length - 1) {
+          loopingIndicator = 0;
+        } else {
+          loopingIndicator++;
+        }
+      }
+      const domisiliData = {
+        labels: labelsDomisiliSlice,
+        datasets: [{
+          label: 'Orang',
+          data: dataDomisiliSlice,
+          backgroundColor: backgroundColorDomisili,
+          borderColor: borderColorDomisili,
+          borderWidth: 1
+        }]
+      }
+      const domisiliChart = new Chart(ctxDomisili, {
+        type: 'bar',
+        data: domisiliData,
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Jumlah Domisili Peserta'
+            },
+            datalabels: dataLabelsValue
+          }
+        }
+      });
+    </script>
+
+    {{-- Angkatan chart --}}
+    <script>
+      const ctxAngkatan = document.getElementById('angkatanChart').getContext('2d');
+      let labelsAngkatan = [
+        @foreach ($angkatan as $ang)
+          ' {{ $ang->angkatan }} ',
+        @endforeach
+      ]
+      let dataAngkatan = [
+        @foreach ($angkatan as $ang)
+          {{ $ang->count_angkatan }},
+        @endforeach
+      ]
+
+      const backgroundColorAngkatan = []
+      const borderColorAngkatan = []
+      loopingIndicator = 0;
+
+      for (let i = 0; i < labelsAngkatan.length; i++) {
+        backgroundColorAngkatan.push(backgroundColorList[loopingIndicator])
+        borderColorAngkatan.push(borderColorList[loopingIndicator])
+        if (loopingIndicator == backgroundColorList.length - 1) {
+          loopingIndicator = 0;
+        } else {
+          loopingIndicator++;
+        }
+      }
+      const angkatanData = {
+        labels: labelsAngkatan,
+        datasets: [{
+          label: 'Orang',
+          data: dataAngkatan,
+          backgroundColor: backgroundColorAngkatan,
+          borderColor: borderColorAngkatan,
+          borderWidth: 1
+        }]
+      }
+      const angkatanChart = new Chart(ctxAngkatan, {
+        type: 'bar',
+        data: angkatanData,
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Jumlah Angkatan Peserta'
+            },
+            datalabels: dataLabelsValue
+          }
+        }
+      });
+    </script>
+
+    {{-- Fakultas chart --}}
+    <script>
+      const ctxFakultas = document.getElementById('fakultasChart').getContext('2d');
+      let labelsAngkatan = [
+        @foreach ($angkatan as $ang)
+          ' {{ $ang->angkatan }} ',
+        @endforeach
+      ]
+      let dataAngkatan = [
+        @foreach ($angkatan as $ang)
+          {{ $ang->count_angkatan }},
+        @endforeach
+      ]
+
+      const backgroundColorAngkatan = []
+      const borderColorAngkatan = []
+      loopingIndicator = 0;
+
+      for (let i = 0; i < labelsAngkatan.length; i++) {
+        backgroundColorAngkatan.push(backgroundColorList[loopingIndicator])
+        borderColorAngkatan.push(borderColorList[loopingIndicator])
+        if (loopingIndicator == backgroundColorList.length - 1) {
+          loopingIndicator = 0;
+        } else {
+          loopingIndicator++;
+        }
+      }
+      const angkatanData = {
+        labels: labelsAngkatan,
+        datasets: [{
+          label: 'Orang',
+          data: dataAngkatan,
+          backgroundColor: backgroundColorAngkatan,
+          borderColor: borderColorAngkatan,
+          borderWidth: 1
+        }]
+      }
+      const angkatanChart = new Chart(ctxFakultas, {
+        type: 'bar',
+        data: angkatanData,
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Jumlah Angkatan Peserta'
+            },
+            datalabels: dataLabelsValue
+          }
+        }
+      });
     </script>
   @endpush
 </x-app-layout>
