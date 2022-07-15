@@ -19,7 +19,16 @@ class PesertaFactory extends Factory
         $instansi = $this->faker->randomElement(['usni', $this->faker->company]);
         $angkatan =  $instansi == 'usni' ?  $this->faker->numberBetween(2010, 2022) : null;
         $id_fakultas =  $instansi == 'usni' ?  $this->faker->numberBetween(1, 5) : null;
-        $jurusan_peserta =  $instansi == 'usni' ?  $this->faker->jobTitle : null;
+
+        $jurusan_teknik = $this->faker->randomElement(['Sistem Informasi', 'Teknik Informatika', 'Teknik Lingkungan', 'Manajemen Informatika']);
+        $jurusan_ekonomi = $this->faker->randomElement(['Manajemen', 'Akuntansi']);
+        $jurusan_fisip = $this->faker->randomElement(['Ilmu Hubungan Internasional', 'Ilmu Komunikasi']);
+        $jurusan_perikanan = $this->faker->randomElement(['Pemanfaatan Sumberdaya Perikanan', 'Akuakultur']);
+        $jurusan_hukum =   $this->faker->randomElement(['Hukum']);
+
+        $jurusanFix = $id_fakultas == 1 ?  $jurusan_teknik : ($id_fakultas == 2 ? $jurusan_ekonomi : ($id_fakultas == 3 ?  $jurusan_fisip : ($id_fakultas == 4 ?  $jurusan_perikanan : $jurusan_hukum)));
+
+        $jurusan_peserta =  $instansi == 'usni' ?  $jurusanFix : null;
 
         return [
             'id_users' => $this->faker->unique()->numberBetween(7, 106),

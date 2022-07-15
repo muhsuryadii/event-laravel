@@ -1,5 +1,5 @@
 <x-app-layout>
-  {{-- {{ dd($fakultas) }} --}}
+  {{-- {{ dd($jurusan) }} --}}
   <div class="card-wrapper mb-7">
     <div class="pdf-export flex items-center justify-between">
       <h5 class="text-white">Nama Event : {{ $event->nama_event }}</h5>
@@ -57,6 +57,11 @@
         {{-- Fakultas chart --}}
         <div class="chart-wrapper w-full lg:mt-5">
           <canvas id="fakultasChart" class='h-full w-full'></canvas>
+        </div>
+
+        {{-- Jurusan chart --}}
+        <div class="chart-wrapper w-full lg:mt-5">
+          <canvas id="jurusanChart" class='h-full w-full'></canvas>
         </div>
 
       </div>
@@ -383,48 +388,101 @@
     {{-- Fakultas chart --}}
     <script>
       const ctxFakultas = document.getElementById('fakultasChart').getContext('2d');
-      let labelsAngkatan = [
-        @foreach ($angkatan as $ang)
-          ' {{ $ang->angkatan }} ',
+      let labelsFakultas = [
+        @foreach ($fakultas as $fak)
+          ' {{ $fak->nama }} ',
         @endforeach
       ]
-      let dataAngkatan = [
-        @foreach ($angkatan as $ang)
-          {{ $ang->count_angkatan }},
+      let dataFakultas = [
+        @foreach ($fakultas as $fak)
+          {{ $fak->count_fakultas }},
         @endforeach
       ]
 
-      const backgroundColorAngkatan = []
-      const borderColorAngkatan = []
+      const backgroundColorFakultas = []
+      const borderColorFakultas = []
       loopingIndicator = 0;
 
-      for (let i = 0; i < labelsAngkatan.length; i++) {
-        backgroundColorAngkatan.push(backgroundColorList[loopingIndicator])
-        borderColorAngkatan.push(borderColorList[loopingIndicator])
+      for (let i = 0; i < labelsFakultas.length; i++) {
+        backgroundColorFakultas.push(backgroundColorList[loopingIndicator])
+        borderColorFakultas.push(borderColorList[loopingIndicator])
         if (loopingIndicator == backgroundColorList.length - 1) {
           loopingIndicator = 0;
         } else {
           loopingIndicator++;
         }
       }
-      const angkatanData = {
-        labels: labelsAngkatan,
+      const fakultasData = {
+        labels: labelsFakultas,
         datasets: [{
           label: 'Orang',
-          data: dataAngkatan,
+          data: dataFakultas,
           backgroundColor: backgroundColorAngkatan,
           borderColor: borderColorAngkatan,
           borderWidth: 1
         }]
       }
-      const angkatanChart = new Chart(ctxFakultas, {
+      const fakultasChart = new Chart(ctxFakultas, {
         type: 'bar',
-        data: angkatanData,
+        data: fakultasData,
         options: {
           plugins: {
             title: {
               display: true,
-              text: 'Jumlah Angkatan Peserta'
+              text: 'Jumlah Fakultas Peserta'
+            },
+            datalabels: dataLabelsValue
+          }
+        }
+      });
+    </script>
+
+    {{-- Jurusan chart --}}
+    <script>
+      const ctxJurusan = document.getElementById('jurusanChart').getContext('2d');
+      let labelsJurusan = [
+        @foreach ($jurusan as $jur)
+          ' {{ $jur->jurusan_peserta }} ',
+        @endforeach
+      ]
+
+      let dataJurusan = [
+        @foreach ($jurusan as $jur)
+          {{ $jur->count_jurusan }},
+        @endforeach
+      ]
+
+      const backgroundColorJurusan = []
+      const borderColorJurusan = []
+      loopingIndicator = 0;
+
+      for (let i = 0; i < labelsJurusan.length; i++) {
+        backgroundColorJurusan.push(backgroundColorList[loopingIndicator])
+        borderColorJurusan.push(borderColorList[loopingIndicator])
+        if (loopingIndicator == backgroundColorList.length - 1) {
+          loopingIndicator = 0;
+        } else {
+          loopingIndicator++;
+        }
+      }
+      const jurusanData = {
+        labels: labelsJurusan,
+        datasets: [{
+          label: 'Orang',
+          data: dataJurusan,
+          backgroundColor: backgroundColorAngkatan,
+          borderColor: borderColorAngkatan,
+          borderWidth: 1
+        }]
+      }
+      const jurusanChart = new Chart(ctxJurusan, {
+        type: 'bar',
+        data: jurusanData,
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Jumlah Jurusan Peserta'
             },
             datalabels: dataLabelsValue
           }

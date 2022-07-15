@@ -144,6 +144,17 @@ class AdminReportController extends Controller
             ->groupBy('pesertas.id_fakultas')
             ->orderBy('count_fakultas', 'desc')
             ->get();
+        $jurusan = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->join('fakultas', 'pesertas.id_fakultas', '=', 'fakultas.id')
+            ->where('laporans.id_event', $event->id)
+            ->where('pesertas.instansi_peserta', '=', 'usni')
+            ->select('pesertas.jurusan_peserta', DB::raw('COUNT(*) as count_jurusan'))
+            ->groupBy('pesertas.jurusan_peserta')
+            ->orderBy('count_jurusan', 'desc')
+            ->get();
+
 
         return view('pages.admin.report.show', [
             'event' => $event,
@@ -154,7 +165,8 @@ class AdminReportController extends Controller
             'instansis' => $instansi,
             'domisilis' => $domisili,
             'angkatan' => $angkatan,
-            'fakultas' => $fakultas
+            'fakultas' => $fakultas,
+            'jurusan' => $jurusan
         ]);
     }
 
