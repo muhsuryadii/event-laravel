@@ -25,7 +25,8 @@ class AdminTransaksiController extends Controller
             ->where('id_panitia', Auth::user()->id)
             // ->where('events.waktu_acara', '>=', now())
             ->groupBy('transaksis.id_event')
-            ->orderBy('events.waktu_acara', 'asc')
+            ->orderBy('events.waktu_acara', 'DESC')
+
             ->get();
 
         return view('pages.admin.transaksi.index', [
@@ -66,13 +67,15 @@ class AdminTransaksiController extends Controller
 
         $event = DB::table('events')->where('uuid', $uuid)->first();
 
-        $eventTransaksi = DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')
+        $eventTransaksi = DB::table('transaksis')
+            ->join('events', 'transaksis.id_event', '=', 'events.id')
             ->join('users', 'transaksis.id_peserta', '=', 'users.id')
             ->join('pesertas', 'users.id', '=', 'pesertas.id_users')
-            ->where('transaksis.id_event', $event->id)
+            ->where('transaksis.id_event', '=', $event->id)
             ->where('transaksis.status_transaksi', '!=', 'not_paid')
             ->where('transaksis.status_transaksi', '!=', 'rejected')
             ->select('transaksis.*', 'users.uuid as usersId', 'users.nama_user', 'no_telepon')
+            ->orderBy('transaksis.tanggal_transaksi', 'asc')
             ->get();
 
 

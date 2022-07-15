@@ -40,10 +40,18 @@
     top: 0;
     width: 100%;
     z-index: 0;
-
-    @apply bg-gradient-to-b from-transparent via-slate-100 to-slate-200 dark:via-slate-800 dark:to-dark opacity-50 dark:opacity-70;
+    @apply bg-gradient-to-b from-slate-200  via-slate-400 to-slate-600  opacity-60 dark:opacity-70;
+    // @apply bg-gradient-to-b from-transparent via-slate-100 to-slate-200  opacity-60 dark:opacity-70;
+    // @apply bg-gradient-to-b from-transparent via-slate-200 to-slate-400  opacity-50;
 }
-
+.hero-top {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
 $event-card-image-height: 200px;
 
 .events-card {

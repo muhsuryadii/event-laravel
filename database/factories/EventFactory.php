@@ -19,7 +19,7 @@ class EventFactory extends Factory
             'nama_event' => $this->faker->sentence,
 
             'uuid' => Str::uuid()->getHex(),
-            'harga_tiket' => $this->faker->numberBetween(100000, 1000000),
+            'harga_tiket' => $this->faker->randomElement([0, $this->faker->numberBetween(100000, 1000000)]),
             'waktu_acara' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
             'lokasi_acara' => 'Google Meet',
             'kuota_tiket' => $this->faker->numberBetween(50, 200),

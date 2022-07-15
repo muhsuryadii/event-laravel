@@ -38,9 +38,15 @@ class MyEventController extends Controller
             ->where('transaksis.status_transaksi', 'verified')
             ->select('events.*', 'transaksis.*', 'events.uuid as uuid_event', 'events.id as id_event', 'transaksis.id as id_transaksi')
             ->first();
+        $laporan = DB::table('events')
+            ->join('laporans', 'events.id', '=', 'laporans.id_event')
+            ->where('events.uuid', $uuid)
+            ->where('laporans.id_peserta', Auth::user()->id)
+            ->first();
 
         return view('pages.customer.my-events.show', [
             'event' => $event,
+            'laporan' => $laporan,
         ]);
     }
 
@@ -52,23 +58,28 @@ class MyEventController extends Controller
             return redirect()->route('login');
         }
 
+        // laporan query check
+
+        $laporan = DB::table('laporans')
+            ->where('id', $request->id_laporan)
+            ->first();
+
+        if ($laporan->status_absen === true) {
+            return redirect()->route('my-events_show', $uuid);
+        }
+
         $reportData = [
-            'uuid' => Str::uuid()->getHex(),
-            'id_event' => $request->id_event,
-            'id_peserta' => $request->id_peserta,
-            'id_transaksi' => $request->id_transaksi,
             'status_absen' => true,
         ];
 
+
         $validator =  Validator::make($reportData, [
-            'uuid' => 'required|unique:laporans,uuid',
-            'id_event' => 'required|exists:events,id',
-            'id_peserta' => 'required|exists:users,id',
-            'id_transaksi' => 'required|exists:transaksis,id',
             'status_absen' => 'required',
         ])->validate();
 
-        Laporan::create($validator);
+        // Laporan::create($validator);
+        Laporan::where('id', $request->id_laporan)
+            ->update($validator);
 
         return redirect()->route('my-events_show', $uuid)->with('success', 'Absen Berhasil');
     }

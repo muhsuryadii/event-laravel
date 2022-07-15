@@ -25,6 +25,7 @@
         {{ $slot }}
     </div>
     @include('parts.customer.script')
+    @stack('js')
 
 </body>
 

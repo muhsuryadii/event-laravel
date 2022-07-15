@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         ]);
 
         /* Factory Users */
-        User::factory(5)->create();
-        Peserta::factory(5)->create();
+        User::factory(100)->create();
+        Peserta::factory(100)->create();
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Event;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -20,11 +21,12 @@ class AdminEventController extends Controller
     public function index()
     {
         //
+        $events = Event::all()
+            ->where('id_panitia', Auth::user()->id)
+            ->sortByDesc('waktu_acara');
         return view('pages.admin.event.index', [
-            'events' => Event::all()
-                ->where('id_panitia', Auth::user()->id)
-                ->where('waktu_acara', '>=', now())
-                ->sortBy('waktu_acara'),
+            'events' =>  $events,
+
         ]);
     }
 
