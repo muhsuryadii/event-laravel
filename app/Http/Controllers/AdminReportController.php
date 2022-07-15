@@ -100,6 +100,14 @@ class AdminReportController extends Controller
             ->select('laporans.status_absen', DB::raw('COUNT(*) as count_absent'))
             ->groupBy('laporans.status_absen')
             ->get();
+        $instansi = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('pesertas.instansi_peserta', DB::raw('COUNT(*) as count_instansi'))
+            ->groupBy('pesertas.instansi_peserta')
+            ->orderBy('count_instansi', 'desc')
+            ->get();
 
 
         return view('pages.admin.report.show', [
@@ -107,7 +115,8 @@ class AdminReportController extends Controller
             'laporan' => $laporan,
             'transaksi' => $transaksis,
             'genders' => $gender,
-            'absents' => $absent
+            'absents' => $absent,
+            'instansis' => $instansi,
         ]);
     }
 
