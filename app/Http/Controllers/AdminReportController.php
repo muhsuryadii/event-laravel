@@ -216,10 +216,7 @@ class AdminReportController extends Controller
 
         $event = Event::where('uuid', $uuid)->first();
 
-        $pdf = PDF::loadview('pages.admin.report.print', [
-            'event' => $event
-        ]);
-        return $pdf->stream();
+
 
         $laporan = DB::table('laporans')
             ->join('events', 'laporans.id_event', '=', 'events.id')
@@ -297,7 +294,7 @@ class AdminReportController extends Controller
             ->orderBy('count_jurusan', 'desc')
             ->get();
 
-        /*  $pdf = PDF::loadview('pages.admin.report.print', [
+        $pdf = PDF::loadview('pages.admin.report.print', [
             'event' => $event,
             'laporan' => $laporan,
             'reportUser' => $reportUser,
@@ -309,7 +306,7 @@ class AdminReportController extends Controller
             'fakultas' => $fakultas,
             'jurusan' => $jurusan
         ]);
-        // return $pdf->stream();
-        return $pdf->download('laporan-pegawai-pdf');*/
+        return $pdf->stream();
+        // return $pdf->download('laporan-pegawai-pdf');
     }
 }

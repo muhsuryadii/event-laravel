@@ -9,12 +9,14 @@
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Styles -->
-  <link rel="stylesheet" type="text/css" href="{{ mix('css/apps.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+
+  <link href="{{ public_path('css/print.css') }}" type="text/css" media="all" rel="stylesheet">
+  <link href="{{ public_path('css/style.css') }}" type="text/css" media="all" rel="stylesheet">
+
 
 
   <!-- Scripts -->
-  <script src="{{ mix('js/app.js') }}" defer></script>
+  <script src="{{ public_path('js/app.js') }}" defer></script>
 
   {{-- @include('parts.customer.head') --}}
 
@@ -25,8 +27,8 @@
   <div class="font-sans text-slate-800 antialiased">
     {{ $slot }}
   </div>
-  @include('parts.customer.script')
-  @stack('js')
+  {{-- @include('parts.customer.script')
+  @stack('js') --}}
 
 </body>
 

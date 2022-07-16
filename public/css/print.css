@@ -1,0 +1,7 @@
+.title {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    text-transform: capitalize;
+    --tw-text-opacity: 1;
+    color: rgb(148 163 184 / var(--tw-text-opacity))
+}
