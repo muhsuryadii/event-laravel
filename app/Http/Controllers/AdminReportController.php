@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Laporan;
 use App\Models\Transaksi;
+// use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Browsershot\Browsershot;
 
 class AdminReportController extends Controller
 {
@@ -202,5 +206,110 @@ class AdminReportController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function exportPDF($uuid)
+    {
+        // return dd($uuid);
+
+        // Browsershot::url('https://example.com')->save('example.pdf');
+
+        $event = Event::where('uuid', $uuid)->first();
+
+        $pdf = PDF::loadview('pages.admin.report.print', [
+            'event' => $event
+        ]);
+        return $pdf->stream();
+
+        $laporan = DB::table('laporans')
+            ->join('events', 'laporans.id_event', '=', 'events.id')
+            ->where('events.id', $event->id)
+            ->select('laporans.*')
+            ->get();
+
+        $reportUser = DB::table('laporans')
+            ->join('transaksis', 'laporans.id_transaksi', '=', 'transaksis.id')
+            ->join('users', 'transaksis.id_peserta', '=', 'users.id')
+            ->join('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('users.nama_user', 'pesertas.*', 'laporans.*')->get();
+
+        $gender =  DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('pesertas.gender', DB::raw('COUNT(pesertas.gender) as count_gender'))
+            ->groupBy('pesertas.gender')
+            ->get();
+
+        $absent = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('laporans.status_absen', DB::raw('COUNT(*) as count_absent'))
+            ->groupBy('laporans.status_absen')
+            ->get();
+        $instansi = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('pesertas.instansi_peserta', DB::raw('COUNT(*) as count_instansi'))
+            ->groupBy('pesertas.instansi_peserta')
+            ->orderBy('count_instansi', 'desc')
+            ->get();
+
+        $domisili = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->select('pesertas.domisili', DB::raw('COUNT(*) as count_domisili'))
+            ->groupBy('pesertas.domisili')
+            ->orderBy('count_domisili', 'desc')
+            ->get();
+
+        $angkatan = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->where('pesertas.instansi_peserta', '=', 'usni')
+            ->select('pesertas.angkatan', DB::raw('COUNT(*) as count_angkatan'))
+            ->groupBy('pesertas.angkatan')
+            ->orderBy('count_angkatan', 'desc')
+            ->get();
+        $fakultas = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->join('fakultas', 'pesertas.id_fakultas', '=', 'fakultas.id')
+            ->where('laporans.id_event', $event->id)
+            ->where('pesertas.instansi_peserta', '=', 'usni')
+            ->select('fakultas.nama', DB::raw('COUNT(*) as count_fakultas'))
+            ->groupBy('pesertas.id_fakultas')
+            ->orderBy('count_fakultas', 'desc')
+            ->get();
+        $jurusan = DB::table('users')
+            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
+            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->join('fakultas', 'pesertas.id_fakultas', '=', 'fakultas.id')
+            ->where('laporans.id_event', $event->id)
+            ->where('pesertas.instansi_peserta', '=', 'usni')
+            ->select('pesertas.jurusan_peserta', DB::raw('COUNT(*) as count_jurusan'))
+            ->groupBy('pesertas.jurusan_peserta')
+            ->orderBy('count_jurusan', 'desc')
+            ->get();
+
+        /*  $pdf = PDF::loadview('pages.admin.report.print', [
+            'event' => $event,
+            'laporan' => $laporan,
+            'reportUser' => $reportUser,
+            'genders' => $gender,
+            'absents' => $absent,
+            'instansis' => $instansi,
+            'domisilis' => $domisili,
+            'angkatan' => $angkatan,
+            'fakultas' => $fakultas,
+            'jurusan' => $jurusan
+        ]);
+        // return $pdf->stream();
+        return $pdf->download('laporan-pegawai-pdf');*/
     }
 }

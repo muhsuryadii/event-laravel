@@ -66,14 +66,15 @@ Route::middleware([
         'index' => 'admin_transaksi_index',
         'show' => 'admin_transaksi_show',
         'update' => 'admin_transaksi_update',
-
     ]);
 
     Route::resource('/admin/report', AdminReportController::class)->names([
         'index' => 'admin_report_index',
         'show' => 'admin_report_show',
         'update' => 'admin_report_update',
+        'exportPDF' => 'admin_report_cetak',
     ]);
+    Route::post('/admin/report/{uuid}/exportpdf', [AdminReportController::class, 'exportPDF'])->name('admin_report_cetak');
 
     /*  Route::get('/admin/events/create', [AdminEventController::class, 'createPage'])->name('admin_events_create'); */
 });
