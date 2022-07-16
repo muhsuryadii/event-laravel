@@ -112,7 +112,8 @@
 /******/ 		var installedChunks = {
 /******/ 			"/js/manifest": 0,
 /******/ 			"css/app": 0,
-/******/ 			"css/style": 0
+/******/ 			"css/style": 0,
+/******/ 			"css/print": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading

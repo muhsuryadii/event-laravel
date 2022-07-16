@@ -1,82 +1,60 @@
-<x-app-layout>
-  {{-- {{ dd($jurusan) }} --}}
-  <div class="card-wrapper mb-7">
-    <div class="pdf-export flex items-center justify-between">
-      <h5 class="text-white">Nama Event : {{ $event->nama_event }}</h5>
-      {{-- <form action="{{ route('admin_report_cetak', $event->uuid) }}" method="post">
-        @csrf
-        <button type="submit" class="d-block btn text-primary w-fit bg-white active:bg-slate-200">
-          <i class="fas fa-file-pdf"></i>
-          Export PDF
-        </button>
-      </form> --}}
-      <a href="#" class="d-block btn text-primary w-fit bg-white">
-        <i class="fa-regular fa-file-pdf mr-1 text-lg"></i>
-        Export PDF
-      </a>
-    </div>
-    <div class="card mb-3 p-4">
-      <h3 class='mb-3 text-xl font-bold'>Laporan Absensi Peserta</h3>
-      <div class="table-responsive data-table p-0">
-        {{-- Livewire Data table --}}
-        <div>
-          <livewire:report.users name="report_user" :event="$event->id" :model="$transaksi" />
+<x-export>
+  <span class='title'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quas qui
+    necessitatibus, ad culpa
+    enim cupiditate
+    consequatur, recusandae nesciunt est et inventore ab quia error, quidem ratione. Minima, doloribus voluptatum?
+  </span>
+
+  {{-- Chart Umum --}}
+  <div class="card mb-5 p-4">
+    <h3 class='mb-3 text-xl font-bold'>Detail Laporan Acara (Umum)</h3>
+    <div class="chart-list-wrapper">
+
+      <div class="chart-row flex">
+        {{-- Gender chart --}}
+        <div class="chart-wrapper w-full lg:w-1/2">
+          <canvas id="genderChart" class='h-full w-full'></canvas>
+        </div>
+
+        {{-- Absent chart --}}
+        <div class="chart-wrapper w-full lg:mt-5 lg:w-1/2">
+          <canvas id="absentChart" class='h-full w-full'></canvas>
         </div>
       </div>
-    </div>
-
-    {{-- Chart Umum --}}
-    <div class="card mb-5 p-4">
-      <h3 class='mb-3 text-xl font-bold'>Detail Laporan Acara (Umum)</h3>
-      <div class="chart-list-wrapper">
-
-        <div class="chart-row flex">
-          {{-- Gender chart --}}
-          <div class="chart-wrapper w-full lg:w-1/2">
-            <canvas id="genderChart" class='h-full w-full'></canvas>
-          </div>
-
-          {{-- Absent chart --}}
-          <div class="chart-wrapper w-full lg:mt-5 lg:w-1/2">
-            <canvas id="absentChart" class='h-full w-full'></canvas>
-          </div>
-        </div>
-        {{-- Instansi chart --}}
-        <div class="chart-wrapper w-full lg:mt-5">
-          <canvas id="instansiChart" class='h-full w-full'></canvas>
-        </div>
-        {{-- Domisili chart --}}
-        <div class="chart-wrapper w-full lg:mt-5">
-          <canvas id="domisiliChart" class='h-full w-full'></canvas>
-        </div>
+      {{-- Instansi chart --}}
+      <div class="chart-wrapper w-full lg:mt-5">
+        <canvas id="instansiChart" class='h-full w-full'></canvas>
       </div>
-    </div>
-
-    {{-- Chart Internal Usni --}}
-    <div class="card mb-7 p-4">
-      <h3 class='mb-3 text-xl font-bold'>Detail Laporan Acara (Internal USNI)</h3>
-      <div class="chart-list-wrapper">
-
-        {{-- Angkatan chart --}}
-        <div class="chart-wrapper w-full lg:mt-5">
-          <canvas id="angkatanChart" class='h-full w-full'></canvas>
-        </div>
-        {{-- Fakultas chart --}}
-        <div class="chart-wrapper w-full lg:mt-5">
-          <canvas id="fakultasChart" class='h-full w-full'></canvas>
-        </div>
-
-        {{-- Jurusan chart --}}
-        <div class="chart-wrapper w-full lg:mt-5">
-          <canvas id="jurusanChart" class='h-full w-full'></canvas>
-        </div>
-
+      {{-- Domisili chart --}}
+      <div class="chart-wrapper w-full lg:mt-5">
+        <canvas id="domisiliChart" class='h-full w-full'></canvas>
       </div>
     </div>
   </div>
 
+  {{-- Chart Internal Usni --}}
+  <div class="card mb-7 p-4">
+    <h3 class='mb-3 text-xl font-bold'>Detail Laporan Acara (Internal USNI)</h3>
+    <div class="chart-list-wrapper">
+
+      {{-- Angkatan chart --}}
+      <div class="chart-wrapper w-full lg:mt-5">
+        <canvas id="angkatanChart" class='h-full w-full'></canvas>
+      </div>
+      {{-- Fakultas chart --}}
+      <div class="chart-wrapper w-full lg:mt-5">
+        <canvas id="fakultasChart" class='h-full w-full'></canvas>
+      </div>
+
+      {{-- Jurusan chart --}}
+      <div class="chart-wrapper w-full lg:mt-5">
+        <canvas id="jurusanChart" class='h-full w-full'></canvas>
+      </div>
+
+    </div>
+  </div>
+
   @push('js')
-    {{-- import chart js script --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script>
@@ -497,4 +475,4 @@
       });
     </script>
   @endpush
-</x-app-layout>
+</x-export>

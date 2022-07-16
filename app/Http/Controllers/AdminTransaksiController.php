@@ -111,25 +111,22 @@ class AdminTransaksiController extends Controller
             ->select('events.*')
             ->first();
 
-
         $transaksi->update([
             'status_transaksi' => $request->status_transaksi
         ]);
-
-        $report = [
-            'uuid' => Str::uuid()->getHex(),
-            'id_event' => $transaksi->id_event,
-            'id_peserta' => Auth::user()->id,
-            'id_transaksi' =>   $transaksi->id,
-        ];
-
-        Laporan::create($report);
 
         if ($request->status_transaksi == 'rejected') {
             $kuota = $event->kuota_tiket + 1;
             Event::where('id', $transaksi->id_event)->update([
                 'kuota_tiket' => $kuota
             ]);
+        } else {
+            $laporan = [
+                'status_absen' => true,
+            ];
+
+            Laporan::where('id_transaksi', $transaksi->id)
+                ->update($laporan);
         }
 
         return redirect()->route('admin_transaksi_show', $event->uuid);

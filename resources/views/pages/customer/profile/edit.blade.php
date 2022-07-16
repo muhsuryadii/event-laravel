@@ -1,7 +1,5 @@
 <x-app-costumer-layout>
-  {{-- {{ dd($provinsi[0]['nama']) }} --}}
-  {{-- {{ dd($peserta) }} --}}
-
+  {{-- {{ dd($provinsi) }}} --}}
   <section class="section py-10">
     <div class="container">
       <div class="user-wrapper mx-auto lg:w-2/3">
@@ -51,7 +49,7 @@
 
               @foreach ($provinsi as $prov)
                 <option value="{{ $prov['nama'] }}"
-                  {{ old('domisili', $peserta && $peserta->domisili) == $prov['nama'] ? 'selected' : '' }}>
+                  {{ old('domisili', $peserta ? $peserta->domisili : null) === $prov['nama'] ? 'selected' : '' }}>
                   {{ $prov['nama'] }}</option>
               @endforeach
             </select>
