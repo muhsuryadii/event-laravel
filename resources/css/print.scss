@@ -1,3 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+html,
+body,
+* {
+    font-family: "Montserrat", sans-serif;
+    width: 100%;
+    max-width: max-content;
+}
+
 .title {
     @apply capitalize text-lg text-slate-400;
+}
+
+.pdf-wrapper {
+    @apply px-5 pt-10 max-w-full w-full;
+}
+
+.title-report {
+    @apply text-3xl text-slate-400 text-center font-bold block w-full mx-auto mb-10;
+}
+
+.event-report-info {
+    .table-responsive {
+        table tr {
+            td:nth-child(1) {
+                @apply w-fit;
+            }
+            td:nth-child(2) {
+                @apply text-center w-1/3;
+            }
+        }
+    }
+}
+
+.col-no {
+    @apply w-fit;
+}
+.peserta-table-wrapper {
+    &.table-responsive {
+        @apply overflow-x-auto;
+        table tr td {
+            @apply w-fit;
+        }
+    }
+}
+table thead tr th {
+    @apply text-slate-400 font-bold text-left;
+}
+
+@page {
+    size: A4 landscape;
 }

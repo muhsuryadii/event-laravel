@@ -72,9 +72,9 @@ Route::middleware([
         'index' => 'admin_report_index',
         'show' => 'admin_report_show',
         'update' => 'admin_report_update',
-        'exportPDF' => 'admin_report_cetak',
+        'exportPDF' => 'admin_report_cetak'
     ]);
-    Route::post('/admin/report/{uuid}/exportpdf', [AdminReportController::class, 'exportPDF'])->name('admin_report_cetak');
+    Route::post('/admin/report/{uuid}/exportpdf', [AdminReportController::class, 'exportDomPDF'])->name('admin_report_dom_pdf');
 
     /*  Route::get('/admin/events/create', [AdminEventController::class, 'createPage'])->name('admin_events_create'); */
 });
@@ -86,7 +86,9 @@ Route::group([], function () {
     Route::get('/', function () {
         // Session::flash('errorFeedback', 'Selamat Datang di Website Kami');
         return view('pages.customer.homepage', [
-            'events' => Event::orderBy('waktu_acara')
+            'events' => Event::join('users', 'events.id_panitia', '=', 'users.id')
+                ->orderBy('waktu_acara')
+                ->select('events.*', 'users.nama_user as nama_panitia')
                 ->where('waktu_acara', '>=', now())
                 ->limit(5)->get(),
         ]);

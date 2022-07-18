@@ -18,7 +18,10 @@ class EventController extends Controller
     public function index()
     {
         //
-        $events = Event::orderBy('waktu_acara', 'desc')->get();
+        $events = Event::join('users', 'events.id_panitia', '=', 'users.id')
+            ->select('events.*', 'users.nama_user as nama_panitia')
+            ->orderBy('waktu_acara', 'desc')->get();
+
         return view('pages.customer.event.index', [
             'events' => $events,
         ]);

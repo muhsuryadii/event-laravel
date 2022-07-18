@@ -1,5 +1,8 @@
 <x-app-costumer-layout>
   {{-- {{ dd($provinsi) }}} --}}
+
+  {{-- {{ $errors ? dd($errors) : '' }} --}}
+
   <section class="section py-10">
     <div class="container">
       <div class="user-wrapper mx-auto lg:w-2/3">
@@ -63,7 +66,7 @@
           {{-- End Domisili Peserta --}}
 
           {{-- Tanggal Lahir Peserta --}}
-          <div class="mb-4">
+          {{-- <div class="mb-4">
             <label for="tanggal_lahir" class="form-label text-base font-medium">Tanggal Lahir</label>
 
             @if ($peserta && $peserta->tanggal_lahir)
@@ -80,7 +83,7 @@
                 {{ $message }}
               </div>
             @enderror
-          </div>
+          </div> --}}
           {{-- End Tanggal Lahir Peserta --}}
 
           {{-- Jenis Kelamin Peserta --}}
@@ -88,9 +91,10 @@
             <label for="gender" class="form-label text-base font-medium">Jenis Kelamin</label>
             <select id='gender' name='gender' class="form-select" aria-label="Select gender">
 
-              <option value="male" {{ $peserta && $peserta->gender === 'male' ? ' selected' : '' }}>
+              <option value="male" {{ old('gender', $peserta && $peserta->gender) === 'male' ? ' selected' : '' }}>
                 Laki-Laki</option>
-              <option value="female" {{ $peserta && $peserta->gender === 'female' ? ' selected' : '' }}>
+              <option value="female"
+                {{ old('gender', $peserta && $peserta->gender) === 'female' ? ' selected' : '' }}>
                 Perempuan</option>
             </select>
 
@@ -109,23 +113,23 @@
                 class="text-danger text-sm">(*)</span></label>
             {{-- <input type="hidden" name="instansi_hidden" id=""> --}}
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="instansi" value="usni" id="usni "
-                {{ $peserta && $peserta->instansi_peserta === 'usni' ? ' checked' : '' }}>
-              <label class="form-check-label capitalize" for="usni">
+              <label class="form-check-label capitalize" for="instansi-usni">
+                <input class="form-check-input" type="radio" name="instansi" value="usni" id="instansi-usni"
+                  {{ old('instansi', $peserta && $peserta->instansi_peserta) === 'usni' ? ' checked' : '' }}>
                 Universitas Satya Negara Indonesia
               </label>
 
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="instansi" value="others" id="others"
-                {{ $peserta && $peserta->instansi_peserta !== 'usni' ? ' checked' : '' }}>
               <label class="form-check-label" for="others">
+                <input class="form-check-input" type="radio" name="instansi" value="others" id="others"
+                  {{ old('instansi', $peserta && $peserta->instansi_peserta) !== 'usni' ? ' checked' : '' }}>
                 Lainnya
               </label>
             </div>
             <div>
               <input type="text"
-                class="form-control {{ $peserta && $peserta->instansi_peserta !== 'usni' ? '' : 'd-none' }} @error('instansi_lain') is-invalid @enderror capitalize"
+                class="form-control {{ old('instansi', $peserta && $peserta->instansi_peserta) !== 'usni' ? '' : 'd-none' }} @error('instansi_lain') is-invalid @enderror capitalize"
                 id="instansi_lain" name='instansi_lain' placeholder="Perusahaan/ Yayasan/ Universitas/ Sekolah "
                 value="{{ old('instansi_lain', $peserta && $peserta->instansi_peserta !== 'usni' ? $peserta->instansi_peserta : '') }}">
 
@@ -136,22 +140,34 @@
                 </div>
               @enderror
             </div>
+
+            @error('instansi_peserta')
+              <div id="instansi_feedback" class="invalid-feedback d-block">
+
+                @if ($message == 'validation.required')
+                  <small class="text-danger">Instansi harus diisi</small>
+                @endif
+              </div>
+            @enderror
           </div>
 
           {{-- End Instansi Peserta --}}
 
           {{-- No Telepon Peserta --}}
           <div class="mb-4">
-            <label for="no_telepon" class="form-label text-base font-medium capitalize">No Telepon
+            <label for="no_telepon" class="form-label text-base font-medium capitalize">No HP/Whatsapp
+              <span class="text-danger text-sm">(*)</span>
             </label>
             <input type="text" class="form-control @error('no_telepon') is-invalid @enderror"
               value="{{ old('no_telepon', $peserta && $peserta->no_telepon ? $peserta->no_telepon : '') }}"
-              id="no_telepon" name='no_telepon' placeholder='62xxxxxxxx'>
-
+              id="no_telepon" name='no_telepon' autocomplete="new no-hp" placeholder='62xxxxxxxx'>
 
             @error('no_telepon')
-              <div id="no_telepon_feedback" class="invalid-feedback">
-                {{ $message }}
+              <div id="no_telepon_feedback" class="invalid-feedback d-block">
+
+                @if ($message == 'validation.required')
+                  <small class="text-danger">No Hp/WA harus diisi</small>
+                @endif
               </div>
             @enderror
           </div>
@@ -208,7 +224,6 @@
             <div class="mb-4">
               <label for="jurusan" class="form-label text-base font-medium">Jurusan / Prodi</label>
 
-
               <input type="text" class="form-control @error('jurusan') is-invalid @enderror capitalize"
                 value="{{ old('jurusan', $peserta && $peserta->jurusan_peserta ? $peserta->jurusan_peserta : '') }}"
                 id="jurusan" name='jurusan'>
@@ -221,6 +236,16 @@
             </div>
             {{-- End jurusan Peserta --}}
           </div>
+
+          <p class="mb-1 font-semibold text-slate-800">
+            <small>(**) Email dan No. HP/Whatsapp digunakan untuk menghubungi peserta jika ada
+              informasi yang perlu disampaikan</small>
+          </p>
+          <p class="font-semibold text-slate-800">
+            <small>(**) Mohon mengisi kolom nama dengan benar, karena akan digunakan untuk
+              pengisian nama pada
+              sertifikat</small>
+          </p>
 
           <button type="submit" id='buttonEditProfile' class="btn btn-primary w-100 btn-simpan mb-4">Update
             Profile</button>

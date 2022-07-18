@@ -15,7 +15,6 @@
           <div class="title-user-info w-fitlk mr-4">
             <h6 class="mb-[8px]">Nama</h6>
             <h6 class="mb-[8px]">Email</h6>
-            <h6 class="mb-[8px]">Tanggal Lahir</h6>
             <h6 class="mb-[8px]">Jenis Kelamin</h6>
             <h6 class="mb-[8px]">Instansi</h6>
 
@@ -32,7 +31,6 @@
             <h6 class="mb-[8px]">:</h6>
             <h6 class="mb-[8px]">:</h6>
             <h6 class="mb-[8px]">:</h6>
-            <h6 class="mb-[8px]">:</h6>
 
             @if ($peserta)
               @if ($peserta->instansi_peserta == 'USNI')
@@ -45,9 +43,6 @@
           <div class="title-user-info w-fitlk mr-4">
             <h6 class="mb-[8px]">{{ $user->nama_user }}</h6>
             <h6 class="mb-[8px]">{{ $user->email }}</h6>
-            <h6 class="mb-[8px]">
-              {{ $peserta ? Carbon\Carbon::parse($peserta->tanggal_lahir)->translatedFormat('d F Y') : '-' }}
-            </h6>
             <h6 class="mb-[8px]">{{ $peserta ? ($peserta->gender == 'male' ? 'Laki-Laki' : 'Perempuan') : '-' }}
             </h6>
             <h6 class="mb-[8px]">

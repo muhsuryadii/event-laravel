@@ -28,7 +28,9 @@ class TransactionController extends Controller
             ->where('id_peserta', Auth::user()->id)
             ->select('transaksis.*', 'events.nama_event', 'events.famplet_acara_path', 'events.harga_tiket', 'events.waktu_acara')
             ->groupBy('transaksis.id_event')
-            ->orderBy('events.waktu_acara', 'desc')
+            // ->orderBy('events.waktu_acara', 'desc')
+            ->orderBy('transaksis.waktu_pembayaran', 'desc')
+
             ->get();
 
         return view('pages.customer.chekout.index', [
@@ -56,16 +58,26 @@ class TransactionController extends Controller
     {
         //
         // return dd($request->all());
+
+
+
+        /* Cek apakah sudah login */
         if (!auth()->user()) {
             return redirect()->route('login');
         }
+        /* Cek apakah data diri sudah diisi */
+        $peserta_info = DB::table('pesertas')
+            ->where('id_users', Auth::user()->id)
+            ->first();
 
+        if ($peserta_info == null) {
+            return redirect()->route('profile_show', Auth::user()->uuid)->with('error', 'Mohon lengkapi data diri terlebih dahulu');
+        }
+
+        /* Cek apakah sudah pernah membeli tiket sebelumnya */
         $transaksiCheck = DB::table('transaksis')->where('id_event', $request->event_id)->where('id_peserta', Auth::user()->id)->first();
 
-        // return dd($transaksiCheck);
-
         if ($transaksiCheck) {
-            // throw new \Exception('Anda sudah membeli tiket ini');
             return redirect()->route('checkout_index')->with('error', 'Anda sudah membeli tiket ini');
         }
 
@@ -81,7 +93,6 @@ class TransactionController extends Controller
             'no_transaksi' => $no_transaksi,
             'status_transaksi' => (int)$request->harga_tiket == 0 ? 'verified' : 'not_paid',
         ];
-        // return dd($chekoutData);
 
         $validator =  Validator::make($chekoutData, [
             'uuid' => 'required|unique:events,uuid',
