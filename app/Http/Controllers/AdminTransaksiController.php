@@ -120,14 +120,8 @@ class AdminTransaksiController extends Controller
             Event::where('id', $transaksi->id_event)->update([
                 'kuota_tiket' => $kuota
             ]);
-        } else {
-            $laporan = [
-                'status_absen' => true,
-            ];
 
-            // Laporan::where('id_transaksi', $transaksi->id)
-            //     ->update($laporan);
-
+            
         }
 
         return redirect()->route('admin_transaksi_show', $event->uuid);

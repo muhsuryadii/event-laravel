@@ -31,22 +31,46 @@ body,
   margin-bottom: 2.5rem;
   display: block;
   width: 100%;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+  text-align: center;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
   font-weight: 700;
   --tw-text-opacity: 1;
   color: rgb(148 163 184 / var(--tw-text-opacity));
 }
 
-/* table tr td {
-    @apply w-fit;
+.event-report-info .table-responsive table tr td:nth-child(1){
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
-table thead tr th {
-    @apply text-slate-400 font-bold text-left;
+.event-report-info .table-responsive table tr td:nth-child(2){
+  width: 33.333333%;
+  text-align: center;
 }
-table tbody tr {
-    // @apply even:bg-slate-100 odd:bg-white-100;
-} */
+
+.col-no{
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.peserta-table-wrapper.table-responsive{
+  overflow-x: auto;
+}
+.peserta-table-wrapper.table-responsive table tr td{
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+table thead tr th{
+  text-align: left;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(148 163 184 / var(--tw-text-opacity));
+}
+
 @page {
-  size: A4 potrait;
+  size: A4 landscape;
 }

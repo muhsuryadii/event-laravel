@@ -28,7 +28,9 @@ class TransactionController extends Controller
             ->where('id_peserta', Auth::user()->id)
             ->select('transaksis.*', 'events.nama_event', 'events.famplet_acara_path', 'events.harga_tiket', 'events.waktu_acara')
             ->groupBy('transaksis.id_event')
-            ->orderBy('events.waktu_acara', 'desc')
+            // ->orderBy('events.waktu_acara', 'desc')
+            ->orderBy('transaksis.waktu_pembayaran', 'desc')
+
             ->get();
 
         return view('pages.customer.chekout.index', [

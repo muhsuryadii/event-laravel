@@ -121,14 +121,6 @@ class AdminReportController extends Controller
             ->groupBy('pesertas.domisili')
             ->orderBy('count_domisili', 'desc')
             ->get();
-        /* $ages = DB::table('users')
-            ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
-            ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')
-            ->where('laporans.id_event', $event->id)
-            ->select(DB::raw("DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),pesertas.tanggal_lahir)), '%Y')+0  AS age"), DB::raw('COUNT(*) as count_ages'))
-            ->groupBy('pesertas.tanggal_lahir')
-            ->orderBy('age', 'asc')
-            ->get(); */
         $angkatan = DB::table('users')
             ->join('laporans', 'users.id', '=', 'laporans.id_peserta')
             ->leftjoin('pesertas', 'users.id', '=', 'pesertas.id_users')

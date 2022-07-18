@@ -26,7 +26,13 @@
   <div class="pdf-wrapper">
 
   </div>
-  <h3 class="title-report">Laporan Acara {{ $event->nama_event }}</h3>
+  <table>
+    <tr>
+      <td class="text-center">
+        <h3 class="title-report w-100 text-center">Laporan Acara {{ $event->nama_event }}</h3>
+      </td>
+    </tr>
+  </table>
   <div class="event-report-info mt-3">
     <div class="table-responsive">
       <table class="table">
@@ -56,21 +62,21 @@
     </div>
   </div>
   <div class="peserta-list-wrapper">
-    <div class="table-responsive">
-      <table class="table-striped table">
+    <div class="table-responsive peserta-table-wrapper">
+      <table class="table-striped table" align="left">
         <thead>
           <tr>
-            <th scope="col">No</th>
-            <th scope="col">Nama</th>
-            <th scope="col">Instansi</th>
-            <th scope="col">No HP</th>
-            <th scope="col">Email</th>
+            <th scope="col col-no" class="col-no">No</th>
+            <th scope="col" class="text-left">Nama</th>
+            <th scope="col" class="text-left">Instansi</th>
+            <th scope="col" class="text-left">No HP</th>
+            <th scope="col" class="text-left">Email</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($pesertas as $peserta)
             <tr>
-              <td>{{ $loop->iteration }}</td>
+              <td class="col-no text-center">{{ $loop->iteration }}</td>
               <td>{{ $peserta->nama_user }}</td>
 
               <td>

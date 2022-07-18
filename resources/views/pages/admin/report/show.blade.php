@@ -10,10 +10,7 @@
           Export PDF
         </button>
       </form>
-      {{-- <a href="#" class="d-block btn text-primary w-fit bg-white">
-        <i class="fa-regular fa-file-pdf mr-1 text-lg"></i>
-        Export PDF
-      </a> --}}
+
     </div>
     <div class="card mb-3 p-4">
       <h3 class='mb-3 text-xl font-bold'>Laporan Absensi Peserta</h3>
@@ -147,12 +144,18 @@
     <script>
       const ctxGender = document.getElementById('genderChart').getContext('2d');
       const genderData = {
-        labels: ['Laki-Laki', 'Perempuan'],
+        labels: [
+          @foreach ($genders as $gender)
+            "{{ $gender->gender == 'male' ? 'Laki - Laki' : 'Perempuan' }}",
+          @endforeach
+        ],
+
         datasets: [{
           label: 'Jenis Kelamin',
           data: [
-            {{ $genders[0]->gender == 'male' ? $genders[0]->count_gender : $genders[1]->count_gender }},
-            {{ $genders[1]->gender == 'female' ? $genders[1]->count_gender : $genders[0]->count_gender }}
+            @foreach ($genders as $gender)
+              {{ $gender->count_gender }},
+            @endforeach
           ],
           backgroundColor: [
             backgroundColorList[4],
@@ -185,12 +188,17 @@
     <script>
       const ctxAbsent = document.getElementById('absentChart').getContext('2d');
       const absentData = {
-        labels: ['Hadir', 'Tidak Hadir'],
+        labels: [
+          @foreach ($absents as $absent)
+            "{{ $absent->status_absen ? 'Hadir' : 'Tidak Hadir' }}",
+          @endforeach
+        ],
         datasets: [{
           label: 'Jumlah Kehadiran',
           data: [
-            {{ $absents[0]->status_absen ? $absents[0]->count_absent : $absents[1]->count_absent }},
-            {{ $absents[1]->status_absen ? $absents[1]->count_absent : $absents[0]->count_absent }}
+            @foreach ($absents as $absent)
+              {{ $absent->count_absent }},
+            @endforeach
           ],
           backgroundColor: [
             backgroundColorList[0],
@@ -228,7 +236,10 @@
         @endforeach
       ]
       const labelsInstansiSlice = labelsInstansi.length >= 9 ? labelsInstansi.slice(0, 9) : labelsInstansi;
-      labelsInstansiSlice.push('Lainnya');
+
+      if (labelsInstansi.length >= 9) {
+        labelsInstansiSlice.push('Lainnya');
+      }
 
       let datainstansi = [
         @foreach ($instansis as $instansi)
@@ -239,7 +250,10 @@
 
       const sisaSlice = datainstansi.length >= 9 ? datainstansi.slice(9, datainstansi.length) : datainstansi;
       const sisaSliceSum = sisaSlice.reduce(reducer);
-      dataInstansiSlice.push(sisaSliceSum);
+
+      if (datainstansi.length >= 9) {
+        dataInstansiSlice.push(sisaSliceSum);
+      }
 
       const backgroundColorInstansi = []
       const borderColorInstansi = []
@@ -289,7 +303,6 @@
         @endforeach
       ]
       const labelsDomisiliSlice = labelsDomisili.length >= 9 ? labelsDomisili.slice(0, 9) : labelsDomisili;
-      labelsDomisiliSlice.push('Lainnya');
 
       let dataDomisili = [
         @foreach ($domisilis as $domisili)
@@ -300,7 +313,12 @@
 
       const sisaSliceDomisili = dataDomisili.length >= 9 ? dataDomisili.slice(9, dataDomisili.length) : dataDomisili;
       const sisaSliceDomisiliSum = sisaSliceDomisili.reduce(reducer);
-      dataDomisiliSlice.push(sisaSliceDomisiliSum);
+
+      if (labelsInstansi.length >= 9 || dataDomisili.length >= 9) {
+        labelsDomisiliSlice.push('Lainnya');
+        dataDomisiliSlice.push(sisaSliceDomisiliSum);
+      }
+
 
       const backgroundColorDomisili = []
       const borderColorDomisili = []
