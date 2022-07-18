@@ -125,8 +125,9 @@ class AdminTransaksiController extends Controller
                 'status_absen' => true,
             ];
 
-            Laporan::where('id_transaksi', $transaksi->id)
-                ->update($laporan);
+            // Laporan::where('id_transaksi', $transaksi->id)
+            //     ->update($laporan);
+
         }
 
         return redirect()->route('admin_transaksi_show', $event->uuid);

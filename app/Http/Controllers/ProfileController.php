@@ -116,7 +116,7 @@ class ProfileController extends Controller
             'id_users' => $request->id_user,
             'nama_user' => $request->nama_user,
             'instansi_peserta' =>  $instansi,
-            'tanggal_lahir' => $request->tanggal_lahir,
+            // 'tanggal_lahir' => $request->tanggal_lahir,
             'gender' => $request->gender,
             'domisili' => $request->domisili,
             'no_telepon' => $request->no_telepon,
@@ -124,18 +124,30 @@ class ProfileController extends Controller
             'jurusan_peserta' => $request->jurusan,
             'angkatan' => $request->angkatan,
         ];
+        if ($request->instansi == 'usni') {
 
-        $validator =  Validator::make($pesertaData, [
-            'id_users' => 'required|exists:users,id',
-            'instansi_peserta' => 'required|string|max:255',
-            'tanggal_lahir' => 'string|max:255',
-            'gender' => 'in:male,female',
-            'domisili' => 'string|max:255',
-            'no_telepon' => 'string|max:20',
-            'id_fakultas' => 'exists:fakultas,id',
-            'jurusan_peserta' => 'string',
-            'angkatan' => 'string|min:4',
-        ])->validate();
+            $validator =  Validator::make($pesertaData, [
+                'id_users' => 'required|exists:users,id',
+                'instansi_peserta' => 'required|string|max:255',
+                'no_telepon' => 'required|string|max:20',
+                // 'tanggal_lahir' => 'string|max:255',
+                'gender' => 'in:male,female|nullable',
+                'domisili' => 'string|max:255|nullable',
+                'id_fakultas' => 'exists:fakultas,id|nullable',
+                'jurusan_peserta' => 'string|nullable',
+                'angkatan' => 'string|min:4|nullable',
+            ])->validate();
+        } else {
+            $validator =  Validator::make($pesertaData, [
+                'id_users' => 'required|exists:users,id',
+                'instansi_peserta' => 'required|string|max:255',
+                'no_telepon' => 'required|string|max:20',
+                // 'tanggal_lahir' => 'string|max:255|nullable',
+                'gender' => 'in:male,female|nullable',
+                'domisili' => 'string|max:255|nullable',
+            ])->validate();
+        }
+
 
         $namaValidator = Validator::make($pesertaData, [
             'nama_user' => 'required|string|max:255',

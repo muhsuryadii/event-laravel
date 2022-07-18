@@ -231,9 +231,9 @@ class AdminReportController extends Controller
         ]);
         // return dd($reportUser);
         $pdf->setPaper('A4', 'landscape');
-        // return $pdf->stream();
-        $files = preg_replace('/[^a-zA-Z0-9]/', " ", $event->nama_event);
-        return $pdf->download('Laporan ' . $files . '.pdf');
+        return $pdf->stream();
+        // $files = preg_replace('/[^a-zA-Z0-9]/', " ", $event->nama_event);
+        // return $pdf->download('Laporan ' . $files . '.pdf');
     }
 
     public function exportPDF($uuid)

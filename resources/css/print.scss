@@ -20,20 +20,15 @@ body,
     @apply text-xl text-slate-400 font-bold block w-full mx-auto mb-10;
 }
 
-.table-responsive {
-    @apply table-responsive text-left;
-    table tr td {
-        @apply w-fit;
-    }
-    table thead tr th{
-        @apply text-slate-400 font-bold text-left;
-    }
-    table tbody tr{
-        @apply even:bg-slate-100 odd:bg-white-100";
-    }
+/* table tr td {
+    @apply w-fit;
 }
-
-
+table thead tr th {
+    @apply text-slate-400 font-bold text-left;
+}
+table tbody tr {
+    // @apply even:bg-slate-100 odd:bg-white-100;
+} */
 @page {
-  size: A4 potrait;
+    size: A4 potrait;
 }

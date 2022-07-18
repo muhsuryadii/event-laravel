@@ -18,10 +18,11 @@ class MyEventController extends Controller
     {
         $events = DB::table('events')
             ->join('transaksis', 'events.id', '=', 'transaksis.id_event')
+            ->join('laporans', 'transaksis.id', '=', 'laporans.id_transaksi')
             ->where('transaksis.id_peserta', Auth::user()->id)
             ->where('transaksis.status_transaksi', 'verified')
             ->orderBy('events.waktu_acara', 'desc')
-            ->select('events.*',)
+            ->select('events.*', 'events.uuid as event_id', 'laporans.*')
             ->get();
 
         return view('pages.customer.my-events.index', [

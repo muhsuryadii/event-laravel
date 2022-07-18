@@ -1,69 +1,68 @@
 <x-app-costumer-layout>
-    {{-- {{ dd($absentCheck) }} --}}
-    <section class="container py-10">
-        <div class="card-list-wrapper mx-auto lg:max-w-[700px]">
-            <div
-                class="p-4 mb-3 card-wrapper bg-white rounded-2xl border shadow-[0_3px_10px_rgb(0,0,0,0.2)] border-slate-600 flex">
-                <div class="image-wrapper  lg:max-w-[30%] lg:w-full lg:mr-5">
-                    <img class="block rounded-2xl lg:h-[200px]  object-cover "
-                        src="{{ $event->famplet_acara_path != null ? asset('storage/' . $event->famplet_acara_path) : asset('image/event_image_default.png') }}"
-                        loading="lazy" decoding="async">
-                </div>
+  {{-- {{ dd($event) }} --}}
+  <section class="container py-10">
+    <div class="card-list-wrapper mx-auto lg:max-w-[700px]">
+      <div
+        class="card-wrapper mb-3 flex rounded-2xl border border-slate-600 bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+        <div class="image-wrapper lg:mr-5 lg:w-full lg:max-w-[30%]">
+          <img class="block rounded-2xl object-cover lg:h-[200px]"
+            src="{{ $event->famplet_acara_path != null ? asset('storage/' . $event->famplet_acara_path) : asset('image/event_image_default.png') }}"
+            loading="lazy" decoding="async">
+        </div>
 
-                <div class="event-info w-full">
-                    <div class="title-wrapper">
-                        <h2 class='line-clamp-2 text-2xl' title="{{ $event->nama_event }}">
-                            {{ $event->nama_event }}</h2>
-                    </div>
+        <div class="event-info w-full">
+          <div class="title-wrapper">
+            <h2 class='line-clamp-2 text-2xl' title="{{ $event->nama_event }}">
+              {{ $event->nama_event }}</h2>
+          </div>
 
-                    <div class="event-content-wrapper">
-                        <p class="text-secondary text-base font-semibold mt-2 mb-2">
-                            <i
-                                class="fa-solid fa-calendar mr-3"></i>{{ Carbon\Carbon::parse($event->waktu_acara)->translatedFormat('d F Y') }}
-                        </p>
-                        <p class="text-secondary text-base font-semibold mt-2 mb-2">
-                            <i class="fa-solid fa-location-pin  mr-3"></i>
-                            {{ $event->lokasi_acara }}
-                        </p>
-                        <p class="text-secondary text-base font-semibold mt-2 mb-2">
-                            <i class="fa-solid fa-certificate  mr-3"></i>
+          <div class="event-content-wrapper">
+            <p class="text-secondary mt-2 mb-2 text-base font-semibold">
+              <i
+                class="fa-solid fa-calendar mr-3"></i>{{ Carbon\Carbon::parse($event->waktu_acara)->translatedFormat('d F Y') }}
+            </p>
+            <p class="text-secondary mt-2 mb-2 text-base font-semibold">
+              <i class="fa-solid fa-location-pin mr-3"></i>
+              {{ $event->lokasi_acara }}
+            </p>
+            <p class="text-secondary mt-2 mb-2 text-base font-semibold">
+              <i class="fa-solid fa-certificate mr-3"></i>
 
-                            @if ($event->is_certificate_ready)
-                                <span class="text-green-500">
-                                    E-Sertifikat Sudah Tersedia
-                                </span>
-                            @else
-                                <span class="text-red-500">
-                                    E-Sertifikat Belum Tersedia
-                                </span>
-                            @endif
-                        </p>
-                    </div>
-                </div>
+              @if ($event->is_certificate_ready)
+                <span class="text-green-500">
+                  E-Sertifikat Sudah Tersedia
+                </span>
+              @else
+                <span class="text-red-500">
+                  E-Sertifikat Belum Tersedia
+                </span>
+              @endif
+            </p>
+          </div>
+        </div>
 
-            </div>
-            <div class="summary-info-wrapper bg-white rounded-2xl border shadow-md border-slate-600 p-4">
-                @if ($laporan->status_absen == 0)
-                    <form action="{{ route('my-events_absent', $event->uuid_event) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="id_event" value="{{ $event->id_event }}">
-                        <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
-                        <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
-                        <input type="hidden" name="id_laporan" value="{{ $laporan->id }}">
+      </div>
+      <div class="summary-info-wrapper rounded-2xl border border-slate-600 bg-white p-4 shadow-md">
+        @if ($laporan->status_absen == 0)
+          <form action="{{ route('my-events_absent', $event->uuid_event) }}" method="POST">
+            @csrf
+            <input type="hidden" name="id_event" value="{{ $event->id_event }}">
+            <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
+            <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
+            <input type="hidden" name="id_laporan" value="{{ $laporan->id }}">
+
+            <button type="submit" id='btn_absen' class="btn btn-primary block w-full !rounded-md">Absen
+              Event</button>
+
+          </form>
+        @else
+          <button type="button" disabled id='btn_absen' class="btn btn-success block w-full !rounded-md">Anda
+            Sudah Absen</button>
+        @endif
 
 
-                        <button type="submit" id='btn_absen' class="btn btn-primary !rounded-md block w-full">Absen
-                            Event</button>
-
-                    </form>
-                @else
-                    <button type="button" disabled id='btn_absen' class="btn btn-success !rounded-md block w-full">Anda
-                        Sudah Absen</button>
-                @endif
-
-
-                {{-- For Production --}}
-                {{-- @if (now() >= $event->waktu_acara)
+        {{-- For Production --}}
+        {{-- @if (now() >= $event->waktu_acara)
                     <form action="{{ route('my-events_absent', $event->uuid) }}">
 
                     </form>
@@ -111,9 +110,9 @@
                         </script>
                     @endpush
                 @endif --}}
-            </div>
-        </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
 
 </x-app-costumer-layout>

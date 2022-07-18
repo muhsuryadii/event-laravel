@@ -86,7 +86,9 @@ Route::group([], function () {
     Route::get('/', function () {
         // Session::flash('errorFeedback', 'Selamat Datang di Website Kami');
         return view('pages.customer.homepage', [
-            'events' => Event::orderBy('waktu_acara')
+            'events' => Event::join('users', 'events.id_panitia', '=', 'users.id')
+                ->orderBy('waktu_acara')
+                ->select('events.*', 'users.nama_user as nama_panitia')
                 ->where('waktu_acara', '>=', now())
                 ->limit(5)->get(),
         ]);

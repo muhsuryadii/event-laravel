@@ -53,6 +53,9 @@ class AdminEventController extends Controller
     {
         //
         // return dd($request);
+
+
+
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
         $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
         $image = null;

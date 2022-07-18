@@ -853,10 +853,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: auto;
 }.mr-4 {
   margin-right: 1rem;
-}.mb-5 {
-  margin-bottom: 1.25rem;
 }.mb-7 {
   margin-bottom: 1.75rem;
+}.mb-5 {
+  margin-bottom: 1.25rem;
 }.mr-8 {
   margin-right: 2rem;
 }.mb-px {
@@ -983,8 +983,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 6rem;
 }.w-3 {
   width: 0.75rem;
-}.w-\[2480px\] {
-  width: 2480px;
 }.min-w-0 {
   min-width: 0px;
 }.min-w-full {

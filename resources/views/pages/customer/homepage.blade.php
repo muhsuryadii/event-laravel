@@ -67,10 +67,19 @@
 
                 <div class="event-info-wrapper flex flex-col flex-wrap justify-between px-3 py-4">
                   <div class="event_info w-full">
-                    <i class="fa-regular fa-calendar text-secondary mr-1"></i>
-                    <span class="text-secondary font-weight-bold text-xs">
-                      {{ Carbon\Carbon::parse($event->waktu_acara)->translatedFormat('d F Y') }}
-                    </span>
+                    <div class="tanggal-wrapper">
+                      <i class="fa-regular fa-calendar text-secondary mr-1"></i>
+                      <span class="text-secondary font-weight-bold text-xs">
+                        {{ Carbon\Carbon::parse($event->waktu_acara)->translatedFormat('d F Y') }}
+                      </span>
+                    </div>
+                    <div class="panitia">
+                      <i class="fa-solid fa-image-portrait text-secondary mr-1"></i>
+                      <span class="text-secondary font-weight-bold text-xs">
+                        {{ $event->nama_panitia }}
+                      </span>
+                    </div>
+
                     <h3 class="line-clamp-3 mt-2 text-base font-semibold" title="{{ $event->nama_event }}">
                       {{ $event->nama_event }}
                     </h3>
