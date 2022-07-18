@@ -207,16 +207,42 @@ class AdminReportController extends Controller
     {
         //
     }
+    public function exportDomPDF($uuid)
+    {
+
+        $event = Event::where('uuid', $uuid)->first();
+        $penyelenggara_event = Event::where('events.id', $event->id)
+            ->join('users', 'users.id', '=', 'events.id_panitia')
+            ->select('users.nama_user')
+            ->first();
+
+        $reportUser = DB::table('laporans')
+            ->join('transaksis', 'laporans.id_transaksi', '=', 'transaksis.id')
+            ->join('users', 'transaksis.id_peserta', '=', 'users.id')
+            ->join('pesertas', 'users.id', '=', 'pesertas.id_users')
+            ->where('laporans.id_event', $event->id)
+            ->orderBy('users.nama_user', 'asc')
+            ->select('users.*', 'pesertas.*', 'laporans.*')->get();
+
+        $pdf = PDF::loadview('pages.admin.report.printDomPdf', [
+            'pesertas' => $reportUser,
+            'event' => $event,
+            'penyelenggara_event' => $penyelenggara_event
+        ]);
+        // return dd($reportUser);
+        $pdf->setPaper('A4', 'landscape');
+        // return $pdf->stream();
+        $files = preg_replace('/[^a-zA-Z0-9]/', " ", $event->nama_event);
+        return $pdf->download('Laporan ' . $files . '.pdf');
+    }
 
     public function exportPDF($uuid)
     {
         // return dd($uuid);
 
         // Browsershot::url('https://example.com')->save('example.pdf');
-
+        $transaksi = Laporan::class;
         $event = Event::where('uuid', $uuid)->first();
-
-
 
         $laporan = DB::table('laporans')
             ->join('events', 'laporans.id_event', '=', 'events.id')
@@ -294,9 +320,24 @@ class AdminReportController extends Controller
             ->orderBy('count_jurusan', 'desc')
             ->get();
 
-        $pdf = PDF::loadview('pages.admin.report.print', [
+        // $pdf = PDF::loadview('pages.admin.report.print', [
+        //     'event' => $event,
+        //     'laporan' => $laporan,
+        //     'reportUser' => $reportUser,
+        //     'genders' => $gender,
+        //     'absents' => $absent,
+        //     'instansis' => $instansi,
+        //     'domisilis' => $domisili,
+        //     'angkatan' => $angkatan,
+        //     'fakultas' => $fakultas,
+        //     'jurusan' => $jurusan
+        // ]);
+        // return $pdf->stream();
+        // return $pdf->download('laporan-pegawai-pdf');
+        return view('pages.admin.report.print', [
             'event' => $event,
             'laporan' => $laporan,
+            'transaksi' => $transaksi,
             'reportUser' => $reportUser,
             'genders' => $gender,
             'absents' => $absent,
@@ -306,7 +347,5 @@ class AdminReportController extends Controller
             'fakultas' => $fakultas,
             'jurusan' => $jurusan
         ]);
-        return $pdf->stream();
-        // return $pdf->download('laporan-pegawai-pdf');
     }
 }

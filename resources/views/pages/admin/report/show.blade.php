@@ -3,17 +3,17 @@
   <div class="card-wrapper mb-7">
     <div class="pdf-export flex items-center justify-between">
       <h5 class="text-white">Nama Event : {{ $event->nama_event }}</h5>
-      {{-- <form action="{{ route('admin_report_cetak', $event->uuid) }}" method="post">
+      <form action="{{ route('admin_report_dom_pdf', $event->uuid) }}" method="post">
         @csrf
         <button type="submit" class="d-block btn text-primary w-fit bg-white active:bg-slate-200">
           <i class="fas fa-file-pdf"></i>
           Export PDF
         </button>
-      </form> --}}
-      <a href="#" class="d-block btn text-primary w-fit bg-white">
+      </form>
+      {{-- <a href="#" class="d-block btn text-primary w-fit bg-white">
         <i class="fa-regular fa-file-pdf mr-1 text-lg"></i>
         Export PDF
-      </a>
+      </a> --}}
     </div>
     <div class="card mb-3 p-4">
       <h3 class='mb-3 text-xl font-bold'>Laporan Absensi Peserta</h3>

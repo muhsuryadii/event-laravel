@@ -72,9 +72,9 @@ Route::middleware([
         'index' => 'admin_report_index',
         'show' => 'admin_report_show',
         'update' => 'admin_report_update',
-        'exportPDF' => 'admin_report_cetak',
+        'exportPDF' => 'admin_report_cetak'
     ]);
-    Route::post('/admin/report/{uuid}/exportpdf', [AdminReportController::class, 'exportPDF'])->name('admin_report_cetak');
+    Route::post('/admin/report/{uuid}/exportpdf', [AdminReportController::class, 'exportDomPDF'])->name('admin_report_dom_pdf');
 
     /*  Route::get('/admin/events/create', [AdminEventController::class, 'createPage'])->name('admin_events_create'); */
 });

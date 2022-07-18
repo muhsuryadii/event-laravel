@@ -1,7 +1,66 @@
-.title {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-    text-transform: capitalize;
-    --tw-text-opacity: 1;
-    color: rgb(148 163 184 / var(--tw-text-opacity))
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap);
+html,
+body,
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+.title{
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  text-transform: capitalize;
+  --tw-text-opacity: 1;
+  color: rgb(148 163 184 / var(--tw-text-opacity));
+}
+
+.paper-width{
+  max-width: 2480px;
+}
+
+.pdf-wrapper{
+  width: 100%;
+}
+
+@media (min-width: 640px){
+  .pdf-wrapper{
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px){
+  .pdf-wrapper{
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px){
+  .pdf-wrapper{
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px){
+  .pdf-wrapper{
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px){
+  .pdf-wrapper{
+    max-width: 1536px;
+  }
+}
+
+.title-report{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.25rem;
+  display: block;
+  width: 100%;
+  padding-bottom: 1.25rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(148 163 184 / var(--tw-text-opacity));
 }

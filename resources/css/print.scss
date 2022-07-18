@@ -1,3 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+html,
+body,
+* {
+    font-family: "Montserrat", sans-serif;
+    width: 100%;
+    max-width: max-content;
+}
+
 .title {
     @apply capitalize text-lg text-slate-400;
+}
+
+.pdf-wrapper {
+    @apply px-5 pt-10 max-w-full w-full;
+}
+
+.title-report {
+    @apply text-xl text-slate-400 font-bold block w-full mx-auto mb-10;
+}
+
+.table-responsive {
+    @apply table-responsive text-left;
+    table tr td {
+        @apply w-fit;
+    }
+    table thead tr th{
+        @apply text-slate-400 font-bold text-left;
+    }
+    table tbody tr{
+        @apply even:bg-slate-100 odd:bg-white-100";
+    }
+}
+
+
+@page {
+  size: A4 potrait;
 }
