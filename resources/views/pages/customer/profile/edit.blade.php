@@ -115,7 +115,7 @@
             <div class="form-check">
               <label class="form-check-label capitalize" for="instansi-usni">
                 <input class="form-check-input" type="radio" name="instansi" value="usni" id="instansi-usni"
-                  {{ old('instansi', $peserta && $peserta->instansi_peserta) === 'usni' ? ' checked' : '' }}>
+                  {{ old('instansi', $peserta && $peserta->instansi_peserta ? $peserta->instansi_peserta : '') === 'usni' ? ' checked' : '' }}>
                 Universitas Satya Negara Indonesia
               </label>
 
@@ -123,13 +123,14 @@
             <div class="form-check">
               <label class="form-check-label" for="others">
                 <input class="form-check-input" type="radio" name="instansi" value="others" id="others"
-                  {{ old('instansi', $peserta && $peserta->instansi_peserta) !== 'usni' ? ' checked' : '' }}>
+                  {{ old('instansi', $peserta && $peserta->instansi_peserta ? $peserta->instansi_peserta : '') !== 'usni' ? ' checked' : '' }}>
                 Lainnya
               </label>
             </div>
+
             <div>
               <input type="text"
-                class="form-control {{ old('instansi', $peserta && $peserta->instansi_peserta) !== 'usni' ? '' : 'd-none' }} @error('instansi_lain') is-invalid @enderror capitalize"
+                class="form-control {{ old('instansi', $peserta && $peserta->instansi_peserta ? $peserta->instansi_peserta : '') !== 'usni' ? '' : 'd-none' }} @error('instansi_lain') is-invalid @enderror capitalize"
                 id="instansi_lain" name='instansi_lain' placeholder="Perusahaan/ Yayasan/ Universitas/ Sekolah "
                 value="{{ old('instansi_lain', $peserta && $peserta->instansi_peserta !== 'usni' ? $peserta->instansi_peserta : '') }}">
 
@@ -150,7 +151,6 @@
               </div>
             @enderror
           </div>
-
           {{-- End Instansi Peserta --}}
 
           {{-- No Telepon Peserta --}}
@@ -236,6 +236,8 @@
             </div>
             {{-- End jurusan Peserta --}}
           </div>
+
+          {{-- Keterangan sebelum update profile --}}
 
           <p class="mb-1 font-semibold text-slate-800">
             <small>(**) Email dan No. HP/Whatsapp digunakan untuk menghubungi peserta jika ada
