@@ -41,6 +41,9 @@ class AdminEventController extends Controller
         return view('pages.admin.event.create', [
             'user' => Auth::user(),
         ]);
+        // return view('pages.admin.event.createWithStepper', [
+        //     'user' => Auth::user(),
+        // ]);
     }
 
     /**
