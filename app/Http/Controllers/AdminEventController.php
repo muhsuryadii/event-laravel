@@ -38,12 +38,12 @@ class AdminEventController extends Controller
     public function create()
     {
         //
-        return view('pages.admin.event.create', [
-            'user' => Auth::user(),
-        ]);
-        // return view('pages.admin.event.createWithStepper', [
+        // return view('pages.admin.event.create', [
         //     'user' => Auth::user(),
         // ]);
+        return view('pages.admin.event.createWithStepper', [
+            'user' => Auth::user(),
+        ]);
     }
 
     /**
@@ -55,9 +55,7 @@ class AdminEventController extends Controller
     public function store(Request $request)
     {
         //
-        // return dd($request);
-
-
+        return dd($request);
 
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
         $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
