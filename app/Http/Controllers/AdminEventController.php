@@ -7,6 +7,7 @@ use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -99,6 +100,44 @@ class AdminEventController extends Controller
 
         Event::create($validator);
         return redirect(route('admin_events_index'))->with('EventCreateSuccess', 'Event Berhasil Ditambahkan');
+    }
+
+
+    public function storeInformation(Request $request)
+    {/* 
+        $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
+        $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
+
+        $eventData = [
+            'id_panitia' => $request->id_penyelenggara_event,
+            'nama_event' => $request->nama_event,
+            'uuid' => Str::uuid()->getHex(),
+            'waktu_acara' => $request->waktu_acara,
+            'harga_tiket' => $harga_tiket,
+            'kuota_tiket' => (int) $request->kuota_tiket,
+            'lokasi_acara' => $lokasi_acara,
+            'tipe_acara' => $request->tipe_acara
+        ];
+
+        // Validate Input
+        $validator =  Validator::make($eventData, [
+            'id_panitia' => 'required|exists:users,id',
+            'nama_event' => 'required|max:255',
+            'uuid' => 'required|unique:events,uuid',
+            'waktu_acara' => 'required|after_or_equal:today',
+            'harga_tiket' => 'required|numeric',
+            'kuota_tiket' => 'required|numeric',
+            'lokasi_acara' => 'required|max:255',
+            'tipe_acara' => 'required'
+        ])->validate();
+
+        Event::create($validator); */
+
+        $input = $request->all();
+
+        FacadesLog::info($input);
+
+        return response()->json(['success' => 'Got Simple Ajax Request.']);
     }
 
     /**

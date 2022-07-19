@@ -61,6 +61,8 @@ Route::middleware([
         'destroy' => 'admin_events_destroy',
     ]);
 
+    Route::post('/admin/events/create', [AdminEventController::class, 'storeInformation'])->name('admin_events_store_information');
+
     /* Transaction Route */
     Route::resource('/admin/transaksi', AdminTransaksiController::class)->names([
         'index' => 'admin_transaksi_index',
