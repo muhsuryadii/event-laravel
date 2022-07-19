@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Event;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+
+
+
+class AdminEventJSController extends Controller
+{
+    //
+    public function create()
+    {
+        //
+        // return view('pages.admin.event.create', [
+        //     'user' => Auth::user(),
+        // ]);
+        return view('pages.admin.event.createWithStepper', [
+            'user' => Auth::user(),
+        ]);
+    }
+
+    public function storeInformation(Request $request)
+    {
+
+        $uuid = $request->uuid_event;
+
+        $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
+
+        $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
+
+        $eventData = [
+            'id_panitia' => $request->id_penyelenggara_event,
+            'nama_event' => $request->nama_event,
+            'uuid' =>   $uuid,
+            'waktu_acara' => $request->waktu_acara,
+            'harga_tiket' => (int)$harga_tiket,
+            'kuota_tiket' => (int) $request->kuota_tiket,
+            'lokasi_acara' => $lokasi_acara,
+            'tipe_acara' => $request->tipe_acara
+        ];
+
+        $event = Event::where('uuid', $uuid)->first();
+
+        if ($event) {
+
+            $validator =  Validator::make($eventData, [
+                'id_panitia' => 'required|exists:users,id',
+                'nama_event' => 'required|max:255',
+                'uuid' => 'required',
+                'waktu_acara' => 'required|after_or_equal:today',
+                'harga_tiket' => 'required|numeric',
+                'kuota_tiket' => 'required|numeric',
+                'lokasi_acara' => 'required|max:255',
+                'tipe_acara' => 'required'
+            ])->validate();
+
+            $event->update($validator);
+            return response()->json([
+                'success' => true,
+                'message' => 'Event success updated',
+            ], 201);
+        } else {
+            $validator =  Validator::make($eventData, [
+                'id_panitia' => 'required|exists:users,id',
+                'nama_event' => 'required|max:255',
+                'uuid' => 'required|unique:events,uuid',
+                'waktu_acara' => 'required|after_or_equal:today',
+                'harga_tiket' => 'required|numeric',
+                'kuota_tiket' => 'required|numeric',
+                'lokasi_acara' => 'required|max:255',
+                'tipe_acara' => 'required'
+            ])->validate();
+            Event::create($validator);
+            return response()->json([
+                'success' => true,
+                'message' => 'Event success created',
+            ], 201);
+        }
+    }
+}

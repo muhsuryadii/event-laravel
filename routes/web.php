@@ -3,6 +3,7 @@
 
 
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\AdminEventJSController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
@@ -51,7 +52,11 @@ Route::middleware([
     /* Event Route */
     Route::get('/admin/events/checkslug', [AdminEventController::class, 'checkSlug'])->name('admin_events_checkslug');
 
+
     /* Event Admin Route */
+
+
+
     Route::resource('/admin/events', AdminEventController::class)->names([
         'index' => 'admin_events_index',
         'create' => 'admin_events_create',
@@ -61,7 +66,9 @@ Route::middleware([
         'destroy' => 'admin_events_destroy',
     ]);
 
-    Route::post('/admin/events/create', [AdminEventController::class, 'storeInformation'])->name('admin_events_store_information');
+    Route::post('/admin/events/create', [AdminEventJSController::class, 'storeInformation'])->name('admin_events_store_info');
+
+
 
     /* Transaction Route */
     Route::resource('/admin/transaksi', AdminTransaksiController::class)->names([
