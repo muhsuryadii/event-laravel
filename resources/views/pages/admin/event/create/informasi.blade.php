@@ -287,8 +287,9 @@
 
     {{-- script for uuid event --}}
     <script>
-      const uuidEvent = document.querySelector('#uuid_event');
-      uuidEvent.value = grenateUUID();
+      const uuidElement = document.querySelector('#uuid_event');
+      uuidElement.value = grenateUUID();
+      const uuidEvent = uuidElement.value
     </script>
 
     {{-- Post Event Information --}}
@@ -360,7 +361,7 @@
       }
 
       const postInformation = () => {
-
+        const endpoint = "{{ route('admin_events_store_info') }}";
         if (postFormValidation()) {
           const form = document.querySelector('#formStepInformation');
           const formData = new FormData(form);
@@ -371,7 +372,7 @@
               [pair[0]]: pair[1]
             });
           }
-          axios.post('/admin/events/create', {
+          axios.post(endpoint, {
               ...data
             })
             .then(function(response) {
@@ -381,7 +382,7 @@
               } else {
                 alert('Something went wrong');
               }
-            })l
+            })
             .catch(function(error) {
               console.log(error);
             });

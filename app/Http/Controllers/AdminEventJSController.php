@@ -83,4 +83,30 @@ class AdminEventJSController extends Controller
             ], 201);
         }
     }
+
+    public function storeDescription(Request $request)
+    {
+        $uuid = $request->uuid_event;
+        $event = Event::where('uuid', $uuid)->first();
+
+        $descriptionData = [
+            'deskripsi_acara' => $request->deskripsi_acara,
+        ];
+
+        $validator =  Validator::make($descriptionData, [
+            'deskripsi_acara' => 'required',
+        ])->validate();
+
+        $event->update($validator);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Description Event updated',
+        ]);
+    }
+    public function storeHumas(Request $request)
+    {
+        $uuid = $request->uuid_event;
+        $event = Event::where('uuid', $uuid)->first();
+    }
 }

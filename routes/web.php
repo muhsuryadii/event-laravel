@@ -56,7 +56,6 @@ Route::middleware([
     /* Event Admin Route */
 
 
-
     Route::resource('/admin/events', AdminEventController::class)->names([
         'index' => 'admin_events_index',
         'create' => 'admin_events_create',
@@ -66,7 +65,10 @@ Route::middleware([
         'destroy' => 'admin_events_destroy',
     ]);
 
-    Route::post('/admin/events/create', [AdminEventJSController::class, 'storeInformation'])->name('admin_events_store_info');
+    Route::post('/admin/events/create/information', [AdminEventJSController::class, 'storeInformation'])->name('admin_events_store_info');
+
+    Route::post('/admin/events/create/description', [AdminEventJSController::class, 'storeDescription'])->name('admin_events_store_desc');
+    Route::post('/admin/events/create/humas', [AdminEventJSController::class, 'storeHumas'])->name('admin_events_store_humas');
 
 
 

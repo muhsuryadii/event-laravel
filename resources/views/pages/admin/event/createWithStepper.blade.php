@@ -98,73 +98,14 @@
             {{-- Tab Dekskripsi --}}
             <div id="deskripsi" role="tabpanel" class="bs-stepper-pane fade dstepper-block dstepper-none"
               aria-labelledby="stepper3trigger2">
-              {{-- Deskripsi Event --}}
-              <div class="mb-4">
-                <div class="form-group">
-                  <label for="deskripsi_acara" class="form-label text-sm">Deskripsi Event
-                    <span class="text-xxs text-danger">(*)</span>
-                  </label>
-                  <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror mb-5" name='deskripsi_acara'
-                    autofocus='true' required="required" value="{{ old('deskripsi_acara') }}" id="ckeditor"
-                    placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea>
-
-                  @error('deskripsi_acara')
-                    <div id="deskripsi_acara_feedback" class="invalid-feedback">
-                      @if (isset($message) && $message == 'validation.required')
-                        Deskripsi Event Wajib Diisi
-                      @endif
-                    </div>
-                  @enderror
-                </div>
-              </div>
-              <button class="btn btn-primary btn-next-form" type='button'>Next</button>
+              @include('pages.admin.event.create.deskripsi')
             </div>
 
             {{-- Tab Humas --}}
             <div id="humas" role="tabpanel" class="bs-stepper-pane fade dstepper-none text-center"
               aria-labelledby="stepper3trigger3">
 
-
-              <div class="mb-4">
-                <button class="btn btn-outline-primary btn-tambah-humas d-block ml-auto active:bg-blue-100"
-                  type='button'>
-                  <i class="fa-solid fa-plus mr-2"></i>
-                  Tambah Humas
-                </button>
-                <div class="humas-wrapper-list">
-                  <div class="humas-wrapper">
-                    <label for="name" class="form-label d-block text-left text-lg">Humas
-                      1</label>
-                    <div class="form-group text-left">
-                      <label for="nama_humas[]" class="form-label text-left text-sm">Nama
-                        Humas</label>
-                      <input type="text" class="form-control @error('nama_humas[]') is-invalid @enderror"
-                        name='nama_humas[]' id="nama_humas[]" autofocus='true' value="{{ old('nama_humas[]') }}"
-                        placeholder="Masukan Nama Humas">
-                      @error('nama_humas[]')
-                        <div class="invalid-feedback">
-                          {{ $message }}
-                        </div>
-                      @enderror
-                    </div>
-                    <div class="form-group text-left">
-                      <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp
-                        Humas</label>
-                      <input type="text" class="form-control @error('no_wa[]') is-invalid @enderror"
-                        name='no_wa[]' id='no_wa[]' autofocus='true' value="{{ old('no_wa[]') }}"
-                        placeholder="628xxxxxxxxxx"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^]/, '628');">
-                      @error('no_wa[]')
-                        <div class="invalid-feedback">
-                          {{ $message }}
-                        </div>
-                      @enderror
-                    </div>
-                  </div>
-                </div>
-
-                <button class="btn btn-primary btn-next-form" type='button'>Next</button>
-              </div>
+              @include('pages.admin.event.create.humas')
             </div>
 
             {{-- Tab Pamflet / Poster --}}
@@ -224,25 +165,6 @@
           imagePreview.src = reader.result;
         }
       }
-    </script>
-
-    {{-- CK editor --}}
-    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-
-    <script>
-      ClassicEditor
-        .create(document.querySelector('#ckeditor'), {
-          removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'CKTable', 'EasyImage', 'Image',
-            'ImageCaption', 'ImageStyle',
-            'ImageToolbar', 'ImageUpload', 'MediaEmbed', 'insertTable '
-          ],
-        })
-        .then(editor => {
-          console.log(editor);
-        })
-        .catch(error => {
-          console.error(error);
-        });
     </script>
 
     {{-- Sweet alert --}}
@@ -355,32 +277,6 @@
 
     {{-- Axios --}}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    {{-- Script for add another humas --}}
-    <script>
-      const buttonHumas = document.querySelector('.btn-tambah-humas')
-      const humasList = document.querySelector('.humas-wrapper-list')
-      const firstHumas = document.querySelector('.humas-wrapper')
-
-      buttonHumas.addEventListener('click', function() {
-        console.log(humasList.children.length);
-        humasList.innerHTML += `
-        <div class="humas-wrapper">
-            <label for="name" class="form-label d-block text-left text-lg">Humas ${humasList.children.length+1}</label>
-            <div class="form-group text-left">
-            <label for="nama_humas[]" class="form-label text-left text-sm">Nama Humas</label>
-            <input type="text" class="form-control" name='nama_humas[]' id="nama_humas[]" autofocus='true'
-                placeholder="Masukan Nama Humas">
-            </div>
-            <div class="form-group text-left">
-            <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp Humas</label>
-            <input type="text" class="form-control" name='no_wa[]' id='no_wa[]' autofocus='true'
-                placeholder="628xxxxxxxxxx"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^]/, '628');">
-            </div>
-        </div>
-        `;
-      })
-    </script>
   @endpush
 
 </x-app-layout>
