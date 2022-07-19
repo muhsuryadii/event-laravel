@@ -13,89 +13,97 @@
             <div class="col-md-6 col-12">
               {{-- Penyelenggara Event --}}
               <div class="mb-4">
-                <label for="id_penyelenggara_event" class="form-label text-sm"
-                  value="{{ old('penyelenggara_event') }}">Penyelenggara <span class="text-xxs text-danger">(*)</span>
-                </label>
+                <div class="form-group">
+                  <label for="id_penyelenggara_event" class="form-label text-sm"
+                    value="{{ old('penyelenggara_event') }}">Penyelenggara <span
+                      class="text-xxs text-danger">(*)</span>
+                  </label>
 
-                <input disabled type="text" class="form-control @error('penyelenggara_event') is-invalid @enderror"
-                  value="{{ $user->nama_user }}" id="penyelenggara_event" name='penyelenggara_event'>
+                  <input disabled type="text" class="form-control @error('penyelenggara_event') is-invalid @enderror"
+                    value="{{ $user->nama_user }}" id="penyelenggara_event" name='penyelenggara_event'>
 
-                <input hidden type="text" class="form-control d-none" value={{ $user->id }}
-                  id="id_penyelenggara_event" name='id_penyelenggara_event'>
+                  <input hidden type="text" class="form-control d-none" value={{ $user->id }}
+                    id="id_penyelenggara_event" name='id_penyelenggara_event'>
 
-                @error('penyelenggara_event')
-                  <div id="penyelenggara_event_feedback" class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
+                  @error('penyelenggara_event')
+                    <div id="penyelenggara_event_feedback" class="invalid-feedback">
+                      {{ $message }}
+                    </div>
+                  @enderror
+                </div>
 
               </div>
 
               {{-- Nama Event --}}
               <div class="mb-4">
-                <label for="nama_event" class="form-label text-sm">Nama
-                  Event <span class="text-xxs text-danger">(*)</span> </label>
-                <input type="text" class="form-control @error('nama_event') is-invalid @enderror" id="nama_event"
-                  name='nama_event' autofocus='true' required value="{{ old('nama_event') }}"
-                  placeholder="Masukan Nama Event">
+                <div class="form-group">
 
-                @error('nama_event')
-                  <div id="nama_event_feedback" class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
-                {{-- <input type="hidden" class="form-control" name="slug" id="slug"
-                                    value="{{ old('slug') }}"> --}}
+                  <label for="nama_event" class="form-label text-sm">Nama
+                    Event <span class="text-xxs text-danger">(*)</span> </label>
+                  <input type="text" class="form-control @error('nama_event') is-invalid @enderror" id="nama_event"
+                    name='nama_event' autofocus='true' required value="{{ old('nama_event') }}"
+                    placeholder="Masukan Nama Event">
+
+                  @error('nama_event')
+                    <div id="nama_event_feedback" class="invalid-feedback">
+                      {{ $message }}
+                    </div>
+                  @enderror
+                </div>
               </div>
 
               {{-- Watku Event --}}
               <div class="mb-4">
-                <label for="waktu_acara" class="form-label text-sm">Tanggal / Waktu Event
-                  <span class="text-xxs text-danger">(*)</span> </label>
+                <div class="form-group">
+                  <label for="waktu_acara" class="form-label text-sm">Tanggal / Waktu Event
+                    <span class="text-xxs text-danger">(*)</span> </label>
 
-                <input type="datetime-local" class="form-control @error('waktu_acara') is-invalid @enderror"
-                  id="waktu_acara" name="waktu_acara" required value="{{ old('waktu_acara') }}">
+                  <input type="datetime-local" class="form-control @error('waktu_acara') is-invalid @enderror"
+                    id="waktu_acara" name="waktu_acara" required value="{{ old('waktu_acara') }}">
 
-                @error('waktu_acara')
-                  <div id="datetime_feedback" class="invalid-feedback capitalize">
-                    {{ $message }}
+                  @error('waktu_acara')
+                    <div id="datetime_feedback" class="invalid-feedback capitalize">
+                      {{ $message }}
 
-                    @if (isset($message) && $message == 'validation.after_or_equal')
-                      mohon masukan waktu event yang sesuai
-                    @elseif (isset($message) && $message == 'validation.required')
-                      mohon masukan tanggal event
-                    @endif
-                  </div>
-                @enderror
-
-
+                      @if (isset($message) && $message == 'validation.after_or_equal')
+                        mohon masukan waktu event yang sesuai
+                      @elseif (isset($message) && $message == 'validation.required')
+                        mohon masukan tanggal event
+                      @endif
+                    </div>
+                  @enderror
+                </div>
               </div>
 
               {{-- Harga Tiket --}}
               <div class="mb-4">
-                <label for="name" class="form-label text-sm" value="{{ old('harga_tiket') }}">Harga
-                  Tiket</label>
+                <div class="form-group">
 
-                <div class="radio d-flex mt-3">
-                  <div class="form-check mb-3 mr-3">
+                  <label for="name" class="form-label text-sm" value="{{ old('harga_tiket') }}">Harga
+                    Tiket</label>
 
-                    @if (old('harga_tiket') == null)
-                      <input class="form-check-input ticketPrice" type="radio" name="harga_tiket" value='gratis'
-                        id="priceFree" checked>
-                    @else
-                      <input class="form-check-input ticketPrice" type="radio" name="harga_tiket" value='gratis'
-                        id="priceFree" {{ old('harga_tiket') === 'gratis' ? 'checked' : ' ' }}>
-                    @endif
+                  <div class="radio d-flex mt-3">
+                    <div class="form-check mb-3 mr-3">
 
-                    <label class="custom-control-label py-1 px-2" for="priceFree">Gratis</label>
+                      @if (old('harga_tiket') == null)
+                        <input class="form-check-input ticketPrice" type="radio" name="harga_tiket" value='gratis'
+                          id="priceFree" checked>
+                      @else
+                        <input class="form-check-input ticketPrice" type="radio" name="harga_tiket" value='gratis'
+                          id="priceFree" {{ old('harga_tiket') === 'gratis' ? 'checked' : ' ' }}>
+                      @endif
+
+                      <label class="custom-control-label py-1 px-2" for="priceFree">Gratis</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input ticketPrice" type="radio" name="harga_tiket" value='bayar'
+                        id="picePay" required
+                        {{ old('harga_tiket') === null ? ' ' : (old('harga_tiket') !== 'gratis' ? 'checked' : ' ') }}>
+
+                      <label class="custom-control-label py-1 px-1" for="picePay">Bayar</label>
+                    </div>
                   </div>
-                  <div class="form-check">
-                    <input class="form-check-input ticketPrice" type="radio" name="harga_tiket" value='bayar'
-                      id="picePay" required
-                      {{ old('harga_tiket') === null ? ' ' : (old('harga_tiket') !== 'gratis' ? 'checked' : ' ') }}>
 
-                    <label class="custom-control-label py-1 px-1" for="picePay">Bayar</label>
-                  </div>
                 </div>
 
 
@@ -147,9 +155,6 @@
               </div>
             </div>
           </div>
-
-
-
 
           {{-- Kuota Tiket --}}
           <div class="mb-4">
