@@ -108,7 +108,11 @@
       const endpoint = "{{ route('admin_events_store_humas') }}";
 
       if (!postFormValidation()) {
-        //   return stepper3.previous();
+        return stepper3.to(1);
+      }
+
+      if (!postFormDescription()) {
+        return stepper3.previous();
       }
 
       if (postFormHumas()) {
@@ -124,7 +128,6 @@
           Humas.no_wa = formData.getAll('no_wa[]')[i];
           humasList.push(Humas);
         }
-
 
         axios.post(endpoint, {
             humasList,

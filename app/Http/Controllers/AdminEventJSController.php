@@ -107,16 +107,6 @@ class AdminEventJSController extends Controller
     }
     public function storeHumas(Request $request)
     {
-        /*  $uuid = $request->uuid_event;
-        $event = Event::where('uuid', $uuid)->first(); */
-
-        /* $input = $request->all();
-        return response()->json([
-            'success' => true,
-            'message' => 'Description Event updated',
-            'input' => $input
-        ]); */
-
         $uuid = $request->uuid_event;
         $humaslist = $request->humasList;
         $event = Event::where('uuid', $uuid)->first();
@@ -176,5 +166,15 @@ class AdminEventJSController extends Controller
                 'message' => 'Humas Event Updated',
             ]);
         }
+    }
+
+    public function storePamflet(Request $request)
+    {
+        $input = $request->all();
+        return response()->json([
+            'success' => true,
+            'message' => 'Humas Event Updated',
+            'input' => $input,
+        ]);
     }
 }

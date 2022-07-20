@@ -82,10 +82,6 @@
 
           </div>
 
-          {{-- Form Create Event --}}
-          {{-- <form action='{{ route(' admin_events_store') }}' method="POST" enctype="multipart/form-data"
-                        class="p-[1.5rem]" id="formCreateEvent">
-                        @csrf --}}
           {{-- Stepper Content --}}
           <div class="bs-stepper-content">
 
@@ -112,28 +108,9 @@
             <div id="pamflet" role="tabpanel" class="bs-stepper-pane fade dstepper-none text-center"
               aria-labelledby="stepper3trigger3">
 
-              <div class="mb-3">
-                {{-- <label for="image" class="form-label text-lg">Poster Event</label> --}}
-                <img class="img-preview img-fluid col-sm-5 d-block mx-auto mt-3 mb-3 rounded-md shadow-md"
-                  src="{{ asset('image/event_image_default.png') }}" loading="lazy">
-                <input class="form-control @error('famplet_acara_path') is-invalid @enderror" type="file"
-                  id="image" name="image" onchange="previewImage()">
-
-                @error('famplet_acara_path')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
-
-                @error('image')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
-              </div>
-
-              <button class="btn btn-primary btn-next-form" type='button'>Next</button>
+              @include('pages.admin.event.create.pamflet')
             </div>
+
             {{-- Tab Sertifikat --}}
             <div id="sertifikat" role="tabpanel" class="bs-stepper-pane fade dstepper-none text-center"
               aria-labelledby="stepper3trigger3">
@@ -151,22 +128,6 @@
 
 
   @push('js')
-    {{-- Script for preview image --}}
-    <script>
-      function previewImage() {
-        const image = document.querySelector('#image');
-        const imagePreview = document.querySelector('.img-preview');
-
-        const reader = new FileReader();
-
-        reader.readAsDataURL(image.files[0]);
-
-        reader.onload = function() {
-          imagePreview.src = reader.result;
-        }
-      }
-    </script>
-
     {{-- Sweet alert --}}
     {{-- <script>
       const btnSimpan = document.querySelector('#buttonSimpanEvent');
