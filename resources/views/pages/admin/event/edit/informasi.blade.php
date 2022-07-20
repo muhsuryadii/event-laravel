@@ -1,5 +1,7 @@
-  <form action='{{ route('admin_events_store_info') }}' method="POST" class="p-[1.5rem]" id="formStepInformation">
+  <form action='{{ route('admin_events_update_info', $event->uuid) }}' method="POST" class="p-[1.5rem]"
+    id="formStepInformation">
     @csrf
+    @method('put')
     {{-- Penyelenggara Event --}}
     <div class="mb-4">
       <div class="form-group">
@@ -12,7 +14,9 @@
 
         <input hidden type="text" class="form-control d-none" value={{ $user->id }} id="id_penyelenggara_event"
           name='id_penyelenggara_event'>
-        <input hidden type="hidden" class="form-control d-none" id="uuid_event" name='uuid_event'>
+
+        <input hidden type="hidden" class="form-control d-none" id="uuid_event" name='uuid_event'
+          value={{ $event->uuid }}>
 
         @error('penyelenggara_event')
           <div id="penyelenggara_event_feedback" class="invalid-feedback">
@@ -29,7 +33,7 @@
         <label for="nama_event" class="form-label text-sm">Nama
           Event <span class="text-xxs text-danger">(*)</span> </label>
         <input type="text" class="form-control @error('nama_event') is-invalid @enderror" id="nama_event"
-          name='nama_event' autofocus='true' required value="{{ old('nama_event') }}"
+          name='nama_event' autofocus='true' required value="{{ old('nama_event', $event->nama_event) }}"
           placeholder="Masukan Nama Event">
 
         @error('nama_event')
@@ -48,7 +52,8 @@
           <span class="text-xxs text-danger">(*)</span> </label>
 
         <input type="datetime-local" class="form-control @error('waktu_acara') is-invalid @enderror" id="waktu_acara"
-          name="waktu_acara" required onclick="this.showPicker()" value="{{ old('waktu_acara') }}">
+          name="waktu_acara" required onclick="this.showPicker()"
+          value="{{ old('waktu_acara', date('Y-m-d\TH:i', strtotime($event->waktu_acara))) }}">
 
         @error('waktu_acara')
           <div id="datetime_feedback" class="invalid-feedback capitalize">
@@ -72,34 +77,30 @@
 
         <div class="radio d-flex mt-3">
           <div class="form-check mb-1 mr-3">
+
             @if (old('harga_tiket') == null)
               <input class="form-check-input ticketPrice" type="radio" name="harga_tiket" value='gratis'
-                id="priceFree" checked>
+                id="priceFree" {{ $event->harga_tiket == 0 ? 'checked' : ' ' }}>
             @else
               <input class="form-check-input ticketPrice" type="radio" name="harga_tiket" value='gratis'
-                id="priceFree" {{ old('harga_tiket') === 'gratis' ? 'checked' : ' ' }}>
+                id="priceFree" {{ old('harga_tiket', $event->harga_tiket) === 'gratis' ? 'checked' : ' ' }}>
             @endif
-
             <label class="custom-control-label py-1 px-2" for="priceFree">Gratis</label>
           </div>
           <div class="form-check">
             <input class="form-check-input ticketPrice" type="radio" name="harga_tiket" value='bayar' id="picePay"
-              required {{ old('harga_tiket') === null ? ' ' : (old('harga_tiket') !== 'gratis' ? 'checked' : ' ') }}>
+              {{ $event->harga_tiket != 0 ? 'checked' : ' ' }}>
             <label class="custom-control-label py-1 px-1" for="picePay">Bayar</label>
           </div>
         </div>
       </div>
-      <div id='inputPriceWrapper'
-        class="input-group {{ old('harga_tiket') === null ? 'd-none' : (old('harga_tiket') !== 'gratis' ? '' : 'd-none') }} mb-4">
+      <div id='inputPriceWrapper' class="input-group {{ $event->harga_tiket == 0 ? 'd-none' : ' ' }} mb-4">
         <span class="input-group-text">Rp. </span>
         <input class="form-control @error('harga_tiket') is-invalid @enderror" type="text"
           placeholder="Masukan harga tiket"
           oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/[^0-9]/g, '').replace(/[!@#$%^&*]/g, '');"
-          name="harga_tiket_bayar"
-          @if (old('harga_tiket') === null) disabled @else
-            @if (old('harga_tiket') !== 'gratis') value="{{ (int) old('harga_tiket_bayar') }}"
-           @else disabled @endif
-          @endif>
+          name="harga_tiket_bayar" {{ $event->harga_tiket == 0 ? 'disabled' : ' ' }}
+          value={{ old('harga_tiket_bayar', $event->harga_tiket) }}>
       </div>
       {{-- <input type="text" class="form-control" id="harga_tiket" name='harga_tiket'
                                             autofocus='true'> --}}
@@ -117,7 +118,7 @@
         <label for="kuota_tiket" class="form-label text-sm">Kuota
           Tiket <span class="text-xxs text-danger">(*)</span> </label>
         <input type="text" class="form-control @error('kuota_tiket') is-invalid @enderror" id="kuota_tiket"
-          name='kuota_tiket' autofocus='true' required value="{{ old('kuota_tiket') }}"
+          name='kuota_tiket' autofocus='true' required value="{{ old('kuota_tiket', $event->kuota_tiket) }}"
           placeholder="Masukan Kuota Tiket"
           oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/[^0-9]/g, '').replace(/[!@#$%^&*]/g, '');">
 
@@ -139,13 +140,13 @@
           <div class="form-check mb-3 mr-3">
             <input class="form-check-input eventType" type="radio" name="tipe_acara" value='online'
               id="online"
-              {{ old('tipe_acara') === null ? 'checked' : (old('tipe_acara') == 'online' ? 'checked' : ' ') }}>
+              {{ strtolower($event->tipe_acara) == 'online' || old('tipe_acara') == 'online' ? 'checked' : ' ' }}>
             <label class="custom-control-label py-1 px-2" for="online">Online</label>
           </div>
           <div class="form-check">
             <input class="form-check-input eventType" type="radio" name="tipe_acara" value='offline'
               id="offline"
-              {{ old('tipe_acara') === null ? ' ' : (old('tipe_acara') == 'offline' ? 'checked' : ' ') }}>
+              {{ strtolower($event->tipe_acara) == 'offline' || old('tipe_acara') == 'offline' ? 'checked' : ' ' }}>
             <label class="custom-control-label py-1 px-1" for="offline">Offline</label>
           </div>
         </div>
@@ -158,28 +159,22 @@
 
 
         <div id='eventOnline'
-          class="input-group event-location-input {{ old('tipe_acara') === null ? ' ' : (old('tipe_acara') === 'online' ? '' : 'd-none') }} mb-4">
+          class="input-group event-location-input {{ strtolower($event->tipe_acara) == 'offline' ? 'd-none' : ' ' }} mb-4">
           <select class="form-select @error('lokasi_acara_online') is-invalid @enderror"
-            aria-label="Default select example" name="lokasi_acara_online">
-
+            aria-label="Default select example" name="lokasi_acara_online"
+            {{ strtolower($event->tipe_acara) == 'offline' ? 'disabled' : ' ' }}>
             <option value="Zoom"
-              {{ old('lokasi_acara_online') === null
-                  ? 'selected '
-                  : (old('lokasi_acara_online') === 'Zoom'
-                      ? 'selected'
-                      : '') }}>
+              {{ $event->lokasi_acara == 'Zoom' || old('lokasi_acara_online') == 'Zoom' ? 'selected' : ' ' }}>
               Zoom</option>
             <option value="Google Meet"
-              {{ old('lokasi_acara_online') === null ? ' ' : (old('lokasi_acara_online') === 'Google Meet' ? 'selected' : '') }}>
-              Google Meet</option>
+              {{ $event->lokasi_acara == 'Google Meet' || old('lokasi_acara_online') == 'Google Meet' ? 'selected' : ' ' }}>
+              Google Meet
+            </option>
             <option value="Lainnya"
-              {{ old('lokasi_acara_online') === null
-                  ? ' '
-                  : (old('lokasi_acara_online') !== 'Google Meet' && old('lokasi_acara_online') !== 'Zoom'
-                      ? 'selected'
-                      : '') }}>
+              {{ $event->lokasi_acara != 'Google Meet' && $event->lokasi_acara != 'Zoom' ? 'selected' : ' ' }}>
               Lainnya</option>
           </select>
+
 
           @error('lokasi_acara_online')
             <div id="lokasi_acara_offline_feedback" class="invalid-feedback">
@@ -189,11 +184,13 @@
         </div>
 
         <div id='eventOffline'
-          class="input-group event-location-input {{ old('tipe_acara') === null ? ' d-none' : (old('tipe_acara') === 'online' ? 'd-none' : ' ') }} mb-4">
+          class="input-group event-location-input {{ strtolower($event->tipe_acara) != 'offline' ? 'd-none' : ' ' }} mb-4">
           <div class="w-100 mb-4">
             <input type="text" class="form-control @error('lokasi_acara_offline') is-invalid @enderror"
               id="lokasi_acara_offline" name='lokasi_acara_offline' autofocus='true'
-              value="{{ old('lokasi_acara_offline') }}" placeholder="Masukan Lokasi Event" disabled>
+              value="{{ old('lokasi_acara_offline', $event->tipe_acara == 'offline' ? $event->lokasi_acara : '') }}"
+              placeholder="Masukan Lokasi Event"
+              {{ strtolower($event->tipe_acara) != 'offline' ? 'disabled' : ' ' }}>
 
             @error('lokasi_acara_offline')
               <div id="lokasi_acara_offline_feedback" class="invalid-feedback">
@@ -210,18 +207,6 @@
   </form>
 
   @push('js')
-    {{-- uuid --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"
-      integrity="sha512-UNM1njAgOFUa74Z0bADwAq8gbTcqZC8Ej4xPSzpnh0l6KMevwvkBvbldF9uR++qKeJ+MOZHRjV1HZjoRvjDfNQ=="
-      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script>
-      const grenateUUID = () => {
-        const newUuid = uuid.v4()
-        return newUuid.replace(/-/g, "");
-      }
-    </script>
-
     {{-- Script for Event price toogle --}}
     <script>
       const radioPrice = document.querySelectorAll('input[type=radio][name=harga_tiket]');
@@ -249,17 +234,16 @@
     <script>
       const radioEventType = document.querySelectorAll('input[type=radio][name=tipe_acara]');
       const locationInput = document.querySelectorAll('.event-location-input');
+
       radioEventType.forEach(function(radio) {
         radio.addEventListener('click', function() {
 
           locationInput.forEach(function(input) {
-            // console.log(input)
             input.classList.remove('d-none');
           });
 
 
           if (radio.value === 'online') {
-
             locationInput[1].classList.add('d-none');
             locationInput[1].querySelector('input').value = '';
             locationInput[1].querySelector('input').setAttribute('disabled', true);
@@ -276,19 +260,18 @@
       });
     </script>
     {{-- Script for date validation --}}
+
     <script>
       const waktu_acara = document.getElementById("waktu_acara");
       const date = new Date();
       const isoDateTime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
       const now = isoDateTime.split('.')[0];
-
       waktu_acara.setAttribute("min", now);
     </script>
 
     {{-- script for uuid event --}}
     <script>
       const uuidElement = document.querySelector('#uuid_event');
-      uuidElement.value = grenateUUID();
       const uuidEvent = uuidElement.value
     </script>
 
@@ -361,7 +344,7 @@
       }
 
       const postInformation = () => {
-        const endpoint = "{{ route('admin_events_store_info') }}";
+        const endpoint = "{{ route('admin_events_update_info', $event->uuid) }}";
         if (postFormValidation()) {
           const form = document.querySelector('#formStepInformation');
           const formData = new FormData(form);
@@ -372,7 +355,7 @@
               [pair[0]]: pair[1]
             });
           }
-          axios.post(endpoint, {
+          axios.put(endpoint, {
               ...data
             })
             .then(function(response) {

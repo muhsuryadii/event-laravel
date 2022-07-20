@@ -49,7 +49,6 @@ class AdminEventJSController extends Controller
         $event = Event::where('uuid', $uuid)->first();
 
         if ($event) {
-
             $validator =  Validator::make($eventData, [
                 'id_panitia' => 'required|exists:users,id',
                 'nama_event' => 'required|max:255',
@@ -210,5 +209,68 @@ class AdminEventJSController extends Controller
                 'message' => 'ok',
             ]);
         }
+    }
+
+    public function updateInformation(Request $request, $uuid)
+    {
+        $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
+
+        $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
+
+        $eventData = [
+            'id_panitia' => $request->id_penyelenggara_event,
+            'nama_event' => $request->nama_event,
+            'waktu_acara' => $request->waktu_acara,
+            'harga_tiket' => (int)$harga_tiket,
+            'kuota_tiket' => (int) $request->kuota_tiket,
+            'lokasi_acara' => $lokasi_acara,
+            'tipe_acara' => $request->tipe_acara
+        ];
+
+        $event = Event::where('uuid', $uuid)->first();
+
+        $validator =  Validator::make($eventData, [
+            'id_panitia' => 'required|exists:users,id',
+            'nama_event' => 'required|max:255',
+            'waktu_acara' => 'required|after_or_equal:today',
+            'harga_tiket' => 'required|numeric',
+            'kuota_tiket' => 'required|numeric',
+            'lokasi_acara' => 'required|max:255',
+            'tipe_acara' => 'required'
+        ])->validate();
+
+        $event->update($validator);
+        return response()->json([
+            'success' => true,
+            'message' => 'Event success updated',
+        ]);
+    }
+
+    public function updateDescription(Request $request, $uuid)
+    {
+        /*  $input = $request->all();
+
+        return response()->json([
+            'success' => true,
+            'message' => $input,
+            'uuid' => $uuid
+        ]); */
+
+        $event = Event::where('uuid', $uuid)->first();
+
+        $descriptionData = [
+            'deskripsi_acara' => $request->deskripsi_acara,
+        ];
+
+        $validator =  Validator::make($descriptionData, [
+            'deskripsi_acara' => 'required',
+        ])->validate();
+
+        $event->update($validator);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Description Event updated',
+        ]);
     }
 }

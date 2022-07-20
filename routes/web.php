@@ -73,6 +73,9 @@ Route::middleware([
     Route::post('/admin/events/create/pamflet', [AdminEventJSController::class, 'storePamflet'])->name('admin_events_store_pamflet');
 
 
+    Route::put('/admin/events/{uuid}/edit/information', [AdminEventJSController::class, 'updateInformation'])->name('admin_events_update_info');
+
+    Route::put('/admin/events/{uuid}/edit/description', [AdminEventJSController::class, 'updateDescription'])->name('admin_events_update_desc');
 
     /* Transaction Route */
     Route::resource('/admin/transaksi', AdminTransaksiController::class)->names([

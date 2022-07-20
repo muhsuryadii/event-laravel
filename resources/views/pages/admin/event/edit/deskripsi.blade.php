@@ -2,8 +2,11 @@
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
   @endpush
 
-  <form action='{{ route('admin_events_store_desc') }}' method="POST" class="p-[1.5rem]" id="formStepDescription">
+  <form action='{{ route('admin_events_update_desc', $event->uuid) }}' method="POST" class="p-[1.5rem]"
+    id="formStepDescription">
     @csrf
+    @method('put')
+
     {{-- Deskripsi Event --}}
     <div class="mb-4">
       <div class="form-group">
@@ -14,7 +17,7 @@
 
         <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror mb-5" name='deskripsi_acara'
           autofocus='true' required="required" value="{{ old('deskripsi_acara') }}" id="ckeditor"
-          placeholder="Masukan Deskripsi Event">{{ old('deskripsi_acara') }}</textarea>
+          placeholder="Masukan Deskripsi Event">{{ old('deskripsi_acara', $event->deskripsi_acara) }}</textarea>
 
         @error('deskripsi_acara')
           <div id="deskripsi_acara_feedback" class="invalid-feedback">
@@ -42,11 +45,7 @@
           ],
         })
         .then(editor => {
-          //   console.log(editor);
-          //   editor.getData();
-          //   editor.updateSourceElement();
           myEditor = editor;
-
         })
         .catch(error => {
           console.error(error);
@@ -58,8 +57,6 @@
       const postFormDescription = () => {
         const descriptionFeedback = document.querySelector('.is-none');
         const descriptionTextareaValue = myEditor.getData();
-
-        // console.log(descriptionTextareaValue.length);
 
         if (descriptionTextareaValue.length == 0) {
           descriptionFeedback.classList.add('d-block');
@@ -74,7 +71,7 @@
       }
 
       const postDescription = () => {
-        const endpoint = "{{ route('admin_events_store_desc') }}";
+        const endpoint = "{{ route('admin_events_update_desc', $event->uuid) }}";
 
         if (!postFormValidation()) {
           return stepper3.previous();
@@ -85,9 +82,8 @@
             'uuid_event': uuidEvent,
             'deskripsi_acara': myEditor.getData()
           };
-          // console.log(data);
 
-          axios.post(endpoint, {
+          axios.put(endpoint, {
               ...data
             })
             .then(function(response) {
