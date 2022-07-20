@@ -1,38 +1,74 @@
-<form action='{{ route('admin_events_store_humas') }}' method="POST" class="p-[1.5rem]" id="formStepHumas">
+<form action='{{ route('admin_events_update_humas', $event->uuid) }}' method="POST" class="p-[1.5rem]"
+  id="formStepHumas">
   @csrf
+  @method('put')
+
   <div class="mb-4">
     <button class="btn btn-outline-primary btn-tambah-humas d-block ml-auto active:bg-blue-100" type='button'>
       <i class="fa-solid fa-plus mr-2"></i>
       Tambah Humas
     </button>
     <div class="humas-wrapper-list">
-      <div class="humas-wrapper">
-        <label for="name" class="form-label d-block text-left text-lg">Humas
-          1</label>
-        <div class="form-group text-left">
-          <label for="nama_humas[]" class="form-label text-left text-sm">Nama
-            Humas</label>
-          <input type="text" class="form-control @error('nama_humas[]') is-invalid @enderror" name='nama_humas[]'
-            id="nama_humas[]" autofocus='true' value="{{ old('nama_humas[]') }}" placeholder="Masukan Nama Humas">
-          @error('nama_humas[]')
-            <div class="invalid-feedback">
-              {{ $message }}
-            </div>
-          @enderror
+      @if (count($humas) == 0)
+        <div class="humas-wrapper">
+          <label for="name" class="form-label d-block text-left text-lg">Humas
+            1</label>
+          <div class="form-group text-left">
+            <label for="nama_humas[]" class="form-label text-left text-sm">Nama
+              Humas</label>
+            <input type="text" class="form-control @error('nama_humas[]') is-invalid @enderror" name='nama_humas[]'
+              id="nama_humas[]" autofocus='true' value="{{ old('nama_humas[]') }}" placeholder="Masukan Nama Humas">
+            @error('nama_humas[]')
+              <div class="invalid-feedback">
+                {{ $message }}
+              </div>
+            @enderror
+          </div>
+          <div class="form-group text-left">
+            <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp
+              Humas</label>
+            <input type="text" class="form-control @error('no_wa[]') is-invalid @enderror" name='no_wa[]'
+              id='no_wa[]' autofocus='true' value="{{ old('no_wa[]') }}" placeholder="628xxxxxxxxxx"
+              oninput="this.value = this.value.replace(/^[^6]/g, '').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');">
+            @error('no_wa[]')
+              <div class="invalid-feedback">
+                {{ $message }}
+              </div>
+            @enderror
+          </div>
         </div>
-        <div class="form-group text-left">
-          <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp
-            Humas</label>
-          <input type="text" class="form-control @error('no_wa[]') is-invalid @enderror" name='no_wa[]'
-            id='no_wa[]' autofocus='true' value="{{ old('no_wa[]') }}" placeholder="628xxxxxxxxxx"
-            oninput="this.value = this.value.replace(/^[^6]/g, '').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');">
-          @error('no_wa[]')
-            <div class="invalid-feedback">
-              {{ $message }}
+      @else
+        @foreach ($humas as $hum)
+          <div class="humas-wrapper">
+            <label for="name" class="form-label d-block text-left text-lg">Humas
+              {{ $loop->iteration }}</label>
+            <div class="form-group text-left">
+              <label for="nama_humas[]" class="form-label text-left text-sm">Nama
+                Humas</label>
+              <input type="text" class="form-control @error('nama_humas[]') is-invalid @enderror" name='nama_humas[]'
+                id="nama_humas[]" autofocus='true' value="{{ old('nama_humas[]', $hum->nama) }}"
+                placeholder="Masukan Nama Humas">
+              @error('nama_humas[]')
+                <div class="invalid-feedback">
+                  {{ $message }}
+                </div>
+              @enderror
             </div>
-          @enderror
-        </div>
-      </div>
+            <div class="form-group text-left">
+              <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp
+                Humas</label>
+              <input type="text" class="form-control @error('no_wa[]') is-invalid @enderror" name='no_wa[]'
+                id='no_wa[]' autofocus='true' value="{{ old('no_wa[]', $hum->no_wa) }}" placeholder="628xxxxxxxxxx"
+                oninput="this.value = this.value.replace(/^[^6]/g, '').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');">
+              @error('no_wa[]')
+                <div class="invalid-feedback">
+                  {{ $message }}
+                </div>
+              @enderror
+            </div>
+          </div>
+        @endforeach
+      @endif
     </div>
 
     <button class="btn btn-primary btn-next-form w-full" id="submitHumas" type='button'>Next</button>
@@ -105,7 +141,7 @@
     }
 
     const postHumas = () => {
-      const endpoint = "{{ route('admin_events_store_humas') }}";
+      const endpoint = "{{ route('admin_events_update_humas', $event->uuid) }}";
 
       if (!postFormValidation()) {
         return stepper3.to(1);
@@ -129,7 +165,7 @@
           humasList.push(Humas);
         }
 
-        axios.post(endpoint, {
+        axios.put(endpoint, {
             humasList,
             'uuid_event': uuidEvent
           })

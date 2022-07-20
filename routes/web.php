@@ -68,7 +68,7 @@ Route::middleware([
     Route::post('/admin/events/create/information', [AdminEventJSController::class, 'storeInformation'])->name('admin_events_store_info');
 
     Route::post('/admin/events/create/description', [AdminEventJSController::class, 'storeDescription'])->name('admin_events_store_desc');
-    Route::post('/admin/events/create/humas', [AdminEventJSController::class, 'storeHumas'])->name('admin_events_store_humas');
+    Route::post('/admin/events/create/updateHumas', [AdminEventJSController::class, 'storeHumas'])->name('admin_events_store_humas');
     Route::post('/admin/events/create/media', [AdminEventJSController::class, 'storeMedia'])->name('admin_events_store_media');
     Route::post('/admin/events/create/pamflet', [AdminEventJSController::class, 'storePamflet'])->name('admin_events_store_pamflet');
 
@@ -76,6 +76,8 @@ Route::middleware([
     Route::put('/admin/events/{uuid}/edit/information', [AdminEventJSController::class, 'updateInformation'])->name('admin_events_update_info');
 
     Route::put('/admin/events/{uuid}/edit/description', [AdminEventJSController::class, 'updateDescription'])->name('admin_events_update_desc');
+
+    Route::put('/admin/events/{uuid}/edit/updateHumas', [AdminEventJSController::class, 'updateHumas'])->name('admin_events_update_humas');
 
     /* Transaction Route */
     Route::resource('/admin/transaksi', AdminTransaksiController::class)->names([

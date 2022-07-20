@@ -166,7 +166,9 @@ class AdminEventController extends Controller
     public function edit(Event $event)
     {
         //
-        $humas = DB::table('humas')->where('uuid', $event->uuid)->get();
+        $humas = DB::table('humas')->where('id_event', $event->id)->get();
+
+
         return view('pages.admin.event.editWithStepper', [
             'event' => $event,
             'user' => Auth::user(),

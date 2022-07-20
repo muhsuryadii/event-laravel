@@ -273,4 +273,67 @@ class AdminEventJSController extends Controller
             'message' => 'Description Event updated',
         ]);
     }
+
+    public function updateHumas(Request $request, $uuid)
+    {
+        $humaslist = $request->humasList;
+        $event = Event::where('uuid', $uuid)->first();
+        
+        $humasCheck = DB::table('humas')->where('id_event', $event->id)->get();
+
+        if (count($humasCheck) == 0) {
+            foreach ($humaslist as $humas) {
+                $data = [
+                    'id_event' => $event->id,
+                    'nama' => $humas['nama_humas'],
+                    'no_wa' => $humas['no_wa'],
+                    'uuid' => Str::uuid()->getHex(),
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+
+                $validator =  Validator::make($data, [
+                    'id_event' => 'required|exists:events,id',
+                    'nama' => 'required|max:255',
+                    'no_wa' => 'required|max:255',
+                    'uuid' => 'required|unique:humas,uuid',
+                    'created_at' => 'required',
+                    'updated_at' => 'required'
+                ])->validate();
+                DB::table('humas')->insert($validator);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Humas Event created',
+            ]);
+        } else {
+            DB::table('humas')->where('id_event', $event->id)->delete();
+
+            foreach ($humaslist as $humas) {
+                $data = [
+                    'id_event' => $event->id,
+                    'nama' => $humas['nama_humas'],
+                    'no_wa' => $humas['no_wa'],
+                    'uuid' => Str::uuid()->getHex(),
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+
+                $validator =  Validator::make($data, [
+                    'id_event' => 'required|exists:events,id',
+                    'nama' => 'required|max:255',
+                    'no_wa' => 'required|max:255',
+                    'uuid' => 'required|unique:humas,uuid',
+                    'created_at' => 'required',
+                    'updated_at' => 'required'
+                ])->validate();
+                DB::table('humas')->insert($validator);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Humas Event Updated',
+            ]);
+        }
+    }
 }
