@@ -168,13 +168,47 @@ class AdminEventJSController extends Controller
         }
     }
 
-    public function storePamflet(Request $request)
+    public function storeMedia(Request $request)
     {
-        $input = $request->all();
+        $path = null;
+        if ($request->file('file')) {
+            $path = $request->file('file')->store('images/events');
+        }
+
         return response()->json([
             'success' => true,
-            'message' => 'Humas Event Updated',
-            'input' => $input,
+            'message' => 'Media stored',
+            'path' => $path
         ]);
+    }
+
+    public function storePamflet(Request $request)
+    {
+        $uuid = $request->uuid_event;
+        $events = Event::where('uuid', $uuid)->first();
+
+        if ($request->uuid_event && $request->image) {
+            $pamfletData = [
+                'famplet_acara_path' => $request->image,
+                'updated_at' => now()
+            ];
+
+            $validator =  Validator::make($pamfletData, [
+                'famplet_acara_path' => 'required',
+                'updated_at' => 'required',
+            ])->validate();
+
+            $events->update($validator);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Pamflet Event updated',
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => 'ok',
+            ]);
+        }
     }
 }

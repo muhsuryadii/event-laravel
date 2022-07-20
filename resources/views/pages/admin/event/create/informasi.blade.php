@@ -133,7 +133,7 @@
     {{-- Tipe Acara --}}
     <div class="mb-4">
       <div class="form-group">
-        <label for="name" class="form-label @error('tipe_acara') is-invalid @enderror text-sm">Tipe
+        <label for="name" class="form-label @error('tipe_acara') is-invalid @enderror text-sm">Lokasi
           Event</label>
         <div class="radio d-flex mt-3">
           <div class="form-check mb-3 mr-3">
@@ -376,8 +376,8 @@
               ...data
             })
             .then(function(response) {
-              console.log(response);
               if (response.data.success || response.statusCode === 201) {
+                console.log(response);
                 stepper3.next();
               } else {
                 alert('Something went wrong');

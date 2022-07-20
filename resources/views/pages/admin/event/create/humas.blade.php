@@ -134,8 +134,8 @@
             'uuid_event': uuidEvent
           })
           .then(function(response) {
-            console.log(response);
             if (response.data.success || response.statusCode === 201) {
+              console.log(response);
               stepper3.next();
             } else {
               alert('Something went wrong');

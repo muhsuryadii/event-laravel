@@ -107,7 +107,6 @@
             {{-- Tab Pamflet / Poster --}}
             <div id="pamflet" role="tabpanel" class="bs-stepper-pane fade dstepper-none text-center"
               aria-labelledby="stepper3trigger3">
-
               @include('pages.admin.event.create.pamflet')
             </div>
 

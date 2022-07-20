@@ -69,6 +69,7 @@ Route::middleware([
 
     Route::post('/admin/events/create/description', [AdminEventJSController::class, 'storeDescription'])->name('admin_events_store_desc');
     Route::post('/admin/events/create/humas', [AdminEventJSController::class, 'storeHumas'])->name('admin_events_store_humas');
+    Route::post('/admin/events/create/media', [AdminEventJSController::class, 'storeMedia'])->name('admin_events_store_media');
     Route::post('/admin/events/create/pamflet', [AdminEventJSController::class, 'storePamflet'])->name('admin_events_store_pamflet');
 
 

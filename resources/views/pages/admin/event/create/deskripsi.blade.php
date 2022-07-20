@@ -59,7 +59,7 @@
         const descriptionFeedback = document.querySelector('.is-none');
         const descriptionTextareaValue = myEditor.getData();
 
-        console.log(descriptionTextareaValue.length);
+        // console.log(descriptionTextareaValue.length);
 
         if (descriptionTextareaValue.length == 0) {
           descriptionFeedback.classList.add('d-block');
@@ -85,7 +85,7 @@
             'uuid_event': uuidEvent,
             'deskripsi_acara': myEditor.getData()
           };
-          console.log(data);
+          // console.log(data);
 
           axios.post(endpoint, {
               ...data
