@@ -206,7 +206,7 @@
 
     </div>
 
-    <button class="btn btn-primary btn-next-form" id="submitInformation" type='button'>Next</button>
+    <button class="btn btn-primary btn-next-form w-full" id="submitInformation" type='button'>Next</button>
   </form>
 
   @push('js')

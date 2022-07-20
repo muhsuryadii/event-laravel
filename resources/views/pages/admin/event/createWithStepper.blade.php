@@ -141,7 +141,7 @@
             </div>
           </div>
 
-          <button class="btn btn-primary w-100 btn-simpan mb-4" id="buttonSimpanEvent">Simpan</button>
+          {{-- <button class="btn btn-primary w-100 btn-simpan mb-4" id="buttonSimpanEvent">Simpan</button> --}}
 
           {{-- </form> --}}
         </div>
@@ -168,7 +168,7 @@
     </script>
 
     {{-- Sweet alert --}}
-    <script>
+    {{-- <script>
       const btnSimpan = document.querySelector('#buttonSimpanEvent');
 
       btnSimpan.addEventListener('click', function(e) {
@@ -188,7 +188,7 @@
           }
         })
       })
-    </script>
+    </script> --}}
 
 
     {{-- Stepper --}}

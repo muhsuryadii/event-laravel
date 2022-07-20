@@ -26,7 +26,7 @@
       </div>
     </div>
     {{-- <button class="btn btn-primary btn-next-form" type='button'>Next</button> --}}
-    <button class="btn btn-primary btn-next-form" id="submitDescription" type='button'>Next</button>
+    <button class="btn btn-primary btn-next-form w-full" id="submitDescription" type='button'>Next</button>
   </form>
 
   @push('js')
@@ -77,7 +77,7 @@
         const endpoint = "{{ route('admin_events_store_desc') }}";
 
         if (!postFormValidation()) {
-          //   return stepper3.previous();
+          return stepper3.previous();
         }
 
         if (postFormDescription()) {
