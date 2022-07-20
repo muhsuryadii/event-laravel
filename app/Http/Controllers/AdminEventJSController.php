@@ -248,14 +248,6 @@ class AdminEventJSController extends Controller
 
     public function updateDescription(Request $request, $uuid)
     {
-        /*  $input = $request->all();
-
-        return response()->json([
-            'success' => true,
-            'message' => $input,
-            'uuid' => $uuid
-        ]); */
-
         $event = Event::where('uuid', $uuid)->first();
 
         $descriptionData = [
@@ -278,7 +270,7 @@ class AdminEventJSController extends Controller
     {
         $humaslist = $request->humasList;
         $event = Event::where('uuid', $uuid)->first();
-        
+
         $humasCheck = DB::table('humas')->where('id_event', $event->id)->get();
 
         if (count($humasCheck) == 0) {
@@ -333,6 +325,49 @@ class AdminEventJSController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Humas Event Updated',
+            ]);
+        }
+    }
+
+    public function updateMedia(Request $request, $uuid)
+    {
+        $path = null;
+        if ($request->file('file')) {
+            $path = $request->file('file')->store('images/events');
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Media stored',
+            'path' => $path
+        ]);
+    }
+
+    public function updatePamflet(Request $request, $uuid)
+    {
+        $events = Event::where('uuid', $uuid)->first();
+
+        if ($request->image) {
+            $pamfletData = [
+                'famplet_acara_path' => $request->image,
+                'updated_at' => now()
+            ];
+
+            $validator =  Validator::make($pamfletData, [
+                'famplet_acara_path' => 'required',
+                'updated_at' => 'required',
+            ])->validate();
+
+            $events->update($validator);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Pamflet Event updated',
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => 'ok',
             ]);
         }
     }

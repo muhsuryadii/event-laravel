@@ -79,6 +79,10 @@ Route::middleware([
 
     Route::put('/admin/events/{uuid}/edit/updateHumas', [AdminEventJSController::class, 'updateHumas'])->name('admin_events_update_humas');
 
+    Route::post('/admin/events/{uuid}/edit/media', [AdminEventJSController::class, 'updateMedia'])->name('admin_events_update_media');
+    Route::put('/admin/events/{uuid}/edit/pamflet', [AdminEventJSController::class, 'updatePamflet'])->name('admin_events_update_pamflet');
+
+
     /* Transaction Route */
     Route::resource('/admin/transaksi', AdminTransaksiController::class)->names([
         'index' => 'admin_transaksi_index',
