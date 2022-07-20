@@ -88,26 +88,26 @@
             {{-- Tab Informasi --}}
             <div id="informasi" role="tabpanel" class="bs-stepper-pane fade active dstepper-block"
               aria-labelledby="stepper3trigger1">
-              @include('pages.admin.event.create.informasi')
+              @include('pages.admin.event.edit.informasi')
             </div>
 
             {{-- Tab Dekskripsi --}}
             <div id="deskripsi" role="tabpanel" class="bs-stepper-pane fade dstepper-block dstepper-none"
               aria-labelledby="stepper3trigger2">
-              @include('pages.admin.event.create.deskripsi')
+              @include('pages.admin.event.edit.deskripsi')
             </div>
 
             {{-- Tab Humas --}}
             <div id="humas" role="tabpanel" class="bs-stepper-pane fade dstepper-none text-center"
               aria-labelledby="stepper3trigger3">
 
-              @include('pages.admin.event.create.humas')
+              @include('pages.admin.event.edit.humas')
             </div>
 
             {{-- Tab Pamflet / Poster --}}
             <div id="pamflet" role="tabpanel" class="bs-stepper-pane fade dstepper-none text-center"
               aria-labelledby="stepper3trigger3">
-              @include('pages.admin.event.create.pamflet')
+              @include('pages.admin.event.edit.pamflet')
             </div>
 
             {{-- Tab Sertifikat --}}

@@ -3,6 +3,7 @@
 
 
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\AdminEventJSController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
@@ -51,7 +52,10 @@ Route::middleware([
     /* Event Route */
     Route::get('/admin/events/checkslug', [AdminEventController::class, 'checkSlug'])->name('admin_events_checkslug');
 
+
     /* Event Admin Route */
+
+
     Route::resource('/admin/events', AdminEventController::class)->names([
         'index' => 'admin_events_index',
         'create' => 'admin_events_create',
@@ -60,6 +64,24 @@ Route::middleware([
         'update' => 'admin_events_update',
         'destroy' => 'admin_events_destroy',
     ]);
+
+    Route::post('/admin/events/create/information', [AdminEventJSController::class, 'storeInformation'])->name('admin_events_store_info');
+
+    Route::post('/admin/events/create/description', [AdminEventJSController::class, 'storeDescription'])->name('admin_events_store_desc');
+    Route::post('/admin/events/create/updateHumas', [AdminEventJSController::class, 'storeHumas'])->name('admin_events_store_humas');
+    Route::post('/admin/events/create/media', [AdminEventJSController::class, 'storeMedia'])->name('admin_events_store_media');
+    Route::post('/admin/events/create/pamflet', [AdminEventJSController::class, 'storePamflet'])->name('admin_events_store_pamflet');
+
+
+    Route::put('/admin/events/{uuid}/edit/information', [AdminEventJSController::class, 'updateInformation'])->name('admin_events_update_info');
+
+    Route::put('/admin/events/{uuid}/edit/description', [AdminEventJSController::class, 'updateDescription'])->name('admin_events_update_desc');
+
+    Route::put('/admin/events/{uuid}/edit/updateHumas', [AdminEventJSController::class, 'updateHumas'])->name('admin_events_update_humas');
+
+    Route::post('/admin/events/{uuid}/edit/media', [AdminEventJSController::class, 'updateMedia'])->name('admin_events_update_media');
+    Route::put('/admin/events/{uuid}/edit/pamflet', [AdminEventJSController::class, 'updatePamflet'])->name('admin_events_update_pamflet');
+
 
     /* Transaction Route */
     Route::resource('/admin/transaksi', AdminTransaksiController::class)->names([
