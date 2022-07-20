@@ -166,7 +166,7 @@ class AdminEventController extends Controller
     public function edit(Event $event)
     {
         //
-        return view('pages.admin.event.edit', [
+        return view('pages.admin.event.editWithStepper', [
             'event' => $event,
             'user' => Auth::user(),
         ]);
