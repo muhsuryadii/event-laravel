@@ -6,7 +6,7 @@
       <div class="image-wrapper relative">
         <img src="{{ asset('/image/usni_bg.jpg') }}" loading='lazy' alt="usni_image_hero"
           class="w-full object-cover object-top" style="height: 400px">
-        <div class="bg-overlay bg-gradient-to-b from-slate-500 to-gray-600 opacity-70"></div>
+        <div class="bg-overlay bg-gradient-to-b from-slate-600 to-gray-700 opacity-70"></div>
 
         <div class="hero-top search-bar-wrapper container my-10" style="max-width: inherit">
           <div class="row container mx-auto flex justify-start p-0">

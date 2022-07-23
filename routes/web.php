@@ -126,6 +126,10 @@ Route::group([], function () {
         'update' => 'event_update',
         'destroy' => 'event_destroy',
     ]);
+
+
+    /* Search event */
+    Route::get('/search', [EventController::class, 'search'])->name('event_search');
 });
 
 /* Login Root */

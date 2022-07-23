@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use Illuminate\Http\Request;
+
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\DB;
 
@@ -123,5 +125,24 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         //
+    }
+
+
+    public function search(Request $request)
+    {
+        //
+        // return dd($request);
+        $req = $request->get('search');
+
+
+        $events = Event::join('users', 'events.id_panitia', '=', 'users.id')
+            ->select('events.*', 'users.nama_user as nama_panitia')
+            ->where('nama_event', 'like', '%' . $req . '%')
+            ->orderBy('waktu_acara', 'asc')->get();
+
+        return view('pages.customer.event.search', [
+            'events' => $events,
+            'request' => $req
+        ]);
     }
 }
