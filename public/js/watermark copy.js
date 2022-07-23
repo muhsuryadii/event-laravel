@@ -19,6 +19,8 @@ img.addEventListener("load", function () {
     const centerShift_x = (canvas.width - img.width * ratio) / 2;
     const centerShift_y = (canvas.height - img.height * ratio) / 2;
 
+    console.log(canvas, img, ratio, centerShift_x, centerShift_y);
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(
         img,
@@ -36,9 +38,27 @@ img.addEventListener("load", function () {
 
 // Inisialisasi element
 const inputFile = document.querySelector("#inputFile");
-const draggableFile = document.querySelector(".draggable-file");
+// const draggableFile = document.querySelector(".draggable-file");
+/* 
+const elementText = document.querySelector("#text");
+
+const elementFont = document.querySelector("#select-font");
+const selectPosition = document.querySelector("#select-position");
+const selectFontSize = document.querySelector("#select-font-size");
+*/
+/* 
+const elementColor = document.querySelector("#colorPicker");
+const downloadAnchor = document.querySelector("#download");
+const elementOpacity = document.querySelector("#opacity");
+const elementInputOpacity = document.querySelector("#opacity-input"); */
+
 const labelFile = document.querySelector(".label-file");
 
+/* const elementRotate = document.querySelector("#rotate");
+const elementInputRotate = document.querySelector("#rotate-input"); 
+const resetAnchor = document.querySelector("#reset");
+const popUp = document.querySelector("#pop-up");
+*/
 const closeBtn = document.querySelector(".close-btn");
 const navBar = document.querySelector(".nav-bar");
 
@@ -75,10 +95,100 @@ window.addEventListener("resize", () => {
 });
 
 // Pada saat window di click
+/* window.addEventListener("click", function (event) {
+    if (event.target === popUp) {
+        popUp.style.display = "none";
+    }
+}); */
 
 // Pada saat semua dom element telah selesai dimuat
 window.addEventListener("DOMContentLoaded", () => {
-    inputFile.addEventListener("change", handleImage, false);
+    // inputFile.addEventListener("change", handleImage, false);
+    /* elementText.addEventListener("input", function () {
+        textValue = elementText.value;
+        draggable();
+    }); */
+
+    /*   const elementsBerulang = [elementColor, elementFont];
+    elementsBerulang.forEach((element) =>
+        element.addEventListener("input", () => draggable())
+    );
+
+    const elementsBerulangWithImg = [selectFontSize, elementOpacity];
+    elementsBerulangWithImg.forEach((element) =>
+        element.addEventListener("input", () => draggable(img))
+    ); */
+    /*  elementRotate.addEventListener("input", function () {
+        let rotVal = elementRotate.value;
+        document.getElementById("rotate-input").value = rotVal;
+        draggable(img);
+    });
+
+    elementInputRotate.addEventListener("input", function () {
+        let rotVal = elementInputRotate.value;
+        document.getElementById("rotate").value = rotVal;
+        draggable(img);
+    });
+
+    elementOpacity.addEventListener("input", function () {
+        let opacVal = elementOpacity.value;
+        document.getElementById("opacity-input").value = opacVal;
+        draggable(img);
+    });
+
+    elementInputOpacity.addEventListener("input", function () {
+        let opacVal = elementInputOpacity.value;
+        document.getElementById("opacity").value = opacVal;
+        draggable(img);
+    });
+ */
+    /*  selectPosition.addEventListener("input", function () {
+        const position = selectPosition.value;
+
+        switch (position) {
+            case "top":
+                textObj.y = 90;
+                textObj.x = 400;
+                break;
+            case "top-left":
+                textObj.y = 90;
+                textObj.x = 100;
+                break;
+            case "top-right":
+                textObj.y = 90;
+                textObj.x = 700;
+                break;
+            case "center":
+                textObj.y = 300;
+                textObj.x = 400;
+                break;
+            case "center-left":
+                textObj.y = 300;
+                textObj.x = 100;
+                break;
+            case "center-right":
+                textObj.y = 300;
+                textObj.x = 700;
+                break;
+            case "bottom":
+                textObj.y = 500;
+                textObj.x = 400;
+                break;
+            case "bottom-left":
+                textObj.y = 500;
+                textObj.x = 100;
+                break;
+            case "bottom-right":
+                textObj.y = 500;
+                textObj.x = 700;
+                break;
+        }
+
+
+        draggable(img);
+    }); */
+
+    // dispatchEvent(selectPosition, "input");
 
     canvas.addEventListener("click", function (e) {
         selectedText = 1;
@@ -95,6 +205,43 @@ window.addEventListener("DOMContentLoaded", () => {
     canvas.addEventListener("mousedown", mouseDown, false);
     canvas.addEventListener("mousemove", mouseXY, false);
     document.body.addEventListener("mouseup", mouseUp, false);
+
+    /*  navBar.addEventListener("click", function () {
+        popUp.style.display = "flex";
+    });
+
+    closeBtn.addEventListener("click", function () {
+        popUp.style.display = "none";
+    });
+
+    downloadAnchor.addEventListener("click", function () {
+        if (!isDownloadable)
+            return alert(
+                "Gambar belum ditambahkan, silakan tambah gambar terlebih dahulu"
+            );
+        if (isWMEmpty()) return alert("Watermark belum ditentukan!");
+
+        const image = canvas.toDataURL("image/png");
+
+        downloadAnchor.setAttribute("href", image);
+    });
+
+    resetAnchor.addEventListener("click", function () {
+        elementText.value = "";
+        dispatchEvent(elementText, "input");
+
+        elementRotate.value = "0";
+        elementOpacity.value = "0.5";
+
+        document.querySelector("#rotate-val").value = "0°";
+        document.querySelector("#colorPicker").value = "#000000";
+        selectPosition.value = "top";
+
+        dispatchEvent(selectPosition, "input");
+
+        elementFont.value = "times New Roman";
+        selectFontSize.value = "20";
+    }); */
 
     inputFile.addEventListener("change", function () {
         const filename = this.value.split("\\").pop();
