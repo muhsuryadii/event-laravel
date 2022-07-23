@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <button class="btn btn-primary btn-next-form w-full" id="submitHumas" type='button'>Next</button>
+    <button class="btn btn-primary btn-next-form w-full" id="submitHumas" type='button'>Simpan</button>
   </div>
 </form>
 

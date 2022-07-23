@@ -26,7 +26,7 @@
       </div>
     </div>
     {{-- <button class="btn btn-primary btn-next-form" type='button'>Next</button> --}}
-    <button class="btn btn-primary btn-next-form w-full" id="submitDescription" type='button'>Next</button>
+    <button class="btn btn-primary btn-next-form w-full" id="submitDescription" type='button'>Simpan</button>
   </form>
 
   @push('js')

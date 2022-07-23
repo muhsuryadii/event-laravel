@@ -173,9 +173,15 @@ class TransactionController extends Controller
             return redirect()->route('home')->with('error', 'Anda tidak memiliki akses');
         }
 
+        $humaslist = DB::table('humas')
+            ->join('events', 'id_event', '=', 'events.id')
+            ->where('events.id', $transaksi->id)
+            ->select('humas.*')->get();
+
         return view('pages.customer.chekout.show', [
             'transaksi' => $transaksi,
             'event' =>  Event::find($transaksi->id_event),
+            'humasList' => $humaslist,
         ]);
     }
 

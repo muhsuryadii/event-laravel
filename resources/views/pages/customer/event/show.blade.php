@@ -1,12 +1,12 @@
 <x-app-costumer-layout>
-
+  {{-- {{ dd($humasList) }} --}}
   <section>
     {{-- Hero Section --}}
     <div class="hero-section">
       <div class="image-wrapper relative">
         <img src="{{ asset('/image/usni_bg.jpg') }}" loading='lazy' alt="usni_image_hero"
           class="w-full object-cover object-top" style="height: 400px">
-        <div class="bg-overlay bg-gradient-to-b from-slate-500 to-gray-600 opacity-70"></div>
+        <div class="bg-overlay bg-gradient-to-b from-slate-600 to-gray-700 opacity-70"></div>
 
         <div class="hero-top search-bar-wrapper container my-10" style="max-width: inherit">
           <div class="row container mx-auto flex justify-start p-0">
@@ -113,6 +113,25 @@
 
 
           </div>
+
+          @if ($humasList && count($humasList) > 0)
+            <div class="card-event-info-wrapper mt-3 rounded-2xl border border-slate-600 bg-white px-4 shadow-md">
+              <div class="wrapper pt-3">
+                <div class="price-wrapper mb-3">
+                  <h4 class="card-event-price text-xl font-semibold text-slate-500">Kontak Humas</h4>
+                </div>
+              </div>
+              @foreach ($humasList as $humas)
+                <div class="wrapper pt-2">
+                  <a href="https://wa.me/{{ $humas->no_wa }}" target="_blank" rel='noopener noreferrer'
+                    class="btn btn-success w-100 btn-simpan mb-4 !bg-emerald-500">
+                    <i class="fa-brands fa-whatsapp mr-2"></i>
+                    {{ $humas->nama }}
+                  </a>
+                </div>
+              @endforeach
+            </div>
+          @endif
         </div>
       </div>
     </div>

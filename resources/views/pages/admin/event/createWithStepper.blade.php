@@ -113,7 +113,8 @@
             {{-- Tab Sertifikat --}}
             <div id="sertifikat" role="tabpanel" class="bs-stepper-pane fade dstepper-none text-center"
               aria-labelledby="stepper3trigger3">
-              <button class="btn btn-primary btn-next-form" type='button'>Next</button>
+              @include('pages.admin.event.create.sertifikat')
+
             </div>
           </div>
 

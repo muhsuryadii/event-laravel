@@ -6,7 +6,7 @@
       <div class="image-wrapper relative">
         <img src="{{ asset('/image/usni_bg.jpg') }}" loading="lazy" alt="usni_image_hero"
           class="h-[300px] w-full object-cover object-top">
-        <div class="bg-overlay bg-gradient-to-b from-slate-500 to-gray-600 opacity-60"></div>
+        <div class="bg-overlay bg-gradient-to-b from-slate-600 to-gray-700 opacity-60"></div>
         <div class="hero-top search-bar-wrapper container flex h-full flex-col flex-wrap justify-center"
           style="max-width: inherit">
           <div class="text">
@@ -16,20 +16,17 @@
           </div>
           <div class="flex justify-center">
             <div class="mb-3 w-full md:w-[400px]">
-              <form action="" method="POST">
-                @csrf
+              <form action="{{ route('event_search') }}" method="get">
                 <div class="input-group relative mb-4 flex w-full flex-wrap items-stretch">
-
-
                   <input type="search"
                     class="form-control relative mr-3 block w-full min-w-0 flex-auto rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-                    placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                    placeholder="Cari Nama Event" aria-label="Search" aria-describedby="button-addon2" name="search">
+
                   <button
                     class="duration-150ss flex items-center rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-                    type="button" id="button-addon2">
+                    type="submit" id="button-addon2">
                     <i class="fa-solid fa-magnifying-glass"></i>
                   </button>
-
                 </div>
               </form>
             </div>
