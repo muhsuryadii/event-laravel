@@ -189,8 +189,7 @@
             <input type="text" class="form-control @error('lokasi_acara_offline') is-invalid @enderror"
               id="lokasi_acara_offline" name='lokasi_acara_offline' autofocus='true'
               value="{{ old('lokasi_acara_offline', $event->tipe_acara == 'offline' ? $event->lokasi_acara : '') }}"
-              placeholder="Masukan Lokasi Event"
-              {{ strtolower($event->tipe_acara) != 'offline' ? 'disabled' : ' ' }}>
+              placeholder="Masukan Lokasi Event" {{ strtolower($event->tipe_acara) != 'offline' ? 'disabled' : ' ' }}>
 
             @error('lokasi_acara_offline')
               <div id="lokasi_acara_offline_feedback" class="invalid-feedback">
@@ -266,7 +265,7 @@
       const date = new Date();
       const isoDateTime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
       const now = isoDateTime.split('.')[0];
-      waktu_acara.setAttribute("min", now);
+      waktu_acara.setAttribute("min", now.substr(0, 16));
     </script>
 
     {{-- script for uuid event --}}

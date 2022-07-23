@@ -26,7 +26,7 @@
      @enderror
    </div>
 
-   <button class="btn btn-primary btn-next-form" id="submitPamflet" type='button'>Next</button>
+   <button class="btn btn-primary btn-next-form" id="submitPamflet" type='button'>Simpan</button>
  </form>
 
  @push('js')

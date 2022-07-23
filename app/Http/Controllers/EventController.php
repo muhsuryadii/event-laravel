@@ -73,11 +73,17 @@ class EventController extends Controller
             ->groupBy('users.id')
             ->first();
 
+        $humaslist = DB::table('humas')
+            ->join('events', 'id_event', '=', 'events.id')
+            ->where('events.id', $event->id)
+            ->select('humas.*')->get();
+
 
         return view('pages.customer.event.show', [
             'event' => $event,
             'transaction' => $transaction,
             'panitia' =>  $panitia,
+            'humasList' => $humaslist,
 
 
         ]);

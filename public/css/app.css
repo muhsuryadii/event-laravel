@@ -1317,6 +1317,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.bg-gray-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}.\!bg-emerald-500 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(16 185 129 / var(--tw-bg-opacity)) !important;
 }.bg-opacity-25 {
   --tw-bg-opacity: 0.25;
 }.bg-opacity-20 {

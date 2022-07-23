@@ -29,8 +29,7 @@
         <label for="nama_event" class="form-label text-sm">Nama
           Event <span class="text-xxs text-danger">(*)</span> </label>
         <input type="text" class="form-control @error('nama_event') is-invalid @enderror" id="nama_event"
-          name='nama_event' autofocus='true' required value="{{ old('nama_event') }}"
-          placeholder="Masukan Nama Event">
+          name='nama_event' autofocus='true' required value="{{ old('nama_event') }}" placeholder="Masukan Nama Event">
 
         @error('nama_event')
           <div id="nama_event_feedback" class="invalid-feedback">
@@ -206,7 +205,7 @@
 
     </div>
 
-    <button class="btn btn-primary btn-next-form w-full" id="submitInformation" type='button'>Next</button>
+    <button class="btn btn-primary btn-next-form w-full" id="submitInformation" type='button'>Simpan</button>
   </form>
 
   @push('js')
@@ -281,8 +280,7 @@
       const date = new Date();
       const isoDateTime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
       const now = isoDateTime.split('.')[0];
-
-      waktu_acara.setAttribute("min", now);
+      waktu_acara.setAttribute("min", now.substr(0, 16));
     </script>
 
     {{-- script for uuid event --}}
