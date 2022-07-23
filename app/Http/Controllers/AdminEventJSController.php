@@ -211,6 +211,10 @@ class AdminEventJSController extends Controller
         }
     }
 
+    public function storeCertificate(Request $request){
+        
+    }
+
     public function updateInformation(Request $request, $uuid)
     {
         $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;

@@ -149,10 +149,11 @@ function changePosXY(x, y) {
 function draggable(img, text_x = 0, text_y = 0) {
     let y = text_x > 0 ? text_x : canvas.height / 3;
     let x = text_y > 0 ? text_y : canvas.width / 2;
-    const color = elementColor.value;
+
+    /*     const color = "#000";
 
     const font = elementFont.value;
-    const fontSize = selectFontSize.value;
+    const fontSize = selectFontSize.value; */
 
     if (textObj.x && textObj.y) {
         y = textObj.y;
@@ -165,10 +166,11 @@ function draggable(img, text_x = 0, text_y = 0) {
         y,
     };
 
-    angle = elementRotate.value;
+    /*  angle = elementRotate.value;
     const opacity = elementOpacity.value;
 
     const rgbaCol = `rgba(${parseInt(color.slice(-6, -4), 16)},
+
     ${parseInt(color.slice(-4, -2), 16)},
     ${parseInt(color.slice(-2), 16)},
     ${opacity})`;
@@ -184,7 +186,7 @@ function draggable(img, text_x = 0, text_y = 0) {
     text.width = Math.ceil(ctx.measureText(textValue).width);
     text.height = actualHeight;
 
-    textObj = text;
+    textObj = text; */
     theimg();
 }
 
@@ -216,10 +218,10 @@ function theimg() {
     ctx.translate(text.x, text.y);
     ctx.rotate(angle * (Math.PI / 180));
 
-    const splitedText = text.text.split("\n");
-    const fontSize = selectFontSize.value;
+    /*     const splitedText = text.text.split("\n");
+    const fontSize = selectFontSize.value; */
 
-    splitedText.forEach((text, i) => ctx.fillText(text, 0, fontSize * (i + 1)));
+    // splitedText.forEach((text, i) => ctx.fillText(text, 0, fontSize * (i + 1)));
 
     ctx.restore();
 }

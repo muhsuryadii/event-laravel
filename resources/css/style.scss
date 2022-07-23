@@ -1,3 +1,10 @@
+:root {
+    --main-color: #2c8bff;
+    --sec-color: #457b9d;
+    --reset-color: #e23847;
+    --fourth-color: #1d3557;
+}
+
 .data-table {
     table {
         width: 100%;
@@ -93,16 +100,19 @@ $event-card-image-height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 #canvas {
     background: #fff;
     width: 100%;
     object-fit: contain;
-    /*  border: 1px solid #ececec;
+    border: 1px solid #ececec;
     border-radius: 15px;
     box-shadow: 0 0 #0000, 0 0 #0000, 0 1px 3px 0 rgb(0 0 0 / 10%),
-        0 1px 2px 0 rgb(0 0 0 / 6%); */
+        0 1px 2px 0 rgb(0 0 0 / 6%);
 }
 
 .draggable-file {
@@ -146,4 +156,86 @@ $event-card-image-height: 200px;
     align-items: center;
     justify-content: center;
     margin-right: 4px;
+}
+
+.input label {
+    @apply text-gray-600 text-lg font-semibold;
+}
+
+#text,
+#select-font,
+#select-position,
+#select-font-size,
+#font-style {
+    margin-top: 5px;
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 9px 8px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    resize: vertical;
+    color: #676767;
+    background: #fff;
+}
+
+#text::-webkit-input-placeholder {
+    color: #b0b0b0;
+}
+
+#text:-moz-placeholder {
+    /* Firefox 18- */
+    color: #b0b0b0;
+}
+
+#text::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #b0b0b0;
+}
+
+#text:-ms-input-placeholder {
+    color: #b0b0b0;
+}
+
+#text::placeholder {
+    color: #b0b0b0;
+}
+
+#text:focus-visible,
+#select-font:focus-visible,
+#select-position:focus-visible,
+#font-style:focus-visible,
+#select-font-size:focus-visible {
+    outline: none;
+    border: 1px solid var(--main-color);
+    box-shadow: 0 0 4px var(--main-color);
+}
+
+#colorPicker {
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e5e5e5;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+#colorPicker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+#colorPicker::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+.select {
+    width: 100%;
+    border: 1px solid #bdbdbd;
+    border-radius: 10px;
+    padding: 15px;
+    background: #fff;
 }

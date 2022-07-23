@@ -1,10 +1,9 @@
-  <form action='{{ route('admin_events_store_info') }}' method="POST" class="mt-3" id="formStepInformation">
+  <form action='{{ route('admin_events_store_certificate') }}' method="POST" class="mt-3" id="formStepInformation">
     <div class="output">
       <canvas id="canvas" width="800" height="550">
         Yahh! Browser kamu engga mendukung. Coba dengan browser
         lainnya.
       </canvas>
-
       <div class="draggable-file">
         <input id="inputFile" type="file" class="draggable-file-input" style="opacity: 0" accept="image/*" />
 
@@ -22,6 +21,62 @@
       </div>
     </div>
 
+    {{-- Image Control --}}
+    <div class="sertifikat-layout-control my-5">
+      <h4>Layout Sertifikat</h4>
+
+      <div class="input container text-left">
+        <button type="button" class="btn btn-danger btn-reset d-block ml-auto">
+          <i class="fa-solid fa-rotate-right"></i>
+          Reset
+        </button>
+        <!-- Font Selection -->
+        <div style="margin: 20px 0px">
+          <label for="">Font</label>
+          <select id="select-font" class="select form-control">
+            <option value="times New Roman" selected="selected">
+              Times New Roman
+            </option>
+            <option value="arial">Arial</option>
+            <option value="sans">PT Sans</option>
+          </select>
+        </div>
+
+        <!-- Position Selection -->
+        <div style="margin: 20px 0px">
+          <label for="select-position">Posisi</label>
+          <select id="select-position" class="select form-control">
+            <option value="top" selected="selected">Atas</option>
+            <option value="top-left">Atas kiri</option>
+            <option value="top-right">Atas kanan</option>
+            <option value="center">Tengah</option>
+            <option value="center-left">Tengah kiri</option>
+            <option value="center-right">Tengah kanan</option>
+            <option value="bottom">Bawah</option>
+            <option value="bottom-left">Bawah kiri</option>
+            <option value="bottom-right">Bawah kanan</option>
+          </select>
+        </div>
+
+        <!-- Font size Selection -->
+        <div style="margin: 20px 0px">
+          <label for="">Ukuran</label>
+          <select id="select-font-size" class="select form-control">
+            <option value="14">Sangat kecil</option>
+            <option value="16">Kecil</option>
+            <option value="20" selected="selected">Normal</option>
+            <option value="36">Besar</option>
+            <option value="60">Sangat besar</option>
+          </select>
+        </div>
+
+        <!-- Font Color Selection -->
+        <div style="display: flex; align-items: center; margin: 20px 0px">
+          <label for="colorPicker" style="margin-right: 8px">Warna</label>
+          <input type="color" id="colorPicker" />
+        </div>
+      </div>
+    </div>
     <button class="btn btn-primary btn-next-form mt-4" type='button'>Simpan</button>
   </form>
 

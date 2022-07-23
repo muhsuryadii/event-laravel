@@ -71,6 +71,7 @@ Route::middleware([
     Route::post('/admin/events/create/updateHumas', [AdminEventJSController::class, 'storeHumas'])->name('admin_events_store_humas');
     Route::post('/admin/events/create/media', [AdminEventJSController::class, 'storeMedia'])->name('admin_events_store_media');
     Route::post('/admin/events/create/pamflet', [AdminEventJSController::class, 'storePamflet'])->name('admin_events_store_pamflet');
+    Route::post('/admin/events/create/certificate', [AdminEventJSController::class, 'storeCertificate'])->name('admin_events_store_certificate');
 
 
     Route::put('/admin/events/{uuid}/edit/information', [AdminEventJSController::class, 'updateInformation'])->name('admin_events_update_info');
@@ -81,6 +82,7 @@ Route::middleware([
 
     Route::post('/admin/events/{uuid}/edit/media', [AdminEventJSController::class, 'updateMedia'])->name('admin_events_update_media');
     Route::put('/admin/events/{uuid}/edit/pamflet', [AdminEventJSController::class, 'updatePamflet'])->name('admin_events_update_pamflet');
+    Route::put('/admin/events/{uuid}/edit/certificate', [AdminEventJSController::class, 'updateCertificate'])->name('admin_events_update_certificate');
 
 
     /* Transaction Route */
