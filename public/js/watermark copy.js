@@ -10,7 +10,6 @@ let isDownloadable = false;
 let src = "";
 
 const img = new Image();
-
 img.addEventListener("load", function () {
     const canvas = ctx.canvas;
     const hRatio = canvas.width / img.width;
@@ -18,8 +17,6 @@ img.addEventListener("load", function () {
     const ratio = Math.min(hRatio, vRatio);
     const centerShift_x = (canvas.width - img.width * ratio) / 2;
     const centerShift_y = (canvas.height - img.height * ratio) / 2;
-
-    console.log(canvas, img, ratio, centerShift_x, centerShift_y);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(
@@ -37,30 +34,23 @@ img.addEventListener("load", function () {
 });
 
 // Inisialisasi element
-const inputFile = document.querySelector("#inputFile");
-// const draggableFile = document.querySelector(".draggable-file");
-/* 
 const elementText = document.querySelector("#text");
-
+const inputFile = document.querySelector("#inputFile");
 const elementFont = document.querySelector("#select-font");
 const selectPosition = document.querySelector("#select-position");
 const selectFontSize = document.querySelector("#select-font-size");
-*/
-/* 
+const draggableFile = document.querySelector(".draggable-file");
 const elementColor = document.querySelector("#colorPicker");
 const downloadAnchor = document.querySelector("#download");
 const elementOpacity = document.querySelector("#opacity");
-const elementInputOpacity = document.querySelector("#opacity-input"); */
-
+const elementInputOpacity = document.querySelector("#opacity-input");
 const labelFile = document.querySelector(".label-file");
-
-/* const elementRotate = document.querySelector("#rotate");
-const elementInputRotate = document.querySelector("#rotate-input"); 
-const resetAnchor = document.querySelector("#reset");
-const popUp = document.querySelector("#pop-up");
-*/
+const elementRotate = document.querySelector("#rotate");
+const elementInputRotate = document.querySelector("#rotate-input");
 const closeBtn = document.querySelector(".close-btn");
+const resetAnchor = document.querySelector("#reset");
 const navBar = document.querySelector(".nav-bar");
+const popUp = document.querySelector("#pop-up");
 
 // Section Canvas
 const canvas = document.querySelector("#canvas");
@@ -95,21 +85,17 @@ window.addEventListener("resize", () => {
 });
 
 // Pada saat window di click
-/* window.addEventListener("click", function (event) {
+window.addEventListener("click", function (event) {
     if (event.target === popUp) {
         popUp.style.display = "none";
     }
-}); */
+});
 
 // Pada saat semua dom element telah selesai dimuat
 window.addEventListener("DOMContentLoaded", () => {
-    // inputFile.addEventListener("change", handleImage, false);
-    /* elementText.addEventListener("input", function () {
-        textValue = elementText.value;
-        draggable();
-    }); */
+    inputFile.addEventListener("change", handleImage, false);
 
-    /*   const elementsBerulang = [elementColor, elementFont];
+    const elementsBerulang = [elementColor, elementFont];
     elementsBerulang.forEach((element) =>
         element.addEventListener("input", () => draggable())
     );
@@ -117,8 +103,14 @@ window.addEventListener("DOMContentLoaded", () => {
     const elementsBerulangWithImg = [selectFontSize, elementOpacity];
     elementsBerulangWithImg.forEach((element) =>
         element.addEventListener("input", () => draggable(img))
-    ); */
-    /*  elementRotate.addEventListener("input", function () {
+    );
+
+    elementText.addEventListener("input", function () {
+        textValue = elementText.value;
+        draggable();
+    });
+
+    elementRotate.addEventListener("input", function () {
         let rotVal = elementRotate.value;
         document.getElementById("rotate-input").value = rotVal;
         draggable(img);
@@ -141,8 +133,8 @@ window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("opacity").value = opacVal;
         draggable(img);
     });
- */
-    /*  selectPosition.addEventListener("input", function () {
+
+    selectPosition.addEventListener("input", function () {
         const position = selectPosition.value;
 
         switch (position) {
@@ -184,11 +176,10 @@ window.addEventListener("DOMContentLoaded", () => {
                 break;
         }
 
-
         draggable(img);
-    }); */
+    });
 
-    // dispatchEvent(selectPosition, "input");
+    dispatchEvent(selectPosition, "input");
 
     canvas.addEventListener("click", function (e) {
         selectedText = 1;
@@ -206,7 +197,7 @@ window.addEventListener("DOMContentLoaded", () => {
     canvas.addEventListener("mousemove", mouseXY, false);
     document.body.addEventListener("mouseup", mouseUp, false);
 
-    /*  navBar.addEventListener("click", function () {
+    navBar.addEventListener("click", function () {
         popUp.style.display = "flex";
     });
 
@@ -241,7 +232,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         elementFont.value = "times New Roman";
         selectFontSize.value = "20";
-    }); */
+    });
 
     inputFile.addEventListener("change", function () {
         const filename = this.value.split("\\").pop();

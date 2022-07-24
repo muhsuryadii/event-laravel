@@ -1,6 +1,6 @@
 // Inisialisasi variabel
 let val = "";
-let textValue = "";
+let textValue = "Posisi Nama Peserta";
 let textObj = {};
 let startX;
 let startY;
@@ -37,10 +37,18 @@ img.addEventListener("load", function () {
 // Inisialisasi element
 const inputFile = document.querySelector("#inputFile");
 const draggableFile = document.querySelector(".draggable-file");
-const labelFile = document.querySelector(".label-file");
 
+const elementFont = document.querySelector("#select-font");
+const elementColor = document.querySelector("#colorPicker");
+
+const selectPosition = document.querySelector("#select-position");
+const selectFontSize = document.querySelector("#select-font-size");
+
+const labelFile = document.querySelector(".label-file");
 const closeBtn = document.querySelector(".close-btn");
 const navBar = document.querySelector(".nav-bar");
+
+const controls = document.querySelector(".sertifikat-layout-control");
 
 // Section Canvas
 const canvas = document.querySelector("#canvas");
@@ -80,6 +88,67 @@ window.addEventListener("resize", () => {
 window.addEventListener("DOMContentLoaded", () => {
     inputFile.addEventListener("change", handleImage, false);
 
+    const elementsBerulang = [elementColor, elementFont];
+    elementsBerulang.forEach((element) =>
+        element.addEventListener("input", () => draggable())
+    );
+
+    const elementsBerulangWithImg = [selectFontSize];
+    elementsBerulangWithImg.forEach((element) =>
+        element.addEventListener("input", () => draggable(img))
+    );
+
+    /* elementText.addEventListener("input", function () {
+        textValue = "Posisi Nama Peserta";
+        draggable();
+    }); */
+
+    selectPosition.addEventListener("input", function () {
+        const position = selectPosition.value;
+        switch (position) {
+            case "top":
+                textObj.y = 90;
+                textObj.x = 400;
+                break;
+            case "top-left":
+                textObj.y = 90;
+                textObj.x = 100;
+                break;
+            case "top-right":
+                textObj.y = 90;
+                textObj.x = 700;
+                break;
+            case "center":
+                textObj.y = 300;
+                textObj.x = 400;
+                break;
+            case "center-left":
+                textObj.y = 300;
+                textObj.x = 100;
+                break;
+            case "center-right":
+                textObj.y = 300;
+                textObj.x = 700;
+                break;
+            case "bottom":
+                textObj.y = 500;
+                textObj.x = 400;
+                break;
+            case "bottom-left":
+                textObj.y = 500;
+                textObj.x = 100;
+                break;
+            case "bottom-right":
+                textObj.y = 500;
+                textObj.x = 700;
+                break;
+        }
+
+        draggable(img);
+    });
+
+    dispatchEvent(selectPosition, "input");
+
     canvas.addEventListener("click", function (e) {
         selectedText = 1;
         mouseXY(e);
@@ -96,6 +165,7 @@ window.addEventListener("DOMContentLoaded", () => {
     canvas.addEventListener("mousemove", mouseXY, false);
     document.body.addEventListener("mouseup", mouseUp, false);
 
+    /* Ketika upload sertifikat zone di klik, jalankan function */
     inputFile.addEventListener("change", function () {
         const filename = this.value.split("\\").pop();
 
@@ -106,6 +176,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
 
         draggableFile.style.display = "none";
+        controls.style.display = "block";
     });
 
     draggableFile.addEventListener("dragover", dragOverHandler, false);
@@ -113,7 +184,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // Section fungsi-fungsi
-const isWMEmpty = () => elementText.value.replace(/^\s+|\s+$/g, "") === "";
+// const isWMEmpty = () => elementText.value.replace(/^\s+|\s+$/g, "") === "";
 
 function mouseUp() {
     canvas.classList.add("grab");
@@ -132,10 +203,11 @@ function mouseDown() {
 function mouseXY(e) {
     try {
         e.preventDefault();
-        canvasX = e.pageX - canvas.offsetLeft;
-        canvasY = e.pageY - canvas.offsetTop;
+        canvasX = e.layerX - canvas.offsetLeft;
+        canvasY = e.layerY - canvas.offsetTop;
         changePosXY(canvasX, canvasY);
     } catch (error) {}
+    // console.log(e);
 }
 
 function changePosXY(x, y) {
@@ -150,10 +222,10 @@ function draggable(img, text_x = 0, text_y = 0) {
     let y = text_x > 0 ? text_x : canvas.height / 3;
     let x = text_y > 0 ? text_y : canvas.width / 2;
 
-    /*     const color = "#000";
+    const color = elementColor.value;
 
     const font = elementFont.value;
-    const fontSize = selectFontSize.value; */
+    const fontSize = selectFontSize.value;
 
     if (textObj.x && textObj.y) {
         y = textObj.y;
@@ -173,7 +245,7 @@ function draggable(img, text_x = 0, text_y = 0) {
 
     ${parseInt(color.slice(-4, -2), 16)},
     ${parseInt(color.slice(-2), 16)},
-    ${opacity})`;
+    ${opacity})`; */
 
     const metrics = ctx.measureText(textValue);
     const actualHeight = Math.ceil(
@@ -181,12 +253,11 @@ function draggable(img, text_x = 0, text_y = 0) {
     );
 
     ctx.font = `${fontSize}px ${font}`;
-    ctx.fillStyle = rgbaCol;
+    ctx.fillStyle = color;
     ctx.textAlign = "center";
     text.width = Math.ceil(ctx.measureText(textValue).width);
     text.height = actualHeight;
-
-    textObj = text; */
+    textObj = text;
     theimg();
 }
 
@@ -198,32 +269,40 @@ function theimg() {
     const centerShift_x = (acanvas.width - img.width * ratio) / 2;
     const centerShift_y = (acanvas.height - img.height * ratio) / 2;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(
-        img,
-        0,
-        0,
-        img.width,
-        img.height,
-        centerShift_x,
-        centerShift_y,
-        img.width * ratio,
-        img.height * ratio
-    );
-    ctx.save();
+    console.log(acanvas.width, acanvas.height);
 
-    const text = textObj;
+    const imageInput = document.querySelector("#inputFile").files;
 
-    ctx.textAlign = "center";
-    ctx.translate(text.x, text.y);
-    ctx.rotate(angle * (Math.PI / 180));
+    if (imageInput.length > 0) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(
+            img,
+            0,
+            0,
+            img.width,
+            img.height,
+            centerShift_x,
+            centerShift_y,
+            img.width * ratio,
+            img.height * ratio
+        );
+        ctx.save();
 
-    /*     const splitedText = text.text.split("\n");
-    const fontSize = selectFontSize.value; */
+        const text = textObj;
 
-    // splitedText.forEach((text, i) => ctx.fillText(text, 0, fontSize * (i + 1)));
+        ctx.textAlign = "center";
+        ctx.translate(text.x, text.y);
+        ctx.rotate(angle * (Math.PI / 180));
 
-    ctx.restore();
+        const splitedText = text.text.split("\n");
+        const fontSize = selectFontSize.value;
+
+        splitedText.forEach((text, i) =>
+            ctx.fillText(text, 0, fontSize * (i + 1))
+        );
+
+        ctx.restore();
+    }
 }
 
 function validateImage() {
@@ -265,6 +344,7 @@ function dropHandler(ev) {
                 if (file.type.includes("image/")) {
                     reader.readAsDataURL(file);
                     draggableFile.style.display = "none";
+                    controls.style.display = "block";
                 }
             }
         }

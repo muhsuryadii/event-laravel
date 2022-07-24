@@ -22,7 +22,7 @@
     </div>
 
     {{-- Image Control --}}
-    <div class="sertifikat-layout-control my-5">
+    <div class="sertifikat-layout-control my-5 hidden">
       <h4>Layout Sertifikat</h4>
 
       <div class="input container text-left">
@@ -73,7 +73,7 @@
         <!-- Font Color Selection -->
         <div style="display: flex; align-items: center; margin: 20px 0px">
           <label for="colorPicker" style="margin-right: 8px">Warna</label>
-          <input type="color" id="colorPicker" />
+          <input type="color" id="colorPicker" value="#0f172a" />
         </div>
       </div>
     </div>
