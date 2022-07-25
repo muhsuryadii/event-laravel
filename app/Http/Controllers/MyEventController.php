@@ -94,12 +94,21 @@ class MyEventController extends Controller
             ->where('id_event', $event->id)
             ->first();
 
-        $img = Image::make(public_path('storage/' . $layouts->certificate_path))->encode('jpg');
+        /* Cek dulu sertifikat buat id_event dan id_user ada gak di db kalau ada, cek apakah gambarnya masih ada, kalau tidak ada buat baru */
+        $certificate = DB::table('certificates')
+            ->where('id_event', $event->id)
+            ->where('id_user', Auth::user()->id)
+            ->first();
 
+
+        $img = Image::make(public_path('storage/' . $layouts->certificate_path))->encode('jpg');
         $fontSize = $layouts->fontSize;
         $fontColor = $layouts->color;
+        $x = $layouts->x_coordinate_name;
+        $y = $layouts->y_coordinate_name;
+        $height = $layouts->heightName - ceil($layouts->heightName / 4);
 
-        $img->text(Auth::user()->nama_user, $layouts->x, $layouts->y, function ($font) use ($fontSize, $fontColor) {
+        $img->text(Auth::user()->nama_user, $x, $y + $height, function ($font) use ($fontSize, $fontColor) {
             $font->file('fonts/arial.ttf');
             $font->size($fontSize);
             $font->color($fontColor);
@@ -107,8 +116,45 @@ class MyEventController extends Controller
         });
 
         $hash = md5($img->__toString());
-        $path = "storage/images/certificates/{$hash}.jpg";
-        // Storage::put($path, $img);
-        $img->save(public_path($path));
+        $filename = $hash . time();
+        $path = "images/certificates/{$filename}.jpg";
+        $img->save(public_path('storage/' . $path));
+
+        $certificate = DB::table('certificates')
+            ->where('id_event', $event->id)
+            ->where('id_user', Auth::user()->id)
+            ->first();
+
+
+        /* ngecek apakah ada user dan id even yang sama di db */
+        if ($certificate) {
+            if ($certificate->certificate_path) {
+                Storage::delete($certificate->certificate_path);
+            }
+            $certificateData = [
+                'certificate_path' => $path,
+                'updated_at' => now()
+            ];
+            // $certificate->update($certificateData);
+            DB::table('certificates')
+                ->where('id_event', $event->id)
+                ->where('id_user', Auth::user()->id)
+                ->update($certificateData);
+        } else {
+            $certificateData = [
+                'uuid' => Str::uuid()->getHex(),
+                'id_event' => $event->id,
+                'certificate_path' => $path,
+                'id_user' => Auth::user()->id,
+                'updated_at' => now()
+            ];
+
+            DB::table('certificates')->insert($certificateData);
+        }
+
+
+
+
+        return response()->download(public_path('storage/' . $path));
     }
 }

@@ -256,8 +256,9 @@ class AdminEventJSController extends Controller
             if ($certificateLayout) {
                 $certificateLayoutData = [
                     'certificate_path' => $url,
-                    'x' => (int) $request->xCoordinate,
-                    'y' => (int) $request->yCoordinate,
+                    'x_coordinate_name' => (int) $request->xCoordinate,
+                    'y_coordinate_name' => (int) $request->yCoordinate,
+                    'heightName' => (int) $request->heightName,
                     'font' => $request->font,
                     'fontSize' => (int) $request->fontsize,
                     'color' => $request->color,
@@ -269,8 +270,9 @@ class AdminEventJSController extends Controller
                     'uuid' => Str::uuid()->getHex(),
                     'id_event' => $event->id,
                     'certificate_path' => $url,
-                    'x' => (int) $request->xCoordinate,
-                    'y' => (int) $request->yCoordinate,
+                    'x_coordinate_name' => (int) $request->xCoordinate,
+                    'y_coordinate_name' => (int) $request->yCoordinate,
+                    'heightName' => (int) $request->heightName,
                     'font' => $request->font,
                     'fontSize' => (int) $request->fontsize,
                     'color' => $request->color,

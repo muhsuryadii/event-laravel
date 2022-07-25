@@ -129,7 +129,6 @@ window.addEventListener("DOMContentLoaded", () => {
         let horizontal = elementInputHorizontal.value;
         elementSliderHorizontal.value = horizontal;
         textObj.x = horizontal;
-
         draggable(img);
     });
 
@@ -187,6 +186,7 @@ function mouseXY(e) {
         e.preventDefault();
         canvasX = e.layerX - canvas.offsetLeft;
         canvasY = e.layerY - canvas.offsetTop;
+
         changePosXY(canvasX, canvasY);
     } catch (error) {}
 }
@@ -230,10 +230,12 @@ function draggable(img, text_x = 0, text_y = 0) {
     const actualHeight = Math.ceil(
         metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
     );
+    // console.log(metrics);
 
     ctx.font = `${fontSize}px ${font}`;
     ctx.fillStyle = color;
     ctx.textAlign = "center";
+
     text.width = Math.ceil(ctx.measureText(textValue).width);
     text.height = actualHeight;
     textObj = text;
@@ -248,8 +250,8 @@ function theimg() {
     const centerShift_x = (acanvas.width - img.width * ratio) / 2;
     const centerShift_y = (acanvas.height - img.height * ratio) / 2;
 
+    // console.log(ctx.measureText(textValue));
     // console.log(acanvas.width, acanvas.height);
-
     const imageInput = document.querySelector("#inputFile").files;
 
     if (imageInput.length > 0) {
