@@ -103,13 +103,13 @@
       const postCertificate = () => {
         const endpoint = "{{ route('admin_events_store_certificate') }}";
 
-        /*     if (!postFormValidation()) {
-              return stepper3.to(1);
-            }
+        if (!postFormValidation()) {
+          return stepper3.to(1);
+        }
 
-            if (!postFormDescription()) {
-              return stepper3.to(2);
-            } */
+        if (!postFormDescription()) {
+          return stepper3.to(2);
+        }
 
         const settings = {
           headers: {
@@ -120,30 +120,41 @@
         const form = document.querySelector('#formStepCertificate');
         let formData = new FormData(form);
         formData.append('uuid_event', uuidEvent);
-        /* formData.append('file', inputFile.files[0]);
 
-        let data = {};
+        Swal.fire({
+          title: 'Apakah Sertifikat Sudah Benar ?',
+          text: "Sertifikat event akan disimpan ke dalam sistem",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya, Simpan!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axios.post(endpoint, formData, settings)
+              .then(function(response) {
+                if (response.data.success || response.statusCode === 201) {
+                  // console.log(response.data);
+                  return window.location = "{{ route('admin_events_index') }}";
+                } else {
+                  if (response.statusCode === 404) {
+                    Swal.fire({
+                      title: 'Event Belum Disimpan',
+                      text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                      icon: 'error',
+                    })
+                  } else {
+                    alert('Something went wrong');
+                  }
+                }
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
+          }
+        })
 
-        for (let pair of formData.entries()) {
-          Object.assign(data, {
-            [pair[0]]: pair[1]
-          });
-        }
 
-        console.log(data); */
-
-        axios.post(endpoint, formData, settings)
-          .then(function(response) {
-            if (response.data.success || response.statusCode === 201) {
-              console.log(response.data);
-              stepper3.next();
-            } else {
-              alert('Something went wrong');
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
       }
 
       const buttonSubmitCertificate = document.querySelector('#submitCertificate');

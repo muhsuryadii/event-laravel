@@ -17,7 +17,7 @@ class CreateCertificateLayout extends Migration
             $table->id();
 
             $table->string('uuid', 32)->unique();
-            $table->string('sertifikat_path', 2048)->nullable();
+            $table->string('certificate_path', 2048)->nullable();
             $table->foreignId('id_event');
             $table->integer('x');
             $table->integer('y');

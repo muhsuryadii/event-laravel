@@ -81,46 +81,66 @@
    {{-- Script for pamflet picture humas --}}
    <script>
      const postPamflet = () => {
-       const endpoint = "{{ route('admin_events_store_pamflet') }}";
+         const endpoint = "{{ route('admin_events_store_pamflet') }}";
 
-       if (!postFormValidation()) {
-         return stepper3.to(1);
-       }
+         if (!postFormValidation()) {
+           return stepper3.to(1);
+         }
 
-       if (!postFormDescription()) {
-         return stepper3.to(2);
-       }
+         if (!postFormDescription()) {
+           return stepper3.to(2);
+         }
 
-       const form = document.querySelector('#formStepPamflet');
-       let formData = new FormData(form);
+         const form = document.querySelector('#formStepPamflet');
+         let formData = new FormData(form);
 
-       let data = {};
+         let data = {};
 
-       for (let pair of formData.entries()) {
-         Object.assign(data, {
-           [pair[0]]: pair[1]
-         });
-       }
+         for (let pair of formData.entries()) {
+           Object.assign(data, {
+             [pair[0]]: pair[1]
+           });
+         }
 
-
-       axios.post(endpoint, data)
-         .then(function(response) {
-           if (response.data.success || response.statusCode === 201) {
-             console.log(response.data);
-             stepper3.next();
-           } else {
-             alert('Something went wrong');
+         Swal.fire({
+           title: 'Apakah Pamflet Sudah Benar ?',
+           text: "Pamflet event akan disimpan ke dalam sistem",
+           icon: 'question',
+           showCancelButton: true,
+           confirmButtonColor: '#3085d6',
+           cancelButtonColor: '#d33',
+           confirmButtonText: 'Ya, Simpan!'
+         }).then((result) => {
+           if (result.isConfirmed) {
+             axios.post(endpoint, data)
+               .then(function(response) {
+                 if (response.data.success || response.statusCode === 201) {
+                   console.log(response.data);
+                   stepper3.next();
+                 } else {
+                   if (response.statusCode === 404) {
+                     Swal.fire({
+                       title: 'Event Belum Disimpan',
+                       text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                       icon: 'error',
+                     })
+                   } else {
+                     alert('Something went wrong');
+                   }
+                 }
+               })
+               .catch(function(error) {
+                 console.log(error);
+               });
            }
          })
-         .catch(function(error) {
-           console.log(error);
-         });
-     }
 
-     const buttonSubmitPamflet = document.querySelector('#submitPamflet');
-     buttonSubmitPamflet.addEventListener('click', function(e) {
-       e.preventDefault();
-       postPamflet();
-     })
+
+
+         const buttonSubmitPamflet = document.querySelector('#submitPamflet');
+         buttonSubmitPamflet.addEventListener('click', function(e) {
+           e.preventDefault();
+           postPamflet();
+         })
    </script>
  @endpush

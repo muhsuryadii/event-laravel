@@ -28,6 +28,20 @@ class AdminEventJSController extends Controller
         ]);
     }
 
+    private function validateEvent($uuid)
+    {
+        $event = Event::where('uuid', $uuid)->first();
+
+        if ($event) {
+            return $event;
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Event not found',
+            ], 404);
+        }
+    }
+
     public function storeInformation(Request $request)
     {
 
@@ -89,7 +103,7 @@ class AdminEventJSController extends Controller
     public function storeDescription(Request $request)
     {
         $uuid = $request->uuid_event;
-        $event = Event::where('uuid', $uuid)->first();
+        $event = $this->validateEvent($uuid);
 
         $descriptionData = [
             'deskripsi_acara' => $request->deskripsi_acara,
@@ -106,12 +120,15 @@ class AdminEventJSController extends Controller
             'message' => 'Description Event updated',
         ]);
     }
+
     public function storeHumas(Request $request)
     {
         $uuid = $request->uuid_event;
         $humaslist = $request->humasList;
-        $event = Event::where('uuid', $uuid)->first();
+        $event = $this->validateEvent($uuid);
+
         $humasCheck = DB::table('humas')->where('id_event', $event->id)->get();
+
 
         if (count($humasCheck) == 0) {
             foreach ($humaslist as $humas) {
@@ -186,7 +203,7 @@ class AdminEventJSController extends Controller
     public function storePamflet(Request $request)
     {
         $uuid = $request->uuid_event;
-        $events = Event::where('uuid', $uuid)->first();
+        $event = $this->validateEvent($uuid);
 
         if ($request->uuid_event && $request->image) {
             $pamfletData = [
@@ -199,7 +216,7 @@ class AdminEventJSController extends Controller
                 'updated_at' => 'required',
             ])->validate();
 
-            $events->update($validator);
+            $event->update($validator);
 
             return response()->json([
                 'success' => true,
@@ -217,6 +234,7 @@ class AdminEventJSController extends Controller
     {
         $url = null;
         $uuid = $request->uuid_event;
+        $event = $this->validateEvent($uuid);
 
 
         if ($request->file('file')) {
@@ -228,14 +246,41 @@ class AdminEventJSController extends Controller
         }
 
         if ($url) {
-            /* Update certificate on Events table */
-            $event = Event::where('uuid', $uuid)->first();
+            /* Update certificate ready on Events table */
             $certificateData = [
                 'is_certificate_ready' => true,
                 'updated_at' => now()
             ];
-
             $event->update($certificateData);
+
+            /* Update certificate_layout table */
+            $certificateLayout = DB::table('certificate_layouts')->where('id_event', $event->id)->first();
+
+            if ($certificateLayout) {
+                $certificateLayoutData = [
+                    'certificate_path' => $url,
+                    'x' => $request->x,
+                    'y' => $request->y,
+                    'font' => $request->font,
+                    'fontSize' => $request->fontsize,
+                    'color' => $request->color,
+                    'updated_at' => now()
+                ];
+                $certificateLayout->update($certificateLayoutData);
+            } else {
+                $certificateLayoutData = [
+                    'id_event' => $event->id,
+                    'certificate_path' => $url,
+                    'x' => $request->x,
+                    'y' => $request->y,
+                    'font' => $request->font,
+                    'fontSize' => $request->fontsize,
+                    'color' => $request->color,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+                DB::table('certificate_layouts')->insert($certificateLayoutData);
+            }
 
             return response()->json([
                 'success' => true,

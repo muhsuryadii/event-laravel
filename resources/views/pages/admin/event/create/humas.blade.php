@@ -129,21 +129,43 @@
           humasList.push(Humas);
         }
 
-        axios.post(endpoint, {
-            humasList,
-            'uuid_event': uuidEvent
-          })
-          .then(function(response) {
-            if (response.data.success || response.statusCode === 201) {
-              console.log(response);
-              stepper3.next();
-            } else {
-              alert('Something went wrong');
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
+        Swal.fire({
+          title: 'Apakah Humas Sudah Benar ?',
+          text: "Humas akan disimpan ke dalam sistem",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya, Simpan!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axios.post(endpoint, {
+                humasList,
+                'uuid_event': uuidEvent
+              })
+              .then(function(response) {
+                if (response.data.success || response.statusCode === 201) {
+                  console.log(response);
+                  stepper3.next();
+                } else {
+                  if (response.statusCode === 404) {
+                    Swal.fire({
+                      title: 'Event Belum Disimpan',
+                      text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                      icon: 'error',
+                    })
+                  } else {
+                    alert('Something went wrong');
+                  }
+                }
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
+          }
+        })
+
+
       }
     }
 

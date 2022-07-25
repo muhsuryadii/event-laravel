@@ -370,21 +370,33 @@
               [pair[0]]: pair[1]
             });
           }
-          axios.post(endpoint, {
-              ...data
-            })
-            .then(function(response) {
-              if (response.data.success || response.statusCode === 201) {
-                console.log(response);
-                stepper3.next();
-              } else {
-                alert('Something went wrong');
-              }
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
 
+          Swal.fire({
+            title: 'Apakah Informasi Sudah Benar ?',
+            text: "Informasi event akan disimpan ke dalam sistem",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Simpan!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              axios.post(endpoint, {
+                  ...data
+                })
+                .then(function(response) {
+                  if (response.data.success || response.statusCode === 201) {
+                    // console.log(response);
+                    stepper3.next();
+                  } else {
+                    alert('Something went wrong');
+                  }
+                })
+                .catch(function(error) {
+                  console.log(error);
+                });
+            }
+          })
         }
       }
 
