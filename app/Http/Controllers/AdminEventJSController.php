@@ -6,9 +6,11 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 
 
@@ -211,8 +213,40 @@ class AdminEventJSController extends Controller
         }
     }
 
-    public function storeCertificate(Request $request){
-        
+    public function storeCertificate(Request $request)
+    {
+        $url = null;
+        $uuid = $request->uuid_event;
+
+
+        if ($request->file('file')) {
+            $image = $request->file('file');
+            $path = $image->hashName('images/certificates_template');
+            $certificate = Image::make($image->getRealPath())->resize(800, 550);
+            Storage::put($path, (string) $certificate->encode());
+            $url = Storage::url($path);
+        }
+
+        if ($url) {
+            /* Update certificate on Events table */
+            $event = Event::where('uuid', $uuid)->first();
+            $certificateData = [
+                'is_certificate_ready' => true,
+                'updated_at' => now()
+            ];
+
+            $event->update($certificateData);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Sertificate stored successfully'
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ok'
+        ]);
     }
 
     public function updateInformation(Request $request, $uuid)

@@ -263,3 +263,14 @@
   cursor: -webkit-grabbing;
   cursor: grabbing;
 }
+
+.slider {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#vertical-input,
+#horizontal-input {
+  width: 70px;
+}

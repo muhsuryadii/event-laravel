@@ -41,8 +41,14 @@ const draggableFile = document.querySelector(".draggable-file");
 const elementFont = document.querySelector("#select-font");
 const elementColor = document.querySelector("#colorPicker");
 
-const selectPosition = document.querySelector("#select-position");
+// const selectPosition = document.querySelector("#select-position");
 const selectFontSize = document.querySelector("#select-font-size");
+
+const elementSliderVertikal = document.querySelector("#vertical");
+const elementInputVertikal = document.querySelector("#vertical-input");
+
+const elementSliderHorizontal = document.querySelector("#horizontal");
+const elementInputHorizontal = document.querySelector("#horizontal-input");
 
 const labelFile = document.querySelector(".label-file");
 const closeBtn = document.querySelector(".close-btn");
@@ -98,56 +104,34 @@ window.addEventListener("DOMContentLoaded", () => {
         element.addEventListener("input", () => draggable(img))
     );
 
-    /* elementText.addEventListener("input", function () {
-        textValue = "Posisi Nama Peserta";
-        draggable();
-    }); */
-
-    selectPosition.addEventListener("input", function () {
-        const position = selectPosition.value;
-        switch (position) {
-            case "top":
-                textObj.y = 90;
-                textObj.x = 400;
-                break;
-            case "top-left":
-                textObj.y = 90;
-                textObj.x = 100;
-                break;
-            case "top-right":
-                textObj.y = 90;
-                textObj.x = 700;
-                break;
-            case "center":
-                textObj.y = 300;
-                textObj.x = 400;
-                break;
-            case "center-left":
-                textObj.y = 300;
-                textObj.x = 100;
-                break;
-            case "center-right":
-                textObj.y = 300;
-                textObj.x = 700;
-                break;
-            case "bottom":
-                textObj.y = 500;
-                textObj.x = 400;
-                break;
-            case "bottom-left":
-                textObj.y = 500;
-                textObj.x = 100;
-                break;
-            case "bottom-right":
-                textObj.y = 500;
-                textObj.x = 700;
-                break;
-        }
+    elementSliderVertikal.addEventListener("input", function () {
+        let vertical = elementSliderVertikal.value;
+        elementInputVertikal.value = vertical;
+        textObj.y = vertical;
+        draggable(img);
+    });
+    elementInputVertikal.addEventListener("input", function () {
+        let vertical = elementInputVertikal.value;
+        elementSliderVertikal.value = vertical;
+        textObj.y = vertical;
 
         draggable(img);
     });
 
-    dispatchEvent(selectPosition, "input");
+    elementSliderHorizontal.addEventListener("input", function () {
+        let horizontal = elementSliderHorizontal.value;
+        elementInputHorizontal.value = horizontal;
+        textObj.x = horizontal;
+
+        draggable(img);
+    });
+    elementInputHorizontal.addEventListener("input", function () {
+        let horizontal = elementInputHorizontal.value;
+        elementSliderHorizontal.value = horizontal;
+        textObj.x = horizontal;
+
+        draggable(img);
+    });
 
     canvas.addEventListener("click", function (e) {
         selectedText = 1;
@@ -184,8 +168,6 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // Section fungsi-fungsi
-// const isWMEmpty = () => elementText.value.replace(/^\s+|\s+$/g, "") === "";
-
 function mouseUp() {
     canvas.classList.add("grab");
     canvas.classList.remove("grabbing");
@@ -207,13 +189,19 @@ function mouseXY(e) {
         canvasY = e.layerY - canvas.offsetTop;
         changePosXY(canvasX, canvasY);
     } catch (error) {}
-    // console.log(e);
 }
 
 function changePosXY(x, y) {
     if (selectedText) {
         textObj.x = x;
         textObj.y = y;
+
+        elementInputHorizontal.value = x;
+        elementSliderHorizontal.value = x;
+
+        elementInputVertikal.value = y;
+        elementSliderVertikal.value = y;
+
         draggable();
     }
 }
@@ -238,15 +226,6 @@ function draggable(img, text_x = 0, text_y = 0) {
         y,
     };
 
-    /*  angle = elementRotate.value;
-    const opacity = elementOpacity.value;
-
-    const rgbaCol = `rgba(${parseInt(color.slice(-6, -4), 16)},
-
-    ${parseInt(color.slice(-4, -2), 16)},
-    ${parseInt(color.slice(-2), 16)},
-    ${opacity})`; */
-
     const metrics = ctx.measureText(textValue);
     const actualHeight = Math.ceil(
         metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
@@ -269,7 +248,7 @@ function theimg() {
     const centerShift_x = (acanvas.width - img.width * ratio) / 2;
     const centerShift_y = (acanvas.height - img.height * ratio) / 2;
 
-    console.log(acanvas.width, acanvas.height);
+    // console.log(acanvas.width, acanvas.height);
 
     const imageInput = document.querySelector("#inputFile").files;
 
