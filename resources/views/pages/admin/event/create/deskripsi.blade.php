@@ -98,9 +98,7 @@
                   ...data
                 })
                 .then(function(response) {
-                  console.log(response);
                   if (response.data.success || response.statusCode === 201) {
-                    // stepper3.next();
                     window.scrollTo(0, 0);
                     setTimeout(() => {
                       stepper3.next();
@@ -118,7 +116,6 @@
                   }
                 })
                 .catch(function(error) {
-                  // console.log(error);
                   window.scrollTo(0, 0);
 
                   Swal.fire({

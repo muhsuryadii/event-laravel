@@ -87,7 +87,6 @@
           item.classList.remove('is-invalid')
           item.classList.add('is-valid')
           nama = true;
-
         }
       })
 

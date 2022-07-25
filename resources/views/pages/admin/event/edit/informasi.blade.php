@@ -202,7 +202,7 @@
 
     </div>
 
-    <button class="btn btn-primary btn-next-form w-full" id="submitInformation" type='button'>Next</button>
+    <button class="btn btn-primary btn-next-form w-full" id="submitInformation" type='button'>Update</button>
   </form>
 
   @push('js')
@@ -354,21 +354,35 @@
               [pair[0]]: pair[1]
             });
           }
-          axios.put(endpoint, {
-              ...data
-            })
-            .then(function(response) {
-              if (response.data.success || response.statusCode === 201) {
-                console.log(response);
-                stepper3.next();
-              } else {
-                alert('Something went wrong');
-              }
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
 
+          Swal.fire({
+            title: 'Apakah Informasi Sudah Benar ?',
+            text: "Informasi event akan diupdate pada sistem",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Simpan!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              axios.put(endpoint, {
+                  ...data
+                })
+                .then(function(response) {
+                  if (response.data.success || response.statusCode === 201) {
+                    window.scrollTo(0, 0);
+                    setTimeout(() => {
+                      stepper3.next();
+                    }, 100);
+                  } else {
+                    alert('Something went wrong');
+                  }
+                })
+                .catch(function(error) {
+                  console.log(error);
+                });
+            }
+          })
         }
       }
 

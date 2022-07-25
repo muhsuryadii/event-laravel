@@ -29,7 +29,7 @@
       </div>
     </div>
     {{-- <button class="btn btn-primary btn-next-form" type='button'>Next</button> --}}
-    <button class="btn btn-primary btn-next-form w-full" id="submitDescription" type='button'>Next</button>
+    <button class="btn btn-primary btn-next-form w-full" id="submitDescription" type='button'>Upload</button>
   </form>
 
   @push('js')
@@ -83,20 +83,49 @@
             'deskripsi_acara': myEditor.getData()
           };
 
-          axios.put(endpoint, {
-              ...data
-            })
-            .then(function(response) {
-              console.log(response);
-              if (response.data.success || response.statusCode === 201) {
-                stepper3.next();
-              } else {
-                alert('Something went wrong');
-              }
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
+          Swal.fire({
+            heightAuto: false,
+            title: 'Apakah Deskripsi Sudah Benar ?',
+            text: "Deskripsi event akan diupdate ke dalam sistem",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Simpan!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              axios.put(endpoint, {
+                  ...data
+                })
+                .then(function(response) {
+
+                  if (response.data.success || response.statusCode === 201) {
+                    window.scrollTo(0, 0);
+                    setTimeout(() => {
+                      stepper3.next();
+                    }, 100);
+                  } else {
+                    if (response.statusCode === 404 || response.statusCode === 500) {
+                      Swal.fire({
+                        title: 'Event Belum Disimpan',
+                        text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                        icon: 'error',
+                      })
+                    } else {
+                      alert('Something went wrong');
+                    }
+                  }
+                })
+                .catch(function(error) {
+                  window.scrollTo(0, 0);
+                  Swal.fire({
+                    title: 'Terjadi Kesalahan',
+                    text: "Terjadi kesalahan saat menyimpan deskripsi event",
+                    icon: 'warning',
+                  })
+                });
+            }
+          })
         }
       }
 
