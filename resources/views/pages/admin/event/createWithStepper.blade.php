@@ -12,6 +12,13 @@
         color: #007bff;
       }
     </style>
+    <style>
+      html.swal2-shown,
+      body.swal2-shown {
+        overflow-y: hidden !important;
+        height: auto !important;
+      }
+    </style>
   @endpush
 
   <div class="row mb-5">
@@ -175,6 +182,7 @@
           //   stepper3.next();
         })
       })
+
       //   document.addEventListener('DOMContentLoaded', function() {
       //   })
     </script>

@@ -998,6 +998,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-width: 36rem;
 }.max-w-6xl {
   max-width: 72rem;
+}.max-w-\[750px\] {
+  max-width: 750px;
 }.flex-1 {
   flex: 1 1 0%;
 }.flex-auto {
@@ -1072,6 +1074,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   align-items: stretch;
 }.justify-start {
   justify-content: flex-start;
+}.\!justify-start {
+  justify-content: flex-start !important;
 }.justify-end {
   justify-content: flex-end;
 }.justify-center {
@@ -1480,6 +1484,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-right: 0.25rem;
 }.text-left {
   text-align: left;
+}.\!text-left {
+  text-align: left !important;
 }.text-center {
   text-align: center;
 }.text-right {

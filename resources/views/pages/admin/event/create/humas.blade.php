@@ -74,16 +74,20 @@
       const namaHumasList = document.querySelectorAll('[name="nama_humas[]"]')
       const noHumasList = document.querySelectorAll('[name="no_wa[]"]')
 
+      let nama;
+      let nomor;
+
       namaHumasList.forEach(function(item, index) {
         if (item.value.length == 0) {
           item.classList.add('is-invalid')
           item.classList.remove('is-valid')
           item.focus();
-          return false;
-
+          nama = false;
         } else {
           item.classList.remove('is-invalid')
           item.classList.add('is-valid')
+          nama = true;
+
         }
       })
 
@@ -92,15 +96,17 @@
           item.classList.add('is-invalid')
           item.classList.remove('is-valid')
           item.focus();
-          return false;
+          nomor = false;
 
         } else {
           item.classList.remove('is-invalid')
           item.classList.add('is-valid')
+          nomor = true;
+
         }
       })
 
-      return true;
+      return nama && nomor != false ? true : false;
 
     }
 
@@ -135,6 +141,7 @@
           icon: 'question',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
+          heightAuto: false,
           cancelButtonColor: '#d33',
           confirmButtonText: 'Ya, Simpan!'
         }).then((result) => {
@@ -145,10 +152,12 @@
               })
               .then(function(response) {
                 if (response.data.success || response.statusCode === 201) {
-                  console.log(response);
-                  stepper3.next();
+                  window.scrollTo(0, 0);
+                  setTimeout(() => {
+                    stepper3.next();
+                  }, 100);
                 } else {
-                  if (response.statusCode === 404) {
+                  if (response.statusCode === 404 || response.statusCode === 500) {
                     Swal.fire({
                       title: 'Event Belum Disimpan',
                       text: "Mohon simpan terlebih dahulu event pada tab Informasi",
@@ -160,7 +169,14 @@
                 }
               })
               .catch(function(error) {
-                console.log(error);
+                // console.log(error);
+                window.scrollTo(0, 0);
+
+                Swal.fire({
+                  title: 'Event Belum Disimpan',
+                  text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                  icon: 'error',
+                })
               });
           }
         })

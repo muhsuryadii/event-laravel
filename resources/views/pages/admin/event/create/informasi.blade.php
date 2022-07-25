@@ -387,7 +387,10 @@
                 .then(function(response) {
                   if (response.data.success || response.statusCode === 201) {
                     // console.log(response);
-                    stepper3.next();
+                    window.scrollTo(0, 0);
+                    setTimeout(() => {
+                      stepper3.next();
+                    }, 100);
                   } else {
                     alert('Something went wrong');
                   }

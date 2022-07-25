@@ -2,26 +2,35 @@
     id="formStepCertificate">
     @csrf
 
-    <div class="output">
-      <canvas id="canvas" width="800" height="550">
-        Yahh! Browser kamu engga mendukung. Coba dengan browser
-        lainnya.
-      </canvas>
-      <div class="draggable-file">
-        <input id="inputFile" type="file" class="draggable-file-input" name='file' style="opacity: 0"
-          accept="image/*" />
 
-        <label class="draggable-file-label" for="inputFile">
-          <span class="icon-file">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64">
-              <path fill="none" d="M0 0h24v24H0z" />
-              <path
-                d="M5 11.1l2-2 5.5 5.5 3.5-3.5 3 3V5H5v6.1zm0 2.829V19h3.1l2.986-2.985L7 11.929l-2 2zM10.929 19H19v-2.071l-3-3L10.929 19zM4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.5 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-                fill="rgba(103,103,103,1)" />
-            </svg>
-          </span>
-          <p>Tarik gambar sertifikat ke sini</p>
-        </label>
+    <div class="sertifikat-display">
+      <div class="output">
+        <canvas id="canvas" width="800" height="550">
+          Yahh! Browser kamu engga mendukung. Coba dengan browser
+          lainnya.
+        </canvas>
+        <div class="draggable-file">
+          <input id="inputFile" type="file" class="draggable-file-input" name='file' style="opacity: 0"
+            accept="image/*" />
+
+          <label class="draggable-file-label" for="inputFile">
+            <span class="icon-file">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M5 11.1l2-2 5.5 5.5 3.5-3.5 3 3V5H5v6.1zm0 2.829V19h3.1l2.986-2.985L7 11.929l-2 2zM10.929 19H19v-2.071l-3-3L10.929 19zM4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.5 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+                  fill="rgba(103,103,103,1)" />
+              </svg>
+            </span>
+            <p>Tarik gambar sertifikat ke sini</p>
+          </label>
+        </div>
+      </div>
+      <div class="info-section output max-w-[750px] !justify-start">
+        <p>
+          <small class="my-2 mb-2 text-sm font-semibold text-slate-800">Jika sertifikat belum siap, bisa
+            dikosongkan terlebih dahulu</small>
+        </p>
       </div>
     </div>
 
@@ -121,11 +130,15 @@
         let formData = new FormData(form);
         formData.append('uuid_event', uuidEvent);
 
+        if (inputFile.files.length == 0) {
+          window.location = "{{ route('admin_events_index') }}";
+        }
         Swal.fire({
           title: 'Apakah Sertifikat Sudah Benar ?',
           text: "Sertifikat event akan disimpan ke dalam sistem",
           icon: 'question',
           showCancelButton: true,
+          heightAuto: false,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Ya, Simpan!'
@@ -135,7 +148,16 @@
               .then(function(response) {
                 if (response.data.success || response.statusCode === 201) {
                   // console.log(response.data);
-                  return window.location = "{{ route('admin_events_index') }}";
+                  // return window.location = "{{ route('admin_events_index') }}";
+                  Swal.fire({
+                    title: 'Selamat, Event Berhasil Disimpan",!',
+                    text: "Event berhasil disimpan, Halaman akan di redirect ke halaman event",
+                    icon: 'success',
+                  }).then(() => {
+                    setTimeout(() => {
+                      window.location = "{{ route('admin_events_index') }}";
+                    }, 1500);
+                  })
                 } else {
                   if (response.statusCode === 404) {
                     Swal.fire({

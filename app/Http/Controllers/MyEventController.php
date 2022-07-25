@@ -39,6 +39,7 @@ class MyEventController extends Controller
             ->where('transaksis.status_transaksi', 'verified')
             ->select('events.*', 'transaksis.*', 'events.uuid as uuid_event', 'events.id as id_event', 'transaksis.id as id_transaksi')
             ->first();
+            
         $laporan = DB::table('events')
             ->join('laporans', 'events.id', '=', 'laporans.id_event')
             ->where('events.uuid', $uuid)

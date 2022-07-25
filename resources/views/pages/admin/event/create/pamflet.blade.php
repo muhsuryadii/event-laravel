@@ -10,7 +10,17 @@
      <div class="mb-3" id="dropzone-section">
        <label for="image" class="form-label text-lg">Pamflet Event</label>
        <div class="needsclick dropzone" id="document-dropzone"></div>
-       <small class="my-2 mb-2 text-sm font-semibold text-slate-800">Disarankan menggunakan dimensi gambar 4:3</small>
+       <div class="info-section text-left">
+
+         <p class="mb-1">
+           <small class="my-2 mb-2 text-sm font-semibold text-slate-800">Disarankan menggunakan dimensi gambar
+             4:3</small>
+         </p>
+         <p>
+           <small class="my-2 mb-2 text-sm font-semibold text-slate-800">Jika pamflet acara belum siap, pamflet bisa
+             dikosongkan terlebih dahulu</small>
+         </p>
+       </div>
      </div>
 
      @error('famplet_acara_path')
@@ -26,7 +36,7 @@
      @enderror
    </div>
 
-   <button class="btn btn-primary btn-next-form" id="submitPamflet" type='button'>Simpan</button>
+   <button class="btn btn-primary btn-next-form d-block w-full" id="submitPamflet" type='button'>Simpan</button>
  </form>
 
  @push('js')
@@ -81,32 +91,38 @@
    {{-- Script for pamflet picture humas --}}
    <script>
      const postPamflet = () => {
-         const endpoint = "{{ route('admin_events_store_pamflet') }}";
+       const endpoint = "{{ route('admin_events_store_pamflet') }}";
 
-         if (!postFormValidation()) {
-           return stepper3.to(1);
-         }
+       if (!postFormValidation()) {
+         return stepper3.to(1);
+       }
 
-         if (!postFormDescription()) {
-           return stepper3.to(2);
-         }
+       if (!postFormDescription()) {
+         return stepper3.to(2);
+       }
 
-         const form = document.querySelector('#formStepPamflet');
-         let formData = new FormData(form);
+       const form = document.querySelector('#formStepPamflet');
+       let formData = new FormData(form);
 
-         let data = {};
+       let data = {};
 
-         for (let pair of formData.entries()) {
-           Object.assign(data, {
-             [pair[0]]: pair[1]
-           });
-         }
+       for (let pair of formData.entries()) {
+         Object.assign(data, {
+           [pair[0]]: pair[1]
+         });
+       }
+
+       const imageInput = document.querySelector('input[name="image"]');
+
+
+       if (imageInput) {
 
          Swal.fire({
            title: 'Apakah Pamflet Sudah Benar ?',
            text: "Pamflet event akan disimpan ke dalam sistem",
            icon: 'question',
            showCancelButton: true,
+           heightAuto: false,
            confirmButtonColor: '#3085d6',
            cancelButtonColor: '#d33',
            confirmButtonText: 'Ya, Simpan!'
@@ -115,10 +131,9 @@
              axios.post(endpoint, data)
                .then(function(response) {
                  if (response.data.success || response.statusCode === 201) {
-                   console.log(response.data);
                    stepper3.next();
                  } else {
-                   if (response.statusCode === 404) {
+                   if (response.statusCode === 404 || response.statusCode === 500) {
                      Swal.fire({
                        title: 'Event Belum Disimpan',
                        text: "Mohon simpan terlebih dahulu event pada tab Informasi",
@@ -130,17 +145,27 @@
                  }
                })
                .catch(function(error) {
-                 console.log(error);
+                 //  console.log(error);
+                 window.scrollTo(0, 0);
+                 Swal.fire({
+                   title: 'Event Belum Disimpan',
+                   text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                   icon: 'error',
+                 })
                });
            }
          })
+       } else {
+         stepper3.next();
+       }
 
 
 
-         const buttonSubmitPamflet = document.querySelector('#submitPamflet');
-         buttonSubmitPamflet.addEventListener('click', function(e) {
-           e.preventDefault();
-           postPamflet();
-         })
+     }
+     const buttonSubmitPamflet = document.querySelector('#submitPamflet');
+     buttonSubmitPamflet.addEventListener('click', function(e) {
+       e.preventDefault();
+       postPamflet();
+     })
    </script>
  @endpush

@@ -236,13 +236,13 @@ class AdminEventJSController extends Controller
         $uuid = $request->uuid_event;
         $event = $this->validateEvent($uuid);
 
-
         if ($request->file('file')) {
             $image = $request->file('file');
             $path = $image->hashName('images/certificates_template');
             $certificate = Image::make($image->getRealPath())->resize(800, 550);
             Storage::put($path, (string) $certificate->encode());
-            $url = Storage::url($path);
+
+            $url = $path;
         }
 
         if ($url) {
@@ -259,22 +259,23 @@ class AdminEventJSController extends Controller
             if ($certificateLayout) {
                 $certificateLayoutData = [
                     'certificate_path' => $url,
-                    'x' => $request->x,
-                    'y' => $request->y,
+                    'x' => (int) $request->xCoordinate,
+                    'y' => (int) $request->yCoordinate,
                     'font' => $request->font,
-                    'fontSize' => $request->fontsize,
+                    'fontSize' => (int) $request->fontsize,
                     'color' => $request->color,
                     'updated_at' => now()
                 ];
-                $certificateLayout->update($certificateLayoutData);
+                DB::table('certificate_layouts')->where('id_event', $event->id)->update($certificateLayoutData);
             } else {
                 $certificateLayoutData = [
+                    'uuid' => Str::uuid()->getHex(),
                     'id_event' => $event->id,
                     'certificate_path' => $url,
-                    'x' => $request->x,
-                    'y' => $request->y,
+                    'x' => (int) $request->xCoordinate,
+                    'y' => (int) $request->yCoordinate,
                     'font' => $request->font,
-                    'fontSize' => $request->fontsize,
+                    'fontSize' => (int) $request->fontsize,
                     'color' => $request->color,
                     'created_at' => now(),
                     'updated_at' => now()
