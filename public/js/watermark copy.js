@@ -1,6 +1,6 @@
 // Inisialisasi variabel
 let val = "";
-let textValue = "Posisi Nama Peserta";
+let textValue = "";
 let textObj = {};
 let startX;
 let startY;
@@ -10,7 +10,6 @@ let isDownloadable = false;
 let src = "";
 
 const img = new Image();
-
 img.addEventListener("load", function () {
     const canvas = ctx.canvas;
     const hRatio = canvas.width / img.width;
@@ -35,26 +34,23 @@ img.addEventListener("load", function () {
 });
 
 // Inisialisasi element
+const elementText = document.querySelector("#text");
 const inputFile = document.querySelector("#inputFile");
-const draggableFile = document.querySelector(".draggable-file");
-
 const elementFont = document.querySelector("#select-font");
-const elementColor = document.querySelector("#colorPicker");
-
-// const selectPosition = document.querySelector("#select-position");
+const selectPosition = document.querySelector("#select-position");
 const selectFontSize = document.querySelector("#select-font-size");
-
-const elementSliderVertikal = document.querySelector("#vertical");
-const elementInputVertikal = document.querySelector("#vertical-input");
-
-const elementSliderHorizontal = document.querySelector("#horizontal");
-const elementInputHorizontal = document.querySelector("#horizontal-input");
-
+const draggableFile = document.querySelector(".draggable-file");
+const elementColor = document.querySelector("#colorPicker");
+const downloadAnchor = document.querySelector("#download");
+const elementOpacity = document.querySelector("#opacity");
+const elementInputOpacity = document.querySelector("#opacity-input");
 const labelFile = document.querySelector(".label-file");
+const elementRotate = document.querySelector("#rotate");
+const elementInputRotate = document.querySelector("#rotate-input");
 const closeBtn = document.querySelector(".close-btn");
+const resetAnchor = document.querySelector("#reset");
 const navBar = document.querySelector(".nav-bar");
-
-const controls = document.querySelector(".sertifikat-layout-control");
+const popUp = document.querySelector("#pop-up");
 
 // Section Canvas
 const canvas = document.querySelector("#canvas");
@@ -89,6 +85,11 @@ window.addEventListener("resize", () => {
 });
 
 // Pada saat window di click
+window.addEventListener("click", function (event) {
+    if (event.target === popUp) {
+        popUp.style.display = "none";
+    }
+});
 
 // Pada saat semua dom element telah selesai dimuat
 window.addEventListener("DOMContentLoaded", () => {
@@ -99,39 +100,86 @@ window.addEventListener("DOMContentLoaded", () => {
         element.addEventListener("input", () => draggable())
     );
 
-    const elementsBerulangWithImg = [selectFontSize];
+    const elementsBerulangWithImg = [selectFontSize, elementOpacity];
     elementsBerulangWithImg.forEach((element) =>
         element.addEventListener("input", () => draggable(img))
     );
 
-    elementSliderVertikal.addEventListener("input", function () {
-        let vertical = elementSliderVertikal.value;
-        elementInputVertikal.value = vertical;
-        textObj.y = vertical;
+    elementText.addEventListener("input", function () {
+        textValue = elementText.value;
+        draggable();
+    });
+
+    elementRotate.addEventListener("input", function () {
+        let rotVal = elementRotate.value;
+        document.getElementById("rotate-input").value = rotVal;
         draggable(img);
     });
-    elementInputVertikal.addEventListener("input", function () {
-        let vertical = elementInputVertikal.value;
-        elementSliderVertikal.value = vertical;
-        textObj.y = vertical;
+
+    elementInputRotate.addEventListener("input", function () {
+        let rotVal = elementInputRotate.value;
+        document.getElementById("rotate").value = rotVal;
+        draggable(img);
+    });
+
+    elementOpacity.addEventListener("input", function () {
+        let opacVal = elementOpacity.value;
+        document.getElementById("opacity-input").value = opacVal;
+        draggable(img);
+    });
+
+    elementInputOpacity.addEventListener("input", function () {
+        let opacVal = elementInputOpacity.value;
+        document.getElementById("opacity").value = opacVal;
+        draggable(img);
+    });
+
+    selectPosition.addEventListener("input", function () {
+        const position = selectPosition.value;
+
+        switch (position) {
+            case "top":
+                textObj.y = 90;
+                textObj.x = 400;
+                break;
+            case "top-left":
+                textObj.y = 90;
+                textObj.x = 100;
+                break;
+            case "top-right":
+                textObj.y = 90;
+                textObj.x = 700;
+                break;
+            case "center":
+                textObj.y = 300;
+                textObj.x = 400;
+                break;
+            case "center-left":
+                textObj.y = 300;
+                textObj.x = 100;
+                break;
+            case "center-right":
+                textObj.y = 300;
+                textObj.x = 700;
+                break;
+            case "bottom":
+                textObj.y = 500;
+                textObj.x = 400;
+                break;
+            case "bottom-left":
+                textObj.y = 500;
+                textObj.x = 100;
+                break;
+            case "bottom-right":
+                textObj.y = 500;
+                textObj.x = 700;
+                break;
+        }
 
         draggable(img);
     });
 
-    elementSliderHorizontal.addEventListener("input", function () {
-        let horizontal = elementSliderHorizontal.value;
-        elementInputHorizontal.value = horizontal;
-        textObj.x = horizontal;
-
-        draggable(img);
-    });
-    elementInputHorizontal.addEventListener("input", function () {
-        let horizontal = elementInputHorizontal.value;
-        elementSliderHorizontal.value = horizontal;
-        textObj.x = horizontal;
-
-        draggable(img);
-    });
+    dispatchEvent(selectPosition, "input");
 
     canvas.addEventListener("click", function (e) {
         selectedText = 1;
@@ -149,7 +197,43 @@ window.addEventListener("DOMContentLoaded", () => {
     canvas.addEventListener("mousemove", mouseXY, false);
     document.body.addEventListener("mouseup", mouseUp, false);
 
-    /* Ketika upload sertifikat zone di klik, jalankan function */
+    navBar.addEventListener("click", function () {
+        popUp.style.display = "flex";
+    });
+
+    closeBtn.addEventListener("click", function () {
+        popUp.style.display = "none";
+    });
+
+    downloadAnchor.addEventListener("click", function () {
+        if (!isDownloadable)
+            return alert(
+                "Gambar belum ditambahkan, silakan tambah gambar terlebih dahulu"
+            );
+        if (isWMEmpty()) return alert("Watermark belum ditentukan!");
+
+        const image = canvas.toDataURL("image/png");
+
+        downloadAnchor.setAttribute("href", image);
+    });
+
+    resetAnchor.addEventListener("click", function () {
+        elementText.value = "";
+        dispatchEvent(elementText, "input");
+
+        elementRotate.value = "0";
+        elementOpacity.value = "0.5";
+
+        document.querySelector("#rotate-val").value = "0°";
+        document.querySelector("#colorPicker").value = "#000000";
+        selectPosition.value = "top";
+
+        dispatchEvent(selectPosition, "input");
+
+        elementFont.value = "times New Roman";
+        selectFontSize.value = "20";
+    });
+
     inputFile.addEventListener("change", function () {
         const filename = this.value.split("\\").pop();
 
@@ -160,7 +244,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }
 
         draggableFile.style.display = "none";
-        controls.style.display = "block";
     });
 
     draggableFile.addEventListener("dragover", dragOverHandler, false);
@@ -168,6 +251,8 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // Section fungsi-fungsi
+const isWMEmpty = () => elementText.value.replace(/^\s+|\s+$/g, "") === "";
+
 function mouseUp() {
     canvas.classList.add("grab");
     canvas.classList.remove("grabbing");
@@ -185,8 +270,8 @@ function mouseDown() {
 function mouseXY(e) {
     try {
         e.preventDefault();
-        canvasX = e.layerX - canvas.offsetLeft;
-        canvasY = e.layerY - canvas.offsetTop;
+        canvasX = e.pageX - canvas.offsetLeft;
+        canvasY = e.pageY - canvas.offsetTop;
         changePosXY(canvasX, canvasY);
     } catch (error) {}
 }
@@ -195,13 +280,6 @@ function changePosXY(x, y) {
     if (selectedText) {
         textObj.x = x;
         textObj.y = y;
-
-        elementInputHorizontal.value = x;
-        elementSliderHorizontal.value = x;
-
-        elementInputVertikal.value = y;
-        elementSliderVertikal.value = y;
-
         draggable();
     }
 }
@@ -209,7 +287,6 @@ function changePosXY(x, y) {
 function draggable(img, text_x = 0, text_y = 0) {
     let y = text_x > 0 ? text_x : canvas.height / 3;
     let x = text_y > 0 ? text_y : canvas.width / 2;
-
     const color = elementColor.value;
 
     const font = elementFont.value;
@@ -226,16 +303,25 @@ function draggable(img, text_x = 0, text_y = 0) {
         y,
     };
 
+    angle = elementRotate.value;
+    const opacity = elementOpacity.value;
+
+    const rgbaCol = `rgba(${parseInt(color.slice(-6, -4), 16)},
+    ${parseInt(color.slice(-4, -2), 16)},
+    ${parseInt(color.slice(-2), 16)},
+    ${opacity})`;
+
     const metrics = ctx.measureText(textValue);
     const actualHeight = Math.ceil(
         metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
     );
 
     ctx.font = `${fontSize}px ${font}`;
-    ctx.fillStyle = color;
+    ctx.fillStyle = rgbaCol;
     ctx.textAlign = "center";
     text.width = Math.ceil(ctx.measureText(textValue).width);
     text.height = actualHeight;
+
     textObj = text;
     theimg();
 }
@@ -248,40 +334,32 @@ function theimg() {
     const centerShift_x = (acanvas.width - img.width * ratio) / 2;
     const centerShift_y = (acanvas.height - img.height * ratio) / 2;
 
-    // console.log(acanvas.width, acanvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(
+        img,
+        0,
+        0,
+        img.width,
+        img.height,
+        centerShift_x,
+        centerShift_y,
+        img.width * ratio,
+        img.height * ratio
+    );
+    ctx.save();
 
-    const imageInput = document.querySelector("#inputFile").files;
+    const text = textObj;
 
-    if (imageInput.length > 0) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(
-            img,
-            0,
-            0,
-            img.width,
-            img.height,
-            centerShift_x,
-            centerShift_y,
-            img.width * ratio,
-            img.height * ratio
-        );
-        ctx.save();
+    ctx.textAlign = "center";
+    ctx.translate(text.x, text.y);
+    ctx.rotate(angle * (Math.PI / 180));
 
-        const text = textObj;
+    const splitedText = text.text.split("\n");
+    const fontSize = selectFontSize.value;
 
-        ctx.textAlign = "center";
-        ctx.translate(text.x, text.y);
-        ctx.rotate(angle * (Math.PI / 180));
+    splitedText.forEach((text, i) => ctx.fillText(text, 0, fontSize * (i + 1)));
 
-        const splitedText = text.text.split("\n");
-        const fontSize = selectFontSize.value;
-
-        splitedText.forEach((text, i) =>
-            ctx.fillText(text, 0, fontSize * (i + 1))
-        );
-
-        ctx.restore();
-    }
+    ctx.restore();
 }
 
 function validateImage() {
@@ -323,7 +401,6 @@ function dropHandler(ev) {
                 if (file.type.includes("image/")) {
                     reader.readAsDataURL(file);
                     draggableFile.style.display = "none";
-                    controls.style.display = "block";
                 }
             }
         }

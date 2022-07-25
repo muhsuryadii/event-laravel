@@ -11,7 +11,7 @@
         </canvas>
         <div class="draggable-file">
           <input id="inputFile" type="file" class="draggable-file-input" name='file' style="opacity: 0"
-            accept="image/*" />
+            accept="image/*" value="{{ $sertifikat ? asset('storage/' . $sertifikat->certificate_path) : '' }}" />
 
           <label class="draggable-file-label" for="inputFile">
             <span class="icon-file">
@@ -35,7 +35,7 @@
     </div>
 
     {{-- Image Control --}}
-    <div class="sertifikat-layout-control my-5 hidden">
+    <div class="sertifikat-layout-control my-5">
       <h4>Pengaturan Layout Sertifikat</h4>
 
       <div class="input container text-left">

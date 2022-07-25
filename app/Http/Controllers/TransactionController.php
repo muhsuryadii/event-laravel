@@ -175,7 +175,7 @@ class TransactionController extends Controller
 
         $humaslist = DB::table('humas')
             ->join('events', 'id_event', '=', 'events.id')
-            ->where('events.id', $transaksi->id)
+            ->where('events.id', $transaksi->id_event)
             ->select('humas.*')->get();
 
         return view('pages.customer.chekout.show', [

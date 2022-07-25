@@ -10,7 +10,17 @@
      <div class="mb-3" id="dropzone-section">
        <label for="image" class="form-label text-lg">Pamflet Event</label>
        <div class="needsclick dropzone" id="document-dropzone"></div>
-       <small class="my-2 mb-2 text-sm font-semibold text-slate-800">Disarankan menggunakan dimensi gambar 4:3</small>
+       <div class="info-section text-left">
+
+         <p class="mb-1">
+           <small class="my-2 mb-2 text-sm font-semibold text-slate-800">Disarankan menggunakan dimensi gambar
+             4:3</small>
+         </p>
+         <p>
+           <small class="my-2 mb-2 text-sm font-semibold text-slate-800">Jika pamflet acara belum siap, pamflet bisa
+             dikosongkan terlebih dahulu</small>
+         </p>
+       </div>
      </div>
 
      @error('famplet_acara_path')
@@ -26,7 +36,7 @@
      @enderror
    </div>
 
-   <button class="btn btn-primary btn-next-form" id="submitPamflet" type='button'>Simpan</button>
+   <button class="btn btn-primary btn-next-form d-block w-full" id="submitPamflet" type='button'>Simpan</button>
  </form>
 
  @push('js')
@@ -102,21 +112,56 @@
          });
        }
 
+       const imageInput = document.querySelector('input[name="image"]');
 
-       axios.post(endpoint, data)
-         .then(function(response) {
-           if (response.data.success || response.statusCode === 201) {
-             console.log(response.data);
-             stepper3.next();
-           } else {
-             alert('Something went wrong');
+
+       if (imageInput) {
+
+         Swal.fire({
+           title: 'Apakah Pamflet Sudah Benar ?',
+           text: "Pamflet event akan disimpan ke dalam sistem",
+           icon: 'question',
+           showCancelButton: true,
+           heightAuto: false,
+           confirmButtonColor: '#3085d6',
+           cancelButtonColor: '#d33',
+           confirmButtonText: 'Ya, Simpan!'
+         }).then((result) => {
+           if (result.isConfirmed) {
+             axios.post(endpoint, data)
+               .then(function(response) {
+                 if (response.data.success || response.statusCode === 201) {
+                   stepper3.next();
+                 } else {
+                   if (response.statusCode === 404 || response.statusCode === 500) {
+                     Swal.fire({
+                       title: 'Event Belum Disimpan',
+                       text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                       icon: 'error',
+                     })
+                   } else {
+                     alert('Something went wrong');
+                   }
+                 }
+               })
+               .catch(function(error) {
+                 //  console.log(error);
+                 window.scrollTo(0, 0);
+                 Swal.fire({
+                   title: 'Event Belum Disimpan',
+                   text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                   icon: 'error',
+                 })
+               });
            }
          })
-         .catch(function(error) {
-           console.log(error);
-         });
-     }
+       } else {
+         stepper3.next();
+       }
 
+
+
+     }
      const buttonSubmitPamflet = document.querySelector('#submitPamflet');
      buttonSubmitPamflet.addEventListener('click', function(e) {
        e.preventDefault();

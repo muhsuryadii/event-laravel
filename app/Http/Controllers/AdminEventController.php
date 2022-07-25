@@ -168,11 +168,15 @@ class AdminEventController extends Controller
         //
         $humas = DB::table('humas')->where('id_event', $event->id)->get();
 
+        $sertifikat = DB::table('certificate_layouts')->where('id_event', $event->id)->first();
+
+        // return dd($sertifikat);
 
         return view('pages.admin.event.editWithStepper', [
             'event' => $event,
             'user' => Auth::user(),
-            'humas' => $humas
+            'humas' => $humas,
+            'sertifikat' => $sertifikat,
         ]);
     }
 

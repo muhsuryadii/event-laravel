@@ -58,9 +58,6 @@
       const postFormDescription = () => {
         const descriptionFeedback = document.querySelector('.is-none');
         const descriptionTextareaValue = myEditor.getData();
-
-        // console.log(descriptionTextareaValue.length);
-
         if (descriptionTextareaValue.length == 0) {
           descriptionFeedback.classList.add('d-block');
           descriptionFeedback.classList.remove('d-none');
@@ -85,22 +82,51 @@
             'uuid_event': uuidEvent,
             'deskripsi_acara': myEditor.getData()
           };
-          // console.log(data);
 
-          axios.post(endpoint, {
-              ...data
-            })
-            .then(function(response) {
-              console.log(response);
-              if (response.data.success || response.statusCode === 201) {
-                stepper3.next();
-              } else {
-                alert('Something went wrong');
-              }
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
+          Swal.fire({
+            heightAuto: false,
+            title: 'Apakah Deskripsi Sudah Benar ?',
+            text: "Deskripsi event akan disimpan ke dalam sistem",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Simpan!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              axios.post(endpoint, {
+                  ...data
+                })
+                .then(function(response) {
+                  if (response.data.success || response.statusCode === 201) {
+                    window.scrollTo(0, 0);
+                    setTimeout(() => {
+                      stepper3.next();
+                    }, 100);
+                  } else {
+                    if (response.statusCode === 404 || response.statusCode === 500) {
+                      Swal.fire({
+                        title: 'Event Belum Disimpan',
+                        text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                        icon: 'error',
+                      })
+                    } else {
+                      alert('Something went wrong');
+                    }
+                  }
+                })
+                .catch(function(error) {
+                  window.scrollTo(0, 0);
+
+                  Swal.fire({
+                    title: 'Event Belum Disimpan',
+                    text: "Mohon simpan terlebih dahulu event pada tab Informasi",
+                    icon: 'error',
+                  })
+                });
+            }
+          })
+
         }
       }
 

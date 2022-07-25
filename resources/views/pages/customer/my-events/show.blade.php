@@ -44,7 +44,7 @@
       </div>
       <div class="summary-info-wrapper rounded-2xl border border-slate-600 bg-white p-4 shadow-md">
         @if ($laporan->status_absen == 0)
-          <form action="{{ route('my-events_absent', $event->uuid_event) }}" method="POST">
+          <form action="{{ route('my_events_absent', $event->uuid_event) }}" method="POST">
             @csrf
             <input type="hidden" name="id_event" value="{{ $event->id_event }}">
             <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
@@ -59,6 +59,26 @@
           <button type="button" disabled id='btn_absen' class="btn btn-success block w-full !rounded-md">Anda
             Sudah Absen</button>
         @endif
+
+        @if ($event->is_certificate_ready)
+          @if ($laporan->status_absen == 0)
+            <button type="button" disabled id='btn_absen' class="btn btn-success mt-2 block w-full !rounded-md">Anda
+              Belum Absen</button>
+          @else
+            <form action="{{ route('my_events_certificate', $event->uuid_event) }}" class='mt-3' method="POST">
+              @csrf
+              <input type="hidden" name="id_event" value="{{ $event->id_event }}">
+              <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
+              <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
+              <input type="hidden" name="id_laporan" value="{{ $laporan->id }}">
+
+              <button type="submit" id='btn_absen' class="btn btn-primary block w-full !rounded-md">Download
+                Sertifikat</button>
+            </form>
+          @endif
+        @endif
+
+
 
 
         {{-- For Production --}}
