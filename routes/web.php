@@ -162,5 +162,5 @@ Route::middleware([
     Route::get('/my-events/{uuid}', [MyEventController::class, 'show'])->name('my-events_show');
     Route::post('/my-events/{uuid}', [MyEventController::class, 'absent'])->name('my_events_absent');
 
-    Route::post('/my-events/{uuid}/certificate', [MyEventController::class, 'grenateCertificate'])->name('my_events_certificate');
+    Route::get('/my-events/{uuid}/certificate', [MyEventController::class, 'grenateCertificate'])->name('my_events_certificate');
 });

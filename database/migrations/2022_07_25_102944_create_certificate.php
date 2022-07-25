@@ -19,6 +19,7 @@ class CreateCertificate extends Migration
             $table->foreignId('id_event');
             $table->foreignId('id_user');
             $table->string('no_sertifikat')->nullable();
+            $table->string('certificate_path', 2048)->nullable();
             $table->timestamps();
         });
     }

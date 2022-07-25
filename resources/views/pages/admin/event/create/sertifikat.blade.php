@@ -86,8 +86,8 @@
           <select id="select-font-size" class="select form-control" name="fontsize">
             <option value="14">Sangat kecil</option>
             <option value="16">Kecil</option>
-            <option value="20" selected="selected">Normal</option>
-            <option value="28">Medium</option>
+            <option value="20">Normal</option>
+            <option value="28" selected="selected">Medium</option>
             <option value="36">Besar</option>
             <option value="60">Sangat besar</option>
           </select>
@@ -126,13 +126,18 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
         }
+        const metrics = ctx.measureText(textValue);
+        const actualHeight = (metrics.actualBoundingBoxAscent + metrics.fontBoundingBoxAscent);
         const form = document.querySelector('#formStepCertificate');
+
         let formData = new FormData(form);
         formData.append('uuid_event', uuidEvent);
+        formData.append('heightName', actualHeight);
 
         if (inputFile.files.length == 0) {
-          window.location = "{{ route('admin_events_index') }}";
+          return window.location = "{{ route('admin_events_index') }}";
         }
+
         Swal.fire({
           title: 'Apakah Sertifikat Sudah Benar ?',
           text: "Sertifikat event akan disimpan ke dalam sistem",
@@ -150,8 +155,8 @@
                   // console.log(response.data);
                   // return window.location = "{{ route('admin_events_index') }}";
                   Swal.fire({
-                    title: 'Selamat, Event Berhasil Disimpan",!',
-                    text: "Event berhasil disimpan, Halaman akan di redirect ke halaman event",
+                    title: 'Selamat, Event Berhasil Disimpan',
+                    text: "Event berhasil disimpan, Halaman akan di redirect ke halaman list event",
                     icon: 'success',
                   }).then(() => {
                     setTimeout(() => {

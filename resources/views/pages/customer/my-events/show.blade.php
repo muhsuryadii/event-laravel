@@ -65,7 +65,7 @@
             <button type="button" disabled id='btn_absen' class="btn btn-success mt-2 block w-full !rounded-md">Anda
               Belum Absen</button>
           @else
-            <form action="{{ route('my_events_certificate', $event->uuid_event) }}" class='mt-3' method="POST">
+            {{-- <form action="{{ route('my_events_certificate', $event->uuid_event) }}" class='mt-3' method="POST">
               @csrf
               <input type="hidden" name="id_event" value="{{ $event->id_event }}">
               <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
@@ -74,7 +74,10 @@
 
               <button type="submit" id='btn_absen' class="btn btn-primary block w-full !rounded-md">Download
                 Sertifikat</button>
-            </form>
+            </form> --}}
+            <a href="{{ route('my_events_certificate', $event->uuid_event) }}" target="_blank" id='btn_absen'
+              class="btn btn-primary mt-4 block w-full !rounded-md">Download
+              Sertifikat</a>
           @endif
         @endif
 
