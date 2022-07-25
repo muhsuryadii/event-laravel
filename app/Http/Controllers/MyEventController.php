@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class MyEventController extends Controller
 {
@@ -39,7 +40,7 @@ class MyEventController extends Controller
             ->where('transaksis.status_transaksi', 'verified')
             ->select('events.*', 'transaksis.*', 'events.uuid as uuid_event', 'events.id as id_event', 'transaksis.id as id_transaksi')
             ->first();
-            
+
         $laporan = DB::table('events')
             ->join('laporans', 'events.id', '=', 'laporans.id_event')
             ->where('events.uuid', $uuid)
@@ -84,5 +85,30 @@ class MyEventController extends Controller
             ->update($validator);
 
         return redirect()->route('my-events_show', $uuid)->with('success', 'Absen Berhasil');
+    }
+
+    public function grenateCertificate(Request $request, string $uuid)
+    {
+        $event = Event::where('uuid', $uuid)->first();
+        $layouts = DB::table('certificate_layouts')
+            ->where('id_event', $event->id)
+            ->first();
+
+        $img = Image::make(public_path('storage/' . $layouts->certificate_path))->encode('jpg');
+
+        $fontSize = $layouts->fontSize;
+        $fontColor = $layouts->color;
+
+        $img->text(Auth::user()->nama_user, $layouts->x, $layouts->y, function ($font) use ($fontSize, $fontColor) {
+            $font->file('fonts/arial.ttf');
+            $font->size($fontSize);
+            $font->color($fontColor);
+            $font->align('center');
+        });
+
+        $hash = md5($img->__toString());
+        $path = "storage/images/certificates/{$hash}.jpg";
+        // Storage::put($path, $img);
+        $img->save(public_path($path));
     }
 }

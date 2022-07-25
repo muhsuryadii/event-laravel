@@ -20,9 +20,6 @@ class AdminEventJSController extends Controller
     public function create()
     {
         //
-        // return view('pages.admin.event.create', [
-        //     'user' => Auth::user(),
-        // ]);
         return view('pages.admin.event.createWithStepper', [
             'user' => Auth::user(),
         ]);
