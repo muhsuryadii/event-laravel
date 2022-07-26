@@ -457,7 +457,7 @@ class AdminEventJSController extends Controller
     public function updateCertificate(Request $request, $uuid)
     {
         $url = null;
-        $uuid = $request->uuid_event;
+
         $event = $this->validateEvent($uuid);
 
         if ($request->file('file')) {
@@ -480,45 +480,27 @@ class AdminEventJSController extends Controller
             /* Update certificate_layout table */
             $certificateLayout = DB::table('certificate_layouts')->where('id_event', $event->id)->first();
 
-            if ($certificateLayout) {
-                $certificateLayoutData = [
-                    'certificate_path' => $url,
-                    'x_coordinate_name' => (int) $request->xCoordinate,
-                    'y_coordinate_name' => (int) $request->yCoordinate,
-                    'heightName' => (int) $request->heightName,
-                    'font' => $request->font,
-                    'fontSize' => (int) $request->fontsize,
-                    'color' => $request->color,
-                    'updated_at' => now()
-                ];
-                DB::table('certificate_layouts')->where('id_event', $event->id)->update($certificateLayoutData);
-            } else {
-                $certificateLayoutData = [
-                    'uuid' => Str::uuid()->getHex(),
-                    'id_event' => $event->id,
-                    'certificate_path' => $url,
-                    'x_coordinate_name' => (int) $request->xCoordinate,
-                    'y_coordinate_name' => (int) $request->yCoordinate,
-                    'heightName' => (int) $request->heightName,
-                    'font' => $request->font,
-                    'fontSize' => (int) $request->fontsize,
-                    'color' => $request->color,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
-                DB::table('certificate_layouts')->insert($certificateLayoutData);
-            }
+            $certificateLayoutData = [
+                'certificate_path' => $url,
+                'x_coordinate_name' => (int) $request->xCoordinate,
+                'y_coordinate_name' => (int) $request->yCoordinate,
+                'heightName' => (int) $request->heightName,
+                'font' => $request->font,
+                'fontSize' => (int) $request->fontsize,
+                'color' => $request->color,
+                'updated_at' => now()
+            ];
+            DB::table('certificate_layouts')->where('id_event', $event->id)->update($certificateLayoutData);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Sertificate stored successfully'
+                'message' => 'Sertificate update successfully'
             ]);
         }
 
         return response()->json([
-            'success' => true,
-            'message' => 'Ok'
-        ]);
+            'success' => false,
+            'message' => 'Something went wrong'
+        ], 400);
     }
 }
-
