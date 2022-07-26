@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use File;
+
 
 class MyEventController extends Controller
 {
@@ -102,6 +104,7 @@ class MyEventController extends Controller
 
 
         $img = Image::make(public_path('storage/' . $layouts->certificate_path))->encode('jpg');
+
         $fontSize = $layouts->fontSize;
         $fontColor = $layouts->color;
         $x = $layouts->x_coordinate_name;
@@ -117,34 +120,41 @@ class MyEventController extends Controller
 
         $hash = md5($img->__toString());
         $filename = $hash . time();
-        $path = "images/certificates/{$filename}.jpg";
-        $img->save(public_path('storage/' . $path));
+        $path = "images/certificates/";
+
+        $name = "{$path}{$filename}.jpg";
+
+        if (!file_exists(public_path('storage/' . $path))) {
+            mkdir(public_path('storage/' . $path), 0777, true);
+        }
+
+        $img->save(public_path('storage/' . $name));
 
         $certificate = DB::table('certificates')
             ->where('id_event', $event->id)
             ->where('id_user', Auth::user()->id)
             ->first();
 
-
-        /* ngecek apakah ada user dan id even yang sama di db */
+        /* Ngecek apakah ada user dan id event yang sama di tabel sertifikat */
         if ($certificate) {
             if ($certificate->certificate_path) {
                 Storage::delete($certificate->certificate_path);
             }
             $certificateData = [
-                'certificate_path' => $path,
+                'certificate_path' => $name,
                 'updated_at' => now()
             ];
-            // $certificate->update($certificateData);
+
             DB::table('certificates')
                 ->where('id_event', $event->id)
                 ->where('id_user', Auth::user()->id)
                 ->update($certificateData);
         } else {
+            /* Jika tidak ada buat file baru */
             $certificateData = [
                 'uuid' => Str::uuid()->getHex(),
                 'id_event' => $event->id,
-                'certificate_path' => $path,
+                'certificate_path' => $name,
                 'id_user' => Auth::user()->id,
                 'updated_at' => now()
             ];
@@ -152,9 +162,6 @@ class MyEventController extends Controller
             DB::table('certificates')->insert($certificateData);
         }
 
-
-
-
-        return response()->download(public_path('storage/' . $path));
+        return response()->download(public_path('storage/' . $name));
     }
 }
