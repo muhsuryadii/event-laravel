@@ -230,7 +230,6 @@ function draggable(img, text_x = 0, text_y = 0) {
     const actualHeight = Math.ceil(
         metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
     );
-    // console.log(metrics);
 
     ctx.font = `${fontSize}px ${font}`;
     ctx.fillStyle = color;
@@ -253,8 +252,9 @@ function theimg() {
     // console.log(ctx.measureText(textValue));
     // console.log(acanvas.width, acanvas.height);
     const imageInput = document.querySelector("#inputFile").files;
+    console.log(reader);
 
-    if (imageInput.length > 0) {
+    if (imageInput.length > 0 || reader.result) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(
             img,
