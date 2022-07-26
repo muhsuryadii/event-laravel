@@ -98,7 +98,8 @@
               {{ $event->is_certificate_ready && $sertifikat->fontSize == 20 ? "selected = 'selected'" : '' }}>Normal
             </option>
             <option value="28"
-              {{ $event->is_certificate_ready && $sertifikat->fontSize == 28 ? "selected = 'selected'" : '' }}>Medium
+              {{ $event->is_certificate_ready && $sertifikat->fontSize == 28 ? "selected = 'selected'" : '' }}
+              {{ $event->is_certificate_ready ? '' : "selected = 'selected'" }}>Medium
             </option>
             <option value="36"
               {{ $event->is_certificate_ready && $sertifikat->fontSize == 36 ? "selected = 'selected'" : '' }}>Besar
