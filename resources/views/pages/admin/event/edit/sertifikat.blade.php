@@ -1,7 +1,7 @@
-  <form action='{{ route('admin_events_store_certificate') }}' enctype="multipart/form-data" method="POST" class="mt-3"
-    id="formStepCertificate">
+  <form action='{{ route('admin_events_update_certificate', $event->uuid) }}' enctype="multipart/form-data" method="POST"
+    class="mt-3" id="formStepCertificate">
     @csrf
-
+    @method('put')
 
     <div class="sertifikat-display">
       <div class="output">
@@ -11,7 +11,7 @@
         </canvas>
         <div class="draggable-file">
           <input id="inputFile" type="file" class="draggable-file-input" name='file' style="opacity: 0"
-            accept="image/*" value="{{ $sertifikat ? asset('storage/' . $sertifikat->certificate_path) : '' }}" />
+            accept="image/*" />
 
           <label class="draggable-file-label" for="inputFile">
             <span class="icon-file">
@@ -35,7 +35,7 @@
     </div>
 
     {{-- Image Control --}}
-    <div class="sertifikat-layout-control my-5">
+    <div class="sertifikat-layout-control my-5 hidden">
       <h4>Pengaturan Layout Sertifikat</h4>
 
       <div class="input container text-left">
@@ -62,10 +62,12 @@
           <div class="slider">
             <label for="vertical" class="text-base" style="margin-right: 8px">Vertikal</label>
             <div class="input-right inline-flex">
-              <input type="range" min="0" max="550" step="5" value="200" id="vertical"
+              <input type="range" min="0" max="550" step="5"
+                value="{{ $event->is_certificate_ready ? $sertifikat->y_coordinate_name : 200 }}" id="vertical"
                 style="margin: 0 8px 0 0" />
-              <input type="number" class="form-control" min="0" max="550" step="5" value="200"
-                id="vertical-input" name="yCoordinate" />
+              <input type="number" class="form-control" min="0" max="550" step="5"
+                value="{{ $event->is_certificate_ready ? $sertifikat->y_coordinate_name : 200 }}" id="vertical-input"
+                name="yCoordinate" />
             </div>
           </div>
 
@@ -73,9 +75,11 @@
             <label for="horizontal" class="text-base" style="margin-right: 8px">Horizontal</label>
             <div class="input-right inline-flex">
               <input type="range" min="0" max="800" step="5" id="horizontal"
-                style="margin-right: 8px" value="400" />
+                style="margin-right: 8px"
+                value="{{ $event->is_certificate_ready ? $sertifikat->x_coordinate_name : 400 }}" />
               <input type="number" class="form-control" min="0" max="800" step="5"
-                id="horizontal-input" value="400" name="xCoordinate" />
+                id="horizontal-input" value="{{ $event->is_certificate_ready ? $sertifikat->x_coordinate_name : 400 }}"
+                name="xCoordinate" />
             </div>
           </div>
         </div>
@@ -84,19 +88,33 @@
         <div style="margin: 20px 0px">
           <label for="">Ukuran</label>
           <select id="select-font-size" class="select form-control" name="fontsize">
-            <option value="14">Sangat kecil</option>
-            <option value="16">Kecil</option>
-            <option value="20" selected="selected">Normal</option>
-            <option value="28">Medium</option>
-            <option value="36">Besar</option>
-            <option value="60">Sangat besar</option>
+            <option value="14"
+              {{ $event->is_certificate_ready && $sertifikat->fontSize == 14 ? "selected = 'selected'" : '' }}>Sangat
+              kecil</option>
+            <option value="16"
+              {{ $event->is_certificate_ready && $sertifikat->fontSize == 16 ? "selected = 'selected'" : '' }}>Kecil
+            </option>
+            <option value="20"
+              {{ $event->is_certificate_ready && $sertifikat->fontSize == 20 ? "selected = 'selected'" : '' }}>Normal
+            </option>
+            <option value="28"
+              {{ $event->is_certificate_ready && $sertifikat->fontSize == 28 ? "selected = 'selected'" : '' }}
+              {{ $event->is_certificate_ready ? '' : "selected = 'selected'" }}>Medium
+            </option>
+            <option value="36"
+              {{ $event->is_certificate_ready && $sertifikat->fontSize == 36 ? "selected = 'selected'" : '' }}>Besar
+            </option>
+            <option value="60"
+              {{ $event->is_certificate_ready && $sertifikat->fontSize == 60 ? "selected = 'selected'" : '' }}>Sangat
+              besar</option>
           </select>
         </div>
 
         <!-- Font Color Selection -->
         <div style="display: flex; align-items: center; margin: 20px 0px">
           <label for="colorPicker" style="margin-right: 8px">Warna</label>
-          <input type="color" id="colorPicker" name="color" value="#0f172a" />
+          <input type="color" id="colorPicker" name="color"
+            value={{ $event->is_certificate_ready ? $sertifikat->color : '#0f172a ' }} />
         </div>
       </div>
     </div>
@@ -107,10 +125,34 @@
   @push('js')
     <script src="{{ asset('js/watermark.js') }}"></script>
 
+    @if ($event->is_certificate_ready)
+      <script>
+        async function getFileFromUrl(url, name, defaultType = 'image/jpeg') {
+          const response = await fetch(url);
+          const data = await response.blob();
+          return new File([data], name, {
+            type: data.type || defaultType,
+          });
+        }
+
+        // `await` can only be used in an async body, but showing it here for simplicity.
+        async function showImageToCanvas() {
+          const file = await getFileFromUrl(
+            '{{ asset('storage/' . $sertifikat->certificate_path) }}',
+            'example.jpg');
+
+          await reader.readAsDataURL(file);
+          draggableFile.style.display = "none";
+          controls.style.display = "block";
+        }
+        showImageToCanvas()
+      </script>
+    @endif
+
     {{-- Script for submit sertifikat --}}
     <script>
       const postCertificate = () => {
-        const endpoint = "{{ route('admin_events_store_certificate') }}";
+        const endpoint = "{{ route('admin_events_update_certificate', $event->uuid) }}";
 
         if (!postFormValidation()) {
           return stepper3.to(1);
@@ -126,22 +168,27 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
         }
+        const metrics = ctx.measureText(textValue);
+        const actualHeight = (metrics.actualBoundingBoxAscent + metrics.fontBoundingBoxAscent);
         const form = document.querySelector('#formStepCertificate');
+
         let formData = new FormData(form);
         formData.append('uuid_event', uuidEvent);
+        formData.append('heightName', actualHeight);
 
-        if (inputFile.files.length == 0) {
-          window.location = "{{ route('admin_events_index') }}";
+        if (inputFile.files.length == 0 && !reader.result) {
+          return window.location = "{{ route('admin_events_index') }}";
         }
+
         Swal.fire({
           title: 'Apakah Sertifikat Sudah Benar ?',
-          text: "Sertifikat event akan disimpan ke dalam sistem",
+          text: "Sertifikat event akan diupdate ke dalam sistem",
           icon: 'question',
           showCancelButton: true,
           heightAuto: false,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Ya, Simpan!'
+          confirmButtonText: 'Ya, Update!'
         }).then((result) => {
           if (result.isConfirmed) {
             axios.post(endpoint, formData, settings)
@@ -150,8 +197,8 @@
                   // console.log(response.data);
                   // return window.location = "{{ route('admin_events_index') }}";
                   Swal.fire({
-                    title: 'Selamat, Event Berhasil Disimpan",!',
-                    text: "Event berhasil disimpan, Halaman akan di redirect ke halaman event",
+                    title: 'Selamat, Event Berhasil Diupdate!',
+                    text: "Event berhasil diupdate, Halaman akan di redirect ke halaman list event",
                     icon: 'success',
                   }).then(() => {
                     setTimeout(() => {

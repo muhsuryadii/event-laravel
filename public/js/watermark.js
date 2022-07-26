@@ -9,31 +9,6 @@ let angle = 0;
 let isDownloadable = false;
 let src = "";
 
-const img = new Image();
-
-img.addEventListener("load", function () {
-    const canvas = ctx.canvas;
-    const hRatio = canvas.width / img.width;
-    const vRatio = canvas.height / img.height;
-    const ratio = Math.min(hRatio, vRatio);
-    const centerShift_x = (canvas.width - img.width * ratio) / 2;
-    const centerShift_y = (canvas.height - img.height * ratio) / 2;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(
-        img,
-        0,
-        0,
-        img.width,
-        img.height,
-        centerShift_x,
-        centerShift_y,
-        img.width * ratio,
-        img.height * ratio
-    );
-    draggable();
-});
-
 // Inisialisasi element
 const inputFile = document.querySelector("#inputFile");
 const draggableFile = document.querySelector(".draggable-file");
@@ -59,6 +34,31 @@ const controls = document.querySelector(".sertifikat-layout-control");
 // Section Canvas
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
+
+const img = new Image();
+
+img.addEventListener("load", function () {
+    const canvas = ctx.canvas;
+    const hRatio = canvas.width / img.width;
+    const vRatio = canvas.height / img.height;
+    const ratio = Math.min(hRatio, vRatio);
+    const centerShift_x = (canvas.width - img.width * ratio) / 2;
+    const centerShift_y = (canvas.height - img.height * ratio) / 2;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(
+        img,
+        0,
+        0,
+        img.width,
+        img.height,
+        centerShift_x,
+        centerShift_y,
+        img.width * ratio,
+        img.height * ratio
+    );
+    draggable(img, elementInputVertikal.value, elementInputHorizontal.value);
+});
 
 let canvasOffset = canvas.getBoundingClientRect();
 let offsetX = canvasOffset.left;
@@ -163,6 +163,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     draggableFile.addEventListener("dragover", dragOverHandler, false);
+
     draggableFile.addEventListener("drop", dropHandler, false);
 });
 
@@ -208,6 +209,7 @@ function changePosXY(x, y) {
 
 function draggable(img, text_x = 0, text_y = 0) {
     let y = text_x > 0 ? text_x : canvas.height / 3;
+
     let x = text_y > 0 ? text_y : canvas.width / 2;
 
     const color = elementColor.value;
@@ -230,7 +232,6 @@ function draggable(img, text_x = 0, text_y = 0) {
     const actualHeight = Math.ceil(
         metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
     );
-    // console.log(metrics);
 
     ctx.font = `${fontSize}px ${font}`;
     ctx.fillStyle = color;
@@ -250,11 +251,9 @@ function theimg() {
     const centerShift_x = (acanvas.width - img.width * ratio) / 2;
     const centerShift_y = (acanvas.height - img.height * ratio) / 2;
 
-    // console.log(ctx.measureText(textValue));
-    // console.log(acanvas.width, acanvas.height);
     const imageInput = document.querySelector("#inputFile").files;
 
-    if (imageInput.length > 0) {
+    if (imageInput.length > 0 || reader.result) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(
             img,
@@ -272,7 +271,9 @@ function theimg() {
         const text = textObj;
 
         ctx.textAlign = "center";
+
         ctx.translate(text.x, text.y);
+
         ctx.rotate(angle * (Math.PI / 180));
 
         const splitedText = text.text.split("\n");

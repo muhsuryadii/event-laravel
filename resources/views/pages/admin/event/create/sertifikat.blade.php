@@ -134,7 +134,7 @@
         formData.append('uuid_event', uuidEvent);
         formData.append('heightName', actualHeight);
 
-        if (inputFile.files.length == 0) {
+        if (inputFile.files.length == 0 && !reader.result) {
           return window.location = "{{ route('admin_events_index') }}";
         }
 

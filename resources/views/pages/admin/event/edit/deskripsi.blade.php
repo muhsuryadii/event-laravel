@@ -29,7 +29,7 @@
       </div>
     </div>
     {{-- <button class="btn btn-primary btn-next-form" type='button'>Next</button> --}}
-    <button class="btn btn-primary btn-next-form w-full" id="submitDescription" type='button'>Upload</button>
+    <button class="btn btn-primary btn-next-form w-full" id="submitDescription" type='button'>Update</button>
   </form>
 
   @push('js')
