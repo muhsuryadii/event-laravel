@@ -7,8 +7,8 @@
       <div class="form-group text-left">
         <label for="wa_grup" class="form-label text-left text-lg">Grup Whatsapp</label>
         <input type="url" class="form-control @error('wa_grup') is-invalid @enderror" name='wa_grup' id="wa_grup"
-          autofocus='true' value="{{ old('wa_grup') }}" placeholder="https://chat.whatsapp.com/xxxxxxxxxxxxxx"
-          pattern="https://.*">
+          autofocus='true' value="{{ old('wa_grup', $event->wa_grup) }}"
+          placeholder="https://chat.whatsapp.com/xxxxxxxxxxxxxx" pattern="https://.*">
         @error('wa_grup')
           <div class="invalid-feedback">
             {{ $message }}
