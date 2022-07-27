@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Laporan;
 use App\Models\Transaksi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,13 +21,14 @@ class AdminTransaksiController extends Controller
     public function index()
     {
         //
+        $gapHours = Carbon::parse(now())->addHours(5)->format('Y-m-d H:i:s');
+
         $transaksi =
             DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')
             ->where('id_panitia', Auth::user()->id)
-            // ->where('events.waktu_acara', '>=', now())
+            ->where('events.waktu_acara', '>=', $gapHours)
             ->groupBy('transaksis.id_event')
             ->orderBy('events.waktu_acara', 'DESC')
-
             ->get();
 
         return view('pages.admin.transaksi.index', [
@@ -65,7 +67,16 @@ class AdminTransaksiController extends Controller
     {
         //
 
+
         $event = DB::table('events')->where('uuid', $uuid)->first();
+
+        if ($event->id_panitia != Auth::user()->id) {
+            return redirect(route('admin_transaksi_index'));
+        }
+
+        if ($event->waktu_acara < now()) {
+            return redirect(route('admin_transaksi_index'))->with('error', 'Event Telah Selesai');
+        }
 
         $eventTransaksi = DB::table('transaksis')
             ->join('events', 'transaksis.id_event', '=', 'events.id')
@@ -120,8 +131,6 @@ class AdminTransaksiController extends Controller
             Event::where('id', $transaksi->id_event)->update([
                 'kuota_tiket' => $kuota
             ]);
-
-            
         }
 
         return redirect()->route('admin_transaksi_show', $event->uuid);

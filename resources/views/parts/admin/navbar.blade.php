@@ -21,7 +21,7 @@
          @elseif (Request::is('admin/transaksi*'))
            <li class="breadcrumb-item active text-sm text-white" aria-current="page">
              <a href={{ route('admin_transaksi_index') }} class='text-white'>
-               Transaksi
+               Pembayaran
              </a>
            </li>
          @elseif (Request::is('admin/report*'))
@@ -47,7 +47,7 @@
              Edit Event
            @endif
          @elseif (Request::is('admin/transaksi*'))
-           Transaksi
+           Pembayaran
          @else
            Laporan
          @endif
