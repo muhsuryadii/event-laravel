@@ -26,10 +26,14 @@
           </label>
         </div>
       </div>
-      <div class="info-section output max-w-[750px] !justify-start">
+      <div class="info-section output mt-2 max-w-[750px] flex-wrap !justify-start">
         <p>
           <small class="my-2 mb-2 text-sm font-semibold text-slate-800">Jika sertifikat belum siap, bisa
             dikosongkan terlebih dahulu</small>
+        </p>
+        <p>
+          <small class="my-2 mb-2 text-sm font-semibold text-slate-800">Apabila ingin mengganti sertifikat, tekan tombol
+            reset terlebih dahulu</small>
         </p>
       </div>
     </div>
@@ -106,6 +110,44 @@
 
   @push('js')
     <script src="{{ asset('js/watermark.js') }}"></script>
+
+    <script>
+      const reset = document.querySelector('.btn-reset');
+
+      reset.addEventListener('click', function() {
+        textObj.y = 200;
+        textObj.x = 400;
+        draggable(img)
+        
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        draggableFile.style.display = "block";
+        canvas.classList.remove('show');
+        controls.style.display = "none";
+        inputFile.value = "";
+        elementFont.selectedIndex = 0;
+        selectFontSize.selectedIndex = 3;
+        elementColor.value = "#0f172a";
+        elementInputHorizontal.value = "400";
+        elementSliderHorizontal.value = "400";
+        elementInputVertikal.value = "200";
+        elementSliderVertikal.value = "200";
+
+
+
+        const draggableFileLabel = document.querySelector('.draggable-file-label');
+        draggableFileLabel.innerHTML = `
+            <span class="icon-file">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64">
+                <path fill="none" d="M0 0h24v24H0z"></path>
+                <path d="M5 11.1l2-2 5.5 5.5 3.5-3.5 3 3V5H5v6.1zm0 2.829V19h3.1l2.986-2.985L7 11.929l-2 2zM10.929 19H19v-2.071l-3-3L10.929 19zM4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.5 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="rgba(103,103,103,1)"></path>
+              </svg>
+            </span>
+            <p>Tarik gambar sertifikat ke sini</p>
+          `
+      });
+    </script>
 
     {{-- Script for submit sertifikat --}}
     <script>
