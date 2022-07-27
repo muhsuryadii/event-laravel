@@ -25,7 +25,8 @@
             Humas</label>
           <input type="text" class="form-control @error('no_wa[]') is-invalid @enderror" name='no_wa[]'
             id='no_wa[]' autofocus='true' value="{{ old('no_wa[]') }}" placeholder="628xxxxxxxxxx"
-            oninput="this.value = this.value.replace(/^[^6]/g, '').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');">
+            onpaste="return validatePhone(this);" oninput="return validatePhone(this);">
+
           @error('no_wa[]')
             <div class="invalid-feedback">
               {{ $message }}
@@ -40,6 +41,24 @@
 </form>
 
 @push('js')
+  {{-- Script for add validation Phone --}}
+  <script>
+    const validatePhone = (val) => {
+      const regexIDN = /628[0-9]+$/;
+
+      if (regexIDN.test(val.value)) {
+        val.value = val.value.replace(/^[^6]+[2]+[8]/g, '628').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');
+      } else if (val.value.length >= 3 && !regexIDN.test(val.value)) {
+        /628/.test(val.value) ? val.value = val.value.replace(/^[^6]+[2]+[8]/g, '').replace(/[!@#$%^&*]/g, '') : val
+          .value = '62';
+      } else if (val.value.length >= 2) {
+        /62/.test(val.value) ? val.value = val.value.replace(/^[^6]+[2]/g, '').replace(/[!@#$%^&*]/g, '') : val
+          .value = '6';
+      } else {
+        val.value = val.value.replace(/[!@#$%^&*]/g, '').replace(/[^0-9.]/g, '').replace(/^[^6]/g, '')
+      }
+    }
+  </script>
   {{-- Script for add another humas --}}
   <script>
     const buttonHumas = document.querySelector('.btn-tambah-humas')
@@ -59,7 +78,7 @@
             <div class="form-group text-left">
             <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp Humas</label>
             <input type="text" class="form-control" name='no_wa[]' id='no_wa[]' autofocus='true'
-                placeholder="628xxxxxxxxxx"  oninput="this.value = this.value.replace(/^[^6]/g, '').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');">
+                placeholder="628xxxxxxxxxx"  onpaste="return validatePhone(this);" oninput="return validatePhone(this);">
             </div>
         </div>
         `;
