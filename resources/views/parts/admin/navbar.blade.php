@@ -21,7 +21,7 @@
          @elseif (Request::is('admin/transaksi*'))
            <li class="breadcrumb-item active text-sm text-white" aria-current="page">
              <a href={{ route('admin_transaksi_index') }} class='text-white'>
-               Transaksi
+               Pembayaran
              </a>
            </li>
          @elseif (Request::is('admin/report*'))
@@ -47,7 +47,7 @@
              Edit Event
            @endif
          @elseif (Request::is('admin/transaksi*'))
-           Transaksi
+           Pembayaran
          @else
            Laporan
          @endif
@@ -56,10 +56,10 @@
 
      <div class="collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4 mt-2" id="navbar">
        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-         <div class="input-group">
+         {{-- <div class="input-group">
            <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
            <input type="text" class="form-control" placeholder="Type here...">
-         </div>
+         </div> --}}
        </div>
        <ul class="navbar-nav justify-content-end">
 

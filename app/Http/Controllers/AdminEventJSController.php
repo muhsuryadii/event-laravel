@@ -120,9 +120,19 @@ class AdminEventJSController extends Controller
 
     public function storeHumas(Request $request)
     {
+
+
         $uuid = $request->uuid_event;
         $humaslist = $request->humasList;
         $event = $this->validateEvent($uuid);
+
+        if ($event) {
+            $data = [
+                'wa_grup' => $request->wa_grup,
+            ];
+
+            $event->update($data);
+        }
 
         $humasCheck = DB::table('humas')->where('id_event', $event->id)->get();
 
@@ -353,6 +363,14 @@ class AdminEventJSController extends Controller
     {
         $humaslist = $request->humasList;
         $event = Event::where('uuid', $uuid)->first();
+
+        if ($event) {
+            $data = [
+                'wa_grup' => $request->wa_grup,
+            ];
+
+            $event->update($data);
+        }
 
         $humasCheck = DB::table('humas')->where('id_event', $event->id)->get();
 

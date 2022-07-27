@@ -34,7 +34,7 @@
               <li>
                 <a class="dropdown-item" href="{{ route('profile_show', Auth::user()->uuid) }}">
                   <i class="bi bi-person mr-3 text-xl text-slate-600"></i>
-                  Profil
+                  Biodata
                 </a>
               </li>
 
@@ -42,7 +42,7 @@
               <li>
                 <a class="dropdown-item" href="/transaksi">
                   <i class="bi bi-receipt mr-3 text-xl text-slate-600 active:!text-white"></i>
-                  Transaksi
+                  Pembayaran
                 </a>
 
               </li>

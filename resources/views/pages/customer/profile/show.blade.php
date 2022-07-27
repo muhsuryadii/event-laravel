@@ -1,4 +1,5 @@
 <x-app-costumer-layout>
+  {{-- {{ dd($peserta) }} --}}
   <section class="section py-10">
     <div class="container">
       <div
@@ -7,7 +8,7 @@
         <div class="edit-profile-button ml-auto w-fit">
           <a href="{{ route('profile_edit', $user->uuid) }}" class="btn btn-primary btn-sm rounded-full px-4 py-2">
             <i class="fa-regular fa-pen-to-square"></i>
-            <span class="text-white">Edit Profile</span>
+            <span class="text-white">Edit Biodata</span>
           </a>
         </div>
 
@@ -17,6 +18,8 @@
             <h6 class="mb-[8px]">Email</h6>
             <h6 class="mb-[8px]">Jenis Kelamin</h6>
             <h6 class="mb-[8px]">Instansi</h6>
+            <h6 class="mb-[8px]">Domisili</h6>
+            <h6 class="mb-[8px]">No HP/WA </h6>
 
             @if ($peserta)
               @if ($peserta->instansi_peserta == 'USNI')
@@ -27,6 +30,8 @@
             @endif
           </div>
           <div class="title-user-info w-fitlk mr-3">
+            <h6 class="mb-[8px]">:</h6>
+            <h6 class="mb-[8px]">:</h6>
             <h6 class="mb-[8px]">:</h6>
             <h6 class="mb-[8px]">:</h6>
             <h6 class="mb-[8px]">:</h6>
@@ -47,6 +52,11 @@
             </h6>
             <h6 class="mb-[8px]">
               {{ $peserta && $peserta->instansi_peserta ? ($peserta->instansi_peserta === 'usni' ? 'Universitas Satya Negara Indonesia' : $peserta->instansi_peserta) : '-' }}
+            </h6>
+            <h6 class="mb-[8px]">{{ $peserta && $peserta->domisili ? $peserta->domisili : '-' }}
+            </h6>
+
+            <h6 class="mb-[8px]">{{ $peserta && $peserta->no_telepon ? $peserta->no_telepon : '-' }}
             </h6>
 
             @if ($peserta)

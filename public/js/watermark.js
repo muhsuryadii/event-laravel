@@ -151,7 +151,6 @@ window.addEventListener("DOMContentLoaded", () => {
     /* Ketika upload sertifikat zone di klik, jalankan function */
     inputFile.addEventListener("change", function () {
         const filename = this.value.split("\\").pop();
-
         inputFile.nextElementSibling.innerHTML = `<span class="truncate-text">${filename}</span>`;
 
         if (document.querySelector(".truncate-text").innerHTML === "") {

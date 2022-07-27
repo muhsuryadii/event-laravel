@@ -3,6 +3,20 @@
   @method('put')
 
   <div class="mb-4">
+    <div class="humas-wrapper">
+      <div class="form-group text-left">
+        <label for="wa_grup" class="form-label text-left text-lg">Grup Whatsapp</label>
+        <input type="url" class="form-control @error('wa_grup') is-invalid @enderror" name='wa_grup' id="wa_grup"
+          autofocus='true' value="{{ old('wa_grup', $event->wa_grup) }}"
+          placeholder="https://chat.whatsapp.com/xxxxxxxxxxxxxx" pattern="https://.*">
+        @error('wa_grup')
+          <div class="invalid-feedback">
+            {{ $message }}
+          </div>
+        @enderror
+      </div>
+    </div>
+
     <button class="btn btn-outline-primary btn-tambah-humas d-block ml-auto active:bg-blue-100" type='button'>
       <i class="fa-solid fa-plus mr-2"></i>
       Tambah Humas
@@ -28,7 +42,7 @@
               Humas</label>
             <input type="text" class="form-control @error('no_wa[]') is-invalid @enderror" name='no_wa[]'
               id='no_wa[]' autofocus='true' value="{{ old('no_wa[]') }}" placeholder="628xxxxxxxxxx"
-              oninput="this.value = this.value.replace(/^[^6]/g, '').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');">
+              onpaste="return validatePhone(this);" oninput="return validatePhone(this);">
             @error('no_wa[]')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -40,30 +54,26 @@
         @foreach ($humas as $hum)
           <div class="humas-wrapper">
             <label for="name" class="form-label d-block text-left text-lg">Humas
-              {{ $loop->iteration }}</label>
-            <div class="form-group text-left">
-              <label for="nama_humas[]" class="form-label text-left text-sm">Nama
-                Humas</label>
-              <input type="text" class="form-control @error('nama_humas[]') is-invalid @enderror" name='nama_humas[]'
-                id="nama_humas[]" autofocus='true' value="{{ old('nama_humas[]', $hum->nama) }}"
-                placeholder="Masukan Nama Humas">
-              @error('nama_humas[]')
-                <div class="invalid-feedback">
-                  {{ $message }}
+              {{ $loop->iteration }} </label>
+            <div class="form-button d-flex w-full items-center">
+              <div class="form-wrapper d-flex w-3/4 flex-col pr-5">
+                <div class="form-group text-left">
+                  <label for="nama_humas[]" class="form-label text-left text-sm">Nama Humas</label>
+                  <input type="text" class="form-control" name='nama_humas[]' id="nama_humas[]" autofocus='true'
+                    placeholder="Masukan Nama Humas" value="{{ old('nama_humas[]', $hum->nama) }}">
                 </div>
-              @enderror
-            </div>
-            <div class="form-group text-left">
-              <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp
-                Humas</label>
-              <input type="text" class="form-control @error('no_wa[]') is-invalid @enderror" name='no_wa[]'
-                id='no_wa[]' autofocus='true' value="{{ old('no_wa[]', $hum->no_wa) }}" placeholder="628xxxxxxxxxx"
-                oninput="this.value = this.value.replace(/^[^6]/g, '').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');">
-              @error('no_wa[]')
-                <div class="invalid-feedback">
-                  {{ $message }}
+                <div class="form-group text-left">
+                  <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp Humas</label>
+                  <input type="text" class="form-control" name='no_wa[]' id='no_wa[]' autofocus='true'
+                    placeholder="628xxxxxxxxxx" onpaste="return validatePhone(this);"
+                    oninput="return validatePhone(this)"; value="{{ old('no_wa[]', $hum->no_wa) }}">
                 </div>
-              @enderror
+              </div>
+              <button class="btn btn-outline-danger btn-hapus-humas d-block h-fit w-1/4" type='button'
+                onclick="return deleteHumas(this);">
+                <i class="fa-solid fa-times mr-2"></i>
+                Hapus
+              </button>
             </div>
           </div>
         @endforeach
@@ -72,9 +82,29 @@
 
     <button class="btn btn-primary btn-next-form w-full" id="submitHumas" type='button'>Update</button>
   </div>
+
+
 </form>
 
 @push('js')
+  {{-- Script for add validation Phone --}}
+  <script>
+    const validatePhone = (val) => {
+      const regexIDN = /628[0-9]+$/;
+
+      if (regexIDN.test(val.value)) {
+        val.value = val.value.replace(/^[^6]+[2]+[8]/g, '628').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');
+      } else if (val.value.length >= 3 && !regexIDN.test(val.value)) {
+        /628/.test(val.value) ? val.value = val.value.replace(/^[^6]+[2]+[8]/g, '').replace(/[!@#$%^&*]/g, '') : val
+          .value = '62';
+      } else if (val.value.length >= 2) {
+        /62/.test(val.value) ? val.value = val.value.replace(/^[^6]+[2]/g, '').replace(/[!@#$%^&*]/g, '') : val
+          .value = '6';
+      } else {
+        val.value = val.value.replace(/[!@#$%^&*]/g, '').replace(/[^0-9.]/g, '').replace(/^[^6]/g, '')
+      }
+    }
+  </script>
   {{-- Script for add another humas --}}
   <script>
     const buttonHumas = document.querySelector('.btn-tambah-humas')
@@ -84,23 +114,39 @@
     buttonHumas.addEventListener('click', function() {
       console.log(humasList.children.length);
       const newInput = `
-        <div class="humas-wrapper">
-            <label for="name" class="form-label d-block text-left text-lg">Humas ${humasList.children.length+1}</label>
-            <div class="form-group text-left">
-            <label for="nama_humas[]" class="form-label text-left text-sm">Nama Humas</label>
-            <input type="text" class="form-control" name='nama_humas[]' id="nama_humas[]" autofocus='true'
-                placeholder="Masukan Nama Humas">
+         <div class="humas-wrapper">
+          <label for="name" class="form-label d-block text-left text-lg">Humas ${humasList.children.length+1}</label>
+          <div class="form-button d-flex w-full items-center">
+            <div class="form-wrapper d-flex w-3/4 flex-col pr-5">
+              <div class="form-group text-left">
+                <label for="nama_humas[]" class="form-label text-left text-sm">Nama Humas</label>
+                <input type="text" class="form-control" name='nama_humas[]' id="nama_humas[]" autofocus='true'
+                  placeholder="Masukan Nama Humas">
+              </div>
+              <div class="form-group text-left">
+                <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp Humas</label>
+                <input type="text" class="form-control" name='no_wa[]' id='no_wa[]' autofocus='true'
+                  placeholder="628xxxxxxxxxx" onpaste="return validatePhone(this);"
+                  oninput="return validatePhone(this)";>
+                      </div>
+                    </div>
+                    <button class="btn
+                  btn-outline-danger btn-hapus-humas d-block h-fit w-1/4" type='button' onclick="return deleteHumas(this);">
+                <i class="fa-solid fa-times mr-2"></i>
+                Hapus
+                </button>
+              </div>
             </div>
-            <div class="form-group text-left">
-            <label for="no_wa[]" class="form-label text-left text-sm">No Whatsapp Humas</label>
-            <input type="text" class="form-control" name='no_wa[]' id='no_wa[]' autofocus='true'
-                placeholder="628xxxxxxxxxx"  oninput="this.value = this.value.replace(/^[^6]/g, '').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');">
-            </div>
+          </div>
         </div>
         `;
       humasList.insertAdjacentHTML('beforeend', newInput);
 
     })
+    const deleteHumas = (button) => {
+      console.log(button);
+      button.closest('.humas-wrapper').remove();
+    }
   </script>
 
   {{-- Post Deskripsi Humas --}}
@@ -111,6 +157,18 @@
 
       let nama;
       let nomor;
+      let grup;
+      const wa_grup = document.querySelector('[type="url"]')
+      if (wa_grup.value.length == 0) {
+        wa_grup.classList.add('is-invalid')
+        wa_grup.classList.remove('is-valid')
+        wa_grup.focus()
+        grup = false;
+      } else {
+        wa_grup.classList.remove('is-invalid')
+        wa_grup.classList.add('is-valid')
+        grup = true;
+      }
 
       namaHumasList.forEach(function(item, index) {
         if (item.value.length == 0) {
@@ -140,7 +198,7 @@
         }
       })
 
-      return nama && nomor != false ? true : false;
+      return nama && grup && nomor != false ? true : false;
 
     }
 
@@ -160,6 +218,7 @@
         const formData = new FormData(form);
         let data = {};
 
+        const wa_grup = document.querySelector('[type="url"]')
         const humasList = []
 
         for (let i = 0; i < formData.getAll('nama_humas[]').length; i++) {
@@ -182,7 +241,8 @@
           if (result.isConfirmed) {
             axios.put(endpoint, {
                 humasList,
-                'uuid_event': uuidEvent
+                'uuid_event': uuidEvent,
+                'wa_grup': wa_grup.value
               })
               .then(function(response) {
                 if (response.data.success || response.statusCode === 201) {

@@ -51,7 +51,15 @@
                       </td>
                       <td>
                         <p class="font-weight-bold mb-0 text-center text-xs capitalize">
-                          {{ $trans->no_telepon }}
+
+
+                          @if ($trans->no_telepon)
+                            <a href="https://wa.me/{{ $trans->no_telepon }}" target="_blank" class='text-primary'>
+                              {{ $trans->no_telepon }} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
+                          @else
+                            -
+                          @endif
                         </p>
                       </td>
                       <td>

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -24,10 +22,11 @@ class AdminEventController extends Controller
         //
         $events = Event::all()
             ->where('id_panitia', Auth::user()->id)
+            ->where('waktu_acara', '>=', now())
             ->sortByDesc('waktu_acara');
+
         return view('pages.admin.event.index', [
             'events' =>  $events,
-
         ]);
     }
 
@@ -102,44 +101,6 @@ class AdminEventController extends Controller
     }
 
 
-    public function storeInformation(Request $request)
-    {
-        /* 
-        $lokasi_acara = $request->tipe_acara == 'online' ? $request->lokasi_acara_online : $request->lokasi_acara_offline;
-        $harga_tiket = $request->harga_tiket == 'gratis' ? 0 : ($request->harga_tiket_bayar == null ? 0 : $request->harga_tiket_bayar);
-
-        $eventData = [
-            'id_panitia' => $request->id_penyelenggara_event,
-            'nama_event' => $request->nama_event,
-            'uuid' => Str::uuid()->getHex(),
-            'waktu_acara' => $request->waktu_acara,
-            'harga_tiket' => $harga_tiket,
-            'kuota_tiket' => (int) $request->kuota_tiket,
-            'lokasi_acara' => $lokasi_acara,
-            'tipe_acara' => $request->tipe_acara
-        ];
-
-        // Validate Input
-        $validator =  Validator::make($eventData, [
-            'id_panitia' => 'required|exists:users,id',
-            'nama_event' => 'required|max:255',
-            'uuid' => 'required|unique:events,uuid',
-            'waktu_acara' => 'required|after_or_equal:today',
-            'harga_tiket' => 'required|numeric',
-            'kuota_tiket' => 'required|numeric',
-            'lokasi_acara' => 'required|max:255',
-            'tipe_acara' => 'required'
-        ])->validate();
-
-        Event::create($validator); */
-
-        $input = $request->all();
-
-        FacadesLog::info($input);
-
-        return response()->json(['success' => 'Got Simple Ajax Request.']);
-    }
-
     /**
      * Display the specified resource.
      *
@@ -149,7 +110,6 @@ class AdminEventController extends Controller
     public function show(Event $event)
     {
         //
-        // $eventData = Event::where('slug', $id)->firstOrFail();
 
         return view('pages.admin.event.edit', [
             'event' => $event,
@@ -166,11 +126,18 @@ class AdminEventController extends Controller
     public function edit(Event $event)
     {
         //
+        if ($event->id_panitia != Auth::user()->id) {
+            return redirect(route('admin_events_index'));
+        }
+
+        if ($event->waktu_acara < now()) {
+            return redirect(route('admin_events_index'))->with('error', 'Event Telah Selesai');
+        }
+
+
         $humas = DB::table('humas')->where('id_event', $event->id)->get();
 
         $sertifikat = DB::table('certificate_layouts')->where('id_event', $event->id)->first();
-
-        // return dd($sertifikat);
 
         return view('pages.admin.event.editWithStepper', [
             'event' => $event,
@@ -197,9 +164,6 @@ class AdminEventController extends Controller
         if ($request->file('image')) {
             if ($request->oldImage) {
                 Storage::delete($request->oldImage);
-
-                /* Storage::delete(['file', 'otherFile']);
-                ($request->oldImage); */
             }
             $image = $request->file('image')->store('images/events');
 

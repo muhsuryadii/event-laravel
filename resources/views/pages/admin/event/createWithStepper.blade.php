@@ -58,7 +58,7 @@
                 <span class="bs-stepper-circle">
                   <span class="fa-brands fa-whatsapp" aria-hidden="true"></span>
                 </span>
-                <span class="bs-stepper-label">Humas</span>
+                <span class="bs-stepper-label">Kontak</span>
               </button>
             </div>
             <div class="bs-stepper-line"></div>

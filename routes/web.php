@@ -9,12 +9,16 @@ use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MyEventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\TransactionController;
+use App\Mail\NotifyMail;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\MailController;
 
 /*app\Http\Livewire\Admin\Event\Show.php
 |--------------------------------------------------------------------------
@@ -132,6 +136,14 @@ Route::group([], function () {
 
     /* Search event */
     Route::get('/search', [EventController::class, 'search'])->name('event_search');
+    // Route::get('send-email', [SendEmailController::class, 'index']);
+    Route::get('/example1', [SendEmailController::class, 'example1']);
+    Route::get('/example2', [SendEmailController::class, 'example2']);
+    Route::get('/example3', [SendEmailController::class, 'example3']);
+
+
+    Route::get('/send-mail', [MailController::class, 'sendMail']);
+    Route::get('/send-mail-component', [MailController::class, 'sendMailComponent'])->name('send-mail-component');
 });
 
 /* Login Root */

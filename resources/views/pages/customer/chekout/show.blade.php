@@ -1,7 +1,7 @@
 <x-app-costumer-layout>
 
   <section class="container py-10">
-    <h2 class="font-bold text-slate-700">Detail Transaksi</h2>
+    <h2 class="font-bold text-slate-700">Detail Pembayaran</h2>
     <div class="row mt-4">
       <div class="col-lg-8">
         <div class="summary-info-wrapper rounded-2xl border border-slate-600 bg-white p-4 shadow-md">
