@@ -243,6 +243,7 @@
             <small>(**) Email dan No. HP/Whatsapp digunakan untuk menghubungi peserta jika ada
               informasi yang perlu disampaikan</small>
           </p>
+          
           <p class="font-semibold text-slate-800">
             <small>(**) Mohon mengisi kolom nama dengan benar, karena akan digunakan untuk
               pengisian nama pada

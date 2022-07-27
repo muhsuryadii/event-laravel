@@ -15,7 +15,7 @@
           <div class="card-list-wrapper mx-auto lg:max-w-[700px]">
 
             <h2 class="mb-4 text-2xl font-bold uppercase text-slate-600">
-              My Events
+              Event Saya
             </h2>
             @foreach ($events as $event)
               <a href="{{ route('my-events_show', $event->event_id) }}"

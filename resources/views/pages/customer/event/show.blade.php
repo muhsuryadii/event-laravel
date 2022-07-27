@@ -136,6 +136,7 @@
       </div>
     </div>
 
+
     {{-- End Hero Section --}}
   </section>
 
@@ -144,12 +145,18 @@
     @if (auth()->user() && auth()->user()->role == 'PESERTA')
       <script>
         const btnPesan = document.querySelector('#btnPesanTiket');
+        const html = `<p class='font-semibold'>Syarat&Ketentuan :  </p>
+            <ol class="p-0">
+              <li class="pb-2">1. Setelah peserta melakukan pembayaran maka apabila peserta tidak ikut acara uang tidak kembali.</li>
+              <li>2. Peserta harus melakukan absensi di sistem sebagai syarat mendapatkan sertifikat</li>
+            </ol>`;
+
         btnPesan.addEventListener('click', function(e) {
           e.preventDefault();
           console.log('Testing');
           Swal.fire({
             title: 'Apakah anda yakin ?',
-            text: "Pesanan akan langsung masuk kedalam sistem",
+            html: html,
             icon: 'question',
             showDenyButton: true,
             confirmButtonText: 'Yakin',

@@ -1,5 +1,5 @@
 <x-app-costumer-layout>
-  {{-- {{ dd($event) }} --}}
+  {{-- {{ dd(Carbon\Carbon::parse($event->waktu_acara)->addHours(5)->translatedFormat('d F Y H:i')) }} --}}
   <section class="container py-10">
     <div class="card-list-wrapper mx-auto lg:max-w-[700px]">
       <div
@@ -40,100 +40,87 @@
             </p>
           </div>
         </div>
-
       </div>
-      <div class="summary-info-wrapper rounded-2xl border border-slate-600 bg-white p-4 shadow-md">
-        @if ($laporan->status_absen == 0)
-          <form action="{{ route('my_events_absent', $event->uuid_event) }}" method="POST">
-            @csrf
-            <input type="hidden" name="id_event" value="{{ $event->id_event }}">
-            <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
-            <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
-            <input type="hidden" name="id_laporan" value="{{ $laporan->id }}">
 
-            <button type="submit" id='btn_absen' class="btn btn-primary block w-full !rounded-md">Absen
-              Event</button>
+      {{-- For Production --}}
+      @if (now() <= $event->waktu_acara)
+        <div class="summary-info-wrapper mt-4 rounded-2xl border border-slate-600 bg-white p-3 shadow-md">
 
-          </form>
-        @else
-          <button type="button" disabled id='btn_absen' class="btn btn-success block w-full !rounded-md">Anda
-            Sudah Absen</button>
-        @endif
+          <div class="container">
+            <div class="element text-center font-mono">
+              <h3>Event Akan Berjalan pada : </h3>
+              <p id="demo" class='text-lg'>Loading...</p>
 
-        @if ($event->is_certificate_ready)
-          @if ($laporan->status_absen == 0)
-            <button type="button" disabled id='btn_absen' class="btn btn-success mt-2 block w-full !rounded-md">Anda
-              Belum Absen</button>
+            </div>
+          </div>
+          @push('js')
+            <script>
+              // Set the date we're counting down to
+              const countDownDate = new Date("{{ $event->waktu_acara }}").getTime();
+              // Update the count down every 1 second
+              const x = setInterval(function() {
+
+                // Get todays date and time
+                const now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                const distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result in the element with id="demo"
+                document.getElementById("demo").innerHTML = days + " Hari " + hours + " Jam  " +
+                  minutes + " Menit dan " + seconds + " detik!";
+
+                // If the count down is finished, write some text 
+                if (distance < 0) {
+                  clearInterval(x);
+                  document.getElementById("demo").innerHTML = "EXPIRED";
+                  location.reload();
+                }
+              }, 1000);
+            </script>
+          @endpush
+        </div>
+      @else
+        <div class="summary-info-wrapper rounded-2xl border border-slate-600 bg-white p-4 shadow-md">
+          @if ($event->waktu_acara <= Carbon\Carbon::parse($event->waktu_acara)->addHours(5))
+            @if ($laporan->status_absen == 0)
+              <form action="{{ route('my_events_absent', $event->uuid_event) }}" method="POST">
+                @csrf
+                <input type="hidden" name="id_event" value="{{ $event->id_event }}">
+                <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
+                <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
+                <input type="hidden" name="id_laporan" value="{{ $laporan->id }}">
+
+                <button type="submit" id='btn_absen' class="btn btn-primary block w-full !rounded-md">Absen
+                  Event</button>
+              </form>
+            @else
+              <button type="button" disabled id='btn_absen' class="btn btn-success block w-full !rounded-md">Anda
+                Sudah Absen</button>
+            @endif
           @else
-            {{-- <form action="{{ route('my_events_certificate', $event->uuid_event) }}" class='mt-3' method="POST">
-              @csrf
-              <input type="hidden" name="id_event" value="{{ $event->id_event }}">
-              <input type="hidden" name="id_transaksi" value="{{ $event->id_transaksi }}">
-              <input type="hidden" name="id_peserta" value="{{ $event->id_peserta }}">
-              <input type="hidden" name="id_laporan" value="{{ $laporan->id }}">
-
-              <button type="submit" id='btn_absen' class="btn btn-primary block w-full !rounded-md">Download
-                Sertifikat</button>
-            </form> --}}
-            <a href="{{ route('my_events_certificate', $event->uuid_event) }}" target="_blank" id='btn_absen'
-              class="btn btn-primary mt-4 block w-full !rounded-md">Download
-              Sertifikat</a>
+            <button type="button" disabled id='btn_absen' class="btn btn-danger block w-full !rounded-md">Batas waktu
+              absen telah habis</button>
           @endif
-        @endif
 
-
-
-
-        {{-- For Production --}}
-        {{-- @if (now() >= $event->waktu_acara)
-                    <form action="{{ route('my-events_absent', $event->uuid) }}">
-
-                    </form>
-                    <button type="submit" id='btnBatalPesanan' class="btn btn-primary !rounded-md block w-full">Absen
-                        Event</button>
-                @else
-                    <div class="container">
-                        <div class="element text-center font-mono">
-                            <h3>Event Akan Berjalan pada : </h3>
-                            <p id="demo">Loading...</p>
-
-                        </div>
-                    </div>
-                    @push('js')
-                        <script>
-                            // Set the date we're counting down to
-                            const countDownDate = new Date("{{ $event->waktu_acara }}").getTime();
-
-                            // Update the count down every 1 second
-                            const x = setInterval(function() {
-
-                                // Get todays date and time
-                                const now = new Date().getTime();
-
-                                // Find the distance between now and the count down date
-                                const distance = countDownDate - now;
-
-                                // Time calculations for days, hours, minutes and seconds
-                                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                                // Display the result in the element with id="demo"
-                                document.getElementById("demo").innerHTML = days + " Hari " + hours + " Jam  " +
-                                    minutes + " Menit dan " + seconds + " detik!";
-
-                                // If the count down is finished, write some text 
-                                if (distance < 0) {
-                                    clearInterval(x);
-                                    document.getElementById("demo").innerHTML = "EXPIRED";
-                                    location.reload();
-                                }
-                            }, 1000);
-                        </script>
-                    @endpush
-                @endif --}}
-      </div>
+          @if ($event->is_certificate_ready)
+            @if ($laporan->status_absen == 0)
+              <button type="button" disabled id='btn_absen' class="btn btn-success mt-2 block w-full !rounded-md">Anda
+                Belum Absen</button>
+            @else
+              <a href="{{ route('my_events_certificate', $event->uuid_event) }}" target="_blank" id='btn_absen'
+                class="btn btn-primary mt-4 block w-full !rounded-md">Download
+                Sertifikat</a>
+            @endif
+          @endif
+        </div>
+      @endif
     </div>
   </section>
 
