@@ -26,6 +26,7 @@ class CreateEventsTable extends Migration
             $table->string('famplet_acara_path', 2048)->nullable();
             $table->longText('deskripsi_acara');
             $table->boolean('is_certificate_ready')->default(false);
+            $table->string('wa_grup')->nullable();
             $table->timestamps();
         });
     }
