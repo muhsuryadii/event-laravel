@@ -57,6 +57,29 @@
             <td>:</td>
             <td>{{ count($pesertas) }}</td>
           </tr>
+          <tr>
+            <td>Jumlah Peserta Hadir</td>
+            <td>:</td>
+            <td>
+              {{ $hadir }}
+            </td>
+          </tr>
+          <tr>
+            <td>Jumlah Peserta Tidak Hadir</td>
+            <td>:</td>
+            <td>
+              {{ $tidak_hadir }}
+            </td>
+          </tr>
+          @if ($event->harga_tiket > 0)
+            <tr>
+              <td>Total Penjualan Tiket</td>
+              <td>:</td>
+              <td>
+                Rp. {{ number_format(count($pesertas) * $event->harga_tiket, 0, ',', '.') }}
+              </td>
+            </tr>
+          @endif
         </tbody>
       </table>
     </div>
@@ -69,7 +92,7 @@
             <th scope="col col-no" class="col-no">No</th>
             <th scope="col" class="text-left">Nama</th>
             <th scope="col" class="text-left">Instansi</th>
-            <th scope="col" class="text-left">No HP</th>
+            {{-- <th scope="col" class="text-left">No HP</th> --}}
             <th scope="col" class="text-left">Email</th>
           </tr>
         </thead>
@@ -88,7 +111,7 @@
                   @endif
                 @endif
               </td>
-              <td>{{ $peserta && isset($peserta->no_telepon) ? $peserta->no_telepon : '-' }}</td>
+              {{-- <td>{{ $peserta && isset($peserta->no_telepon) ? $peserta->no_telepon : '-' }}</td> --}}
               <td>{{ $peserta && isset($peserta->email) ? $peserta->email : '-' }}</td>
 
             </tr>

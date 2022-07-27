@@ -216,10 +216,24 @@ class AdminReportController extends Controller
             ->orderBy('users.nama_user', 'asc')
             ->select('users.*', 'pesertas.*', 'laporans.*')->get();
 
+        $tidak_hadir = 0;
+        $hadir = 0;
+
+        foreach ($reportUser as $key => $value) {
+            if ($value->status_absen) {
+                $hadir++;
+            } else {
+                $tidak_hadir++;
+            }
+        }
+
+
         $pdf = PDF::loadview('pages.admin.report.printDomPdf', [
             'pesertas' => $reportUser,
             'event' => $event,
-            'penyelenggara_event' => $penyelenggara_event
+            'penyelenggara_event' => $penyelenggara_event,
+            'hadir' => $hadir,
+            'tidak_hadir' => $tidak_hadir
         ]);
         // return dd($reportUser);
         $pdf->setPaper('A4', 'landscape');
