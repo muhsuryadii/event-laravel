@@ -102,7 +102,11 @@ Route::middleware([
 
     Route::resource('/admin/panitia', AdminPanitiacontroller::class)->names([
         'index' => 'admin_panitia_index',
+        'create' => 'admin_panitia_create',
+        'store' => 'admin_panitia_store',
         'show' => 'admin_panitia_show',
+        'edit' => 'admin_panitia_edit',
+        'destroy' => 'admin_panitia_destroy',
         'update' => 'admin_panitia_update',
         'exportPDF' => 'admin_panitia_cetak'
     ]);

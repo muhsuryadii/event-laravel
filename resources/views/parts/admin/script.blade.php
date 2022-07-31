@@ -19,3 +19,26 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- Sweet Alert --}}
+@if (session()->has('success'))
+  <script>
+    Swal.fire({
+      title: '{{ session('success') }}',
+      icon: 'success'
+    })
+  </script>
+@elseif (session()->has('error'))
+  <script>
+    Swal.fire({
+      title: '{{ session('error') }}',
+      icon: 'error'
+    })
+  </script>
+@elseif (session()->has('info'))
+  <script>
+    Swal.fire({
+      title: '{{ session('info') }}',
+      icon: 'info'
+    })
+  </script>
+@endif

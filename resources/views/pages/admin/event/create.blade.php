@@ -1,6 +1,4 @@
 <x-app-layout>
-  {{-- {{ dd($user) }} --}}
-  {{-- {{ dd(old()) }} --}}
   <div class="row">
     <div class="col-12">
       <div class="card mb-4">
@@ -15,8 +13,7 @@
               <div class="mb-4">
                 <div class="form-group">
                   <label for="id_penyelenggara_event" class="form-label text-sm"
-                    value="{{ old('penyelenggara_event') }}">Penyelenggara <span
-                      class="text-xxs text-danger">(*)</span>
+                    value="{{ old('penyelenggara_event') }}">Penyelenggara <span class="text-xxs text-danger">(*)</span>
                   </label>
 
                   <input disabled type="text" class="form-control @error('penyelenggara_event') is-invalid @enderror"
@@ -244,8 +241,8 @@
             </label>
 
             <textarea rows="10" class="form-control @error('deskripsi_acara') is-invalid @enderror mb-5"
-              name='deskripsi_acara' autofocus='true' required="required" value="{{ old('deskripsi_acara') }}"
-              id="ckeditor" placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea>
+              name='deskripsi_acara' autofocus='true' required="required" value="{{ old('deskripsi_acara') }}" id="ckeditor"
+              placeholder="Masukan Deskripsi Event"> {{ old('deskripsi_acara') }}</textarea>
 
             @error('deskripsi_acara')
               <div id="deskripsi_acara_feedback" class="invalid-feedback">

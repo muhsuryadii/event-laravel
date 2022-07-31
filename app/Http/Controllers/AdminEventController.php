@@ -220,10 +220,18 @@ class AdminEventController extends Controller
     {
         //
 
-        if ($event->famplet_acara_path) {
-            Storage::delete($event->famplet_acara_path);
+        /* Check terlebih dahulu jika acara sudah ada transaksi, jika belum hapus jika sudah ada gak boleh hapus */
+        $transaksi = DB::table('transaksi')->where('id_event', $event->id)->get();
+
+        if ($transaksi) {
+            return redirect(route('admin_events_index'))->with('error', 'Event Telah Terjual, Tidak Bisa Dihapus');
+        } else {
+
+            if ($event->famplet_acara_path) {
+                Storage::delete($event->famplet_acara_path);
+            }
+            Event::destroy($event->id);
+            return redirect(route('admin_events_index'))->with('deleteEventSuccess', 'Event Berhasil Dihapus');
         }
-        Event::destroy($event->id);
-        return redirect(route('admin_events_index'))->with('deleteEventSuccess', 'Event Berhasil Dihapus');
     }
 }

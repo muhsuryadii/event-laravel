@@ -4,18 +4,22 @@
   <div class="card mb-4">
 
     <div class="card-body px-0 pt-0 pb-2">
-      <form action="{{ route('admin_panitia_store') }}" method="POST" class="m-4" id="formCreatePanitia">
+      <form action="{{ route('admin_panitia_update', $panitia->uuid) }}" method="POST" class="m-4"
+        id="formCreatePanitia">
         @csrf
+        @method('PUT')
+
 
         {{-- Nama Panitia --}}
         <div class="mb-3">
           <div class="form-group">
-
             <label for="nama_panitia" class="form-label text-sm">Nama
               Panitia <span class="text-xxs text-danger">(*)</span> </label>
             <input type="text" class="form-control @error('nama_panitia') is-invalid @enderror" id="nama_panitia"
-              name='nama_panitia' autofocus='true' required value="{{ old('nama_panitia') }}"
+              name='nama_panitia' autofocus='true' required value="{{ old('nama_panitia', $panitia->nama_user) }}"
               placeholder="Masukan Nama Panitia">
+            <input type="hidden" class="form-control @error('uuid') is-invalid @enderror" id="uuid" name='uuid'
+              value="{{ old('uuid', $panitia->uuid) }}">
 
             @error('nama_panitia')
               <div id="nama_panitia_feedback" class="invalid-feedback d-block">
@@ -35,7 +39,8 @@
             <label for="email_panitia" class="form-label text-sm">Email
               <span class="text-xxs text-danger">(*)</span> </label>
             <input type="email" class="form-control @error('email_panitia') is-invalid @enderror" id="email_panitia"
-              name='email_panitia' required value="{{ old('email_panitia') }}" placeholder="Masukan Email">
+              name='email_panitia' required value="{{ old('email_panitia', $panitia->email) }}"
+              placeholder="Masukan Email">
 
             @error('email')
               <div id="email_panitia_feedback" class="invalid-feedback d-block">
@@ -61,7 +66,7 @@
             <div class="input-wrapper flex">
 
               <input type="password" class="form-control @error('password_panitia') is-invalid @enderror mr-3"
-                id="password_panitia" name='password_panitia' required value="{{ old('password_panitia') }}"
+                id="password_panitia" name='password_panitia' value="{{ old('password_panitia') }}"
                 placeholder="Masukan Password">
               <button type="button" id="btn-show-password"
                 class='focus:ring-opacity-500 rounded-md border border-gray-500 px-3 py-2 transition duration-300 ease-in-out hover:bg-slate-200 focus:border-indigo-300 focus:ring focus:ring-indigo-200 active:bg-slate-500'>
@@ -90,7 +95,7 @@
             <div class="input-wrapper flex">
 
               <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror mr-3"
-                id="password_confirmation" name='password_confirmation' autofocus='true' required
+                id="password_confirmation" name='password_confirmation' autofocus='true'
                 value="{{ old('password_confirmation') }}" placeholder="Masukan Konfirmasi Password">
               <button type="button" id="btn-show-confirm-password"
                 class='rounded-md border border-gray-500 px-3 py-2 transition duration-300 ease-in-out hover:bg-slate-200 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 active:bg-slate-500'>
@@ -105,8 +110,12 @@
           </div>
         </div>
 
+        <small class='mb-3 font-semibold'>
+          Kosongkan password jika tidak ingin mengganti password
+        </small>
+
         <button type="submit" class="font-weight-bold btn btn-primary d-block w-full" id='buttonSimpanPanitia'>
-          Submit
+          Update
         </button>
 
 
@@ -147,16 +156,14 @@
     {{-- Sweet alert --}}
     <script>
       const btnSimpan = document.querySelector('#buttonSimpanPanitia');
-      const password = document.querySelector('#password_panitia');
-      const confirmPassword = document.querySelector('#password_confirmation');
+
       const nama = document.querySelector('#nama_panitia');
       const email = document.querySelector('#email_panitia');
       const formValidation = () => {
         if (
           nama.value == '' ||
           email.value == '' ||
-          password.value == '' ||
-          confirmPassword.value == ''
+
         ) {
           Swal.fire({
             icon: 'error',
@@ -164,15 +171,6 @@
             text: 'Semua field harus diisi!',
             showConfirmButton: false,
             timer: 3000
-          });
-          return false;
-        } else if (password.value != confirmPassword.value) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Password dan Konfirmasi Password tidak sama!',
-            showConfirmButton: false,
-            timer: 1500
           });
           return false;
         } else {
@@ -191,7 +189,7 @@
             title: 'Apakah Data Sudah Benar ?',
             icon: 'question',
             showDenyButton: true,
-            confirmButtonText: 'Sudah, Simpan!',
+            confirmButtonText: 'Sudah, Update!',
             denyButtonText: `Belum`,
           }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
