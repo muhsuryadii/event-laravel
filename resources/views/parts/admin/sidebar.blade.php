@@ -28,7 +28,7 @@
           </a>
         </li>
 
-        @if (Auth::user()->role == 'Admin')
+        @if (Auth::user()->role == 'PANITIA')
           {{-- Event --}}
           <li class="nav-item">
             <a class="nav-link {{ Request::is('admin/events*') ? 'active' : ' ' }}"

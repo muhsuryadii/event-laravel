@@ -16,10 +16,19 @@
 
             <div class="event-info-wrapper flex flex-col flex-wrap justify-between px-3 py-4">
               <div class="event_info w-full">
+
                 <i class="fa-regular fa-calendar text-secondary mr-1"></i>
                 <span class="text-secondary font-weight-bold text-xs">
                   {{ Carbon\Carbon::parse($event->waktu_acara)->translatedFormat('d F Y') }}
                 </span>
+                @if (Auth::user()->role == 'ADMIN')
+                  <div class="panitia">
+                    <i class="fa-solid fa-image-portrait text-secondary mr-1"></i>
+                    <span class="text-secondary font-weight-bold text-xs">
+                      {{ $event->nama_user }}
+                    </span>
+                  </div>
+                @endif
                 <h3 class="line-clamp-2 mt-2 text-base font-semibold" title="{{ $event->nama_event }}">
                   {{ $event->nama_event }}
                 </h3>

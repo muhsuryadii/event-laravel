@@ -25,7 +25,13 @@ class AdminReportController extends Controller
 
             $reportEvent = DB::table('laporans')
                 ->join('events', 'laporans.id_event', '=', 'events.id')
-                ->select('events.*')
+                ->join(
+                    'users',
+                    'events.id_panitia',
+                    '=',
+                    'users.id'
+                )
+                ->select('events.*', 'users.*')
                 ->groupBy('events.id')
                 ->orderBy('events.waktu_acara', 'desc')
                 ->get();

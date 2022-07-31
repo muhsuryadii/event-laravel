@@ -67,7 +67,8 @@
                   @method('patch')
                   <div class="form-group">
                     <input type="file" class="form-control-file form-control" id="bukti_pembayaran" required
-                      name="bukti_transaksi">
+                      name="bukti_transaksi" 
+                      accept="image/*">
                     <input type="hidden" name="no_transaksi" value="{{ $transaksi->no_transaksi }}">
                     <input type="hidden" name="id_pembayaran" value="{{ $transaksi->id }}">
                     <input type="hidden" name="old_bukti_transaksi" value="{{ $transaksi->bukti_transaksi }}">
@@ -162,17 +163,7 @@
             </script>
           @endif
 
-          {{-- @if ($event->status_transaksi == 'paid' && $event->is_certificate_ready == true)
-                        <div class="wrapper ">
-                            <button type="button" class="btn btn-primary w-100 btn-simpan ">Cetak
-                                Sertifikat</button>
-                        </div>
-                    @elseif($event->status_transaksi == 'paid' && $event->is_certificate_ready == false)
-                        <div class="wrapper ">
-                            <button type="button" class="btn btn-primary w-100 btn-simpan disabled">Sertifikat
-                                Belum Siap</button>
-                        </div>
-                    @endif --}}
+          
 
         </div>
 
