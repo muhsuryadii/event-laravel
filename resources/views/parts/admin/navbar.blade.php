@@ -30,7 +30,14 @@
                Laporan
              </a>
            </li>
+         @else
+           <li class="breadcrumb-item active text-sm text-white" aria-current="page">
+             <a href={{ route('admin_panitia_index') }} class='text-white'>
+               Panitia
+             </a>
+           </li>
          @endif
+
 
 
 
@@ -48,8 +55,10 @@
            @endif
          @elseif (Request::is('admin/transaksi*'))
            Pembayaran
-         @else
+         @elseif (Request::is('admin/report*'))
            Laporan
+         @else
+           Panitia
          @endif
        </h3>
      </nav>

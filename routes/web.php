@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\AdminEventJSController;
+use App\Http\Controllers\AdminPanitiacontroller;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
@@ -11,15 +12,10 @@ use App\Http\Controllers\MyEventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\TransactionController;
-use App\Mail\NotifyMail;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\MailController;
-
 /*app\Http\Livewire\Admin\Event\Show.php
 |--------------------------------------------------------------------------
 | Web Routes
@@ -104,7 +100,12 @@ Route::middleware([
     ]);
     Route::post('/admin/report/{uuid}/exportpdf', [AdminReportController::class, 'exportDomPDF'])->name('admin_report_dom_pdf');
 
-    /*  Route::get('/admin/events/create', [AdminEventController::class, 'createPage'])->name('admin_events_create'); */
+    Route::resource('/admin/panitia', AdminPanitiacontroller::class)->names([
+        'index' => 'admin_panitia_index',
+        'show' => 'admin_panitia_show',
+        'update' => 'admin_panitia_update',
+        'exportPDF' => 'admin_panitia_cetak'
+    ]);
 });
 
 
@@ -136,6 +137,10 @@ Route::group([], function () {
 
     /* Search event */
     Route::get('/search', [EventController::class, 'search'])->name('event_search');
+
+
+    Route::get('/event-by/{uuid}', [EventController::class, 'event_by'])->name('event_by_search');
+
     // Route::get('send-email', [SendEmailController::class, 'index']);
     Route::get('/example1', [SendEmailController::class, 'example1']);
     Route::get('/example2', [SendEmailController::class, 'example2']);
@@ -170,9 +175,10 @@ Route::middleware([
     ]);
 
 
+    /* My Event Route */
+
     Route::get('/my-events', [MyEventController::class, 'index'])->name('my-events_index');
     Route::get('/my-events/{uuid}', [MyEventController::class, 'show'])->name('my-events_show');
     Route::post('/my-events/{uuid}', [MyEventController::class, 'absent'])->name('my_events_absent');
-
     Route::get('/my-events/{uuid}/certificate', [MyEventController::class, 'grenateCertificate'])->name('my_events_certificate');
 });

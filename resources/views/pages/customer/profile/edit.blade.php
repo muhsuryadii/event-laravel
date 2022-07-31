@@ -159,8 +159,8 @@
             </label>
             <input type="text" class="form-control @error('no_telepon') is-invalid @enderror"
               value="{{ old('no_telepon', $peserta && $peserta->no_telepon ? $peserta->no_telepon : '') }}"
-              onpaste="return validatePhone(this);" oninput="return validatePhone(this);" name='no_telepon'
-              autocomplete="new no-hp" placeholder='62xxxxxxxx'>
+             onpaste="return validatePhone(this);" oninput="return validatePhone(this);"
+              name='no_telepon' autocomplete="new no-hp" placeholder='62xxxxxxxx'>
 
             @error('no_telepon')
               <div id="no_telepon_feedback" class="invalid-feedback d-block">
@@ -263,23 +263,23 @@
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
 
     {{-- Script for add validation Phone --}}
-    <script>
-      const validatePhone = (val) => {
-        const regexIDN = /628[0-9]+$/;
+  <script>
+    const validatePhone = (val) => {
+      const regexIDN = /628[0-9]+$/;
 
-        if (regexIDN.test(val.value)) {
-          val.value = val.value.replace(/^[^6]+[2]+[8]/g, '628').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');
-        } else if (val.value.length >= 3 && !regexIDN.test(val.value)) {
-          /628/.test(val.value) ? val.value = val.value.replace(/^[^6]+[2]+[8]/g, '').replace(/[!@#$%^&*]/g, '') : val
-            .value = '62';
-        } else if (val.value.length >= 2) {
-          /62/.test(val.value) ? val.value = val.value.replace(/^[^6]+[2]/g, '').replace(/[!@#$%^&*]/g, '') : val
-            .value = '6';
-        } else {
-          val.value = val.value.replace(/[!@#$%^&*]/g, '').replace(/[^0-9.]/g, '').replace(/^[^6]/g, '')
-        }
+      if (regexIDN.test(val.value)) {
+        val.value = val.value.replace(/^[^6]+[2]+[8]/g, '628').replace(/[^0-9.]/g, '').replace(/[!@#$%^&*]/g, '');
+      } else if (val.value.length >= 3 && !regexIDN.test(val.value)) {
+        /628/.test(val.value) ? val.value = val.value.replace(/^[^6]+[2]+[8]/g, '').replace(/[!@#$%^&*]/g, '') : val
+          .value = '62';
+      } else if (val.value.length >= 2) {
+        /62/.test(val.value) ? val.value = val.value.replace(/^[^6]+[2]/g, '').replace(/[!@#$%^&*]/g, '') : val
+          .value = '6';
+      } else {
+        val.value = val.value.replace(/[!@#$%^&*]/g, '').replace(/[^0-9.]/g, '').replace(/^[^6]/g, '')
       }
-    </script>
+    }
+  </script>
     <script>
       new TomSelect("#select-domisili", {
         create: true,
