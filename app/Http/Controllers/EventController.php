@@ -145,4 +145,21 @@ class EventController extends Controller
             'request' => $req
         ]);
     }
+
+    public function event_by($uuid)
+    {
+        $user = DB::table('users')
+            ->where('uuid', $uuid)
+            ->first();
+
+        $events = Event::join('users', 'events.id_panitia', '=', 'users.id')
+            ->select('events.*', 'users.nama_user as nama_panitia')
+            ->where('id_panitia', '=', $user->id)
+            ->orderBy('waktu_acara', 'desc')->get();
+
+        return view('pages.customer.event.eventBy', [
+            'user' => $user,
+            'events' => $events,
+        ]);
+    }
 }

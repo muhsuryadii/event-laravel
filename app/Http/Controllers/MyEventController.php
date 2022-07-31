@@ -55,6 +55,8 @@ class MyEventController extends Controller
         ]);
     }
 
+
+
     public function absent(Request $request, string $uuid)
     {
 

@@ -56,7 +56,7 @@
             <label for="name" class="form-label d-block text-left text-lg">Humas
               {{ $loop->iteration }} </label>
             <div class="form-button d-flex w-full items-center">
-              <div class="form-wrapper d-flex w-3/4 flex-col pr-5">
+              <div class="form-wrapper d-flex col flex-col pr-5">
                 <div class="form-group text-left">
                   <label for="nama_humas[]" class="form-label text-left text-sm">Nama Humas</label>
                   <input type="text" class="form-control" name='nama_humas[]' id="nama_humas[]" autofocus='true'
@@ -69,7 +69,7 @@
                     oninput="return validatePhone(this)"; value="{{ old('no_wa[]', $hum->no_wa) }}">
                 </div>
               </div>
-              <button class="btn btn-outline-danger btn-hapus-humas d-block h-fit w-1/4" type='button'
+              <button class="btn btn-outline-danger btn-hapus-humas d-block col-lg-2 h-fit" type='button'
                 onclick="return deleteHumas(this);">
                 <i class="fa-solid fa-times mr-2"></i>
                 Hapus
@@ -117,7 +117,7 @@
          <div class="humas-wrapper">
           <label for="name" class="form-label d-block text-left text-lg">Humas ${humasList.children.length+1}</label>
           <div class="form-button d-flex w-full items-center">
-            <div class="form-wrapper d-flex w-3/4 flex-col pr-5">
+            <div class="form-wrapper d-flex col flex-col pr-5">
               <div class="form-group text-left">
                 <label for="nama_humas[]" class="form-label text-left text-sm">Nama Humas</label>
                 <input type="text" class="form-control" name='nama_humas[]' id="nama_humas[]" autofocus='true'
@@ -131,7 +131,7 @@
                       </div>
                     </div>
                     <button class="btn
-                  btn-outline-danger btn-hapus-humas d-block h-fit w-1/4" type='button' onclick="return deleteHumas(this);">
+                  btn-outline-danger btn-hapus-humas d-block h-fit col-lg-2" type='button' onclick="return deleteHumas(this);">
                 <i class="fa-solid fa-times mr-2"></i>
                 Hapus
                 </button>

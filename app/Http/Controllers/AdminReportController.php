@@ -5,13 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Laporan;
 use App\Models\Transaksi;
-// use Barryvdh\DomPDF\PDF;
 use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Spatie\Browsershot\Browsershot;
 
 class AdminReportController extends Controller
 {
@@ -24,13 +21,24 @@ class AdminReportController extends Controller
     {
         //
         /* For Development */
-        $reportEvent = DB::table('laporans')
-            ->join('events', 'laporans.id_event', '=', 'events.id')
-            ->where('events.id_panitia', Auth::user()->id)
-            ->select('events.*')
-            ->groupBy('events.id')
-            ->orderBy('events.waktu_acara', 'desc')
-            ->get();
+        if (Auth::user()->role == 'ADMIN') {
+
+            $reportEvent = DB::table('laporans')
+                ->join('events', 'laporans.id_event', '=', 'events.id')
+                ->select('events.*')
+                ->groupBy('events.id')
+                ->orderBy('events.waktu_acara', 'desc')
+                ->get();
+        } else {
+
+            $reportEvent = DB::table('laporans')
+                ->join('events', 'laporans.id_event', '=', 'events.id')
+                ->where('events.id_panitia', Auth::user()->id)
+                ->select('events.*')
+                ->groupBy('events.id')
+                ->orderBy('events.waktu_acara', 'desc')
+                ->get();
+        }
 
         /* For Production */
         /* $reportEvent = DB::table('laporans')

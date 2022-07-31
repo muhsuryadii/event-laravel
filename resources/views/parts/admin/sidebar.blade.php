@@ -10,6 +10,7 @@
       </a>
     </div>
 
+
     <hr class="horizontal dark mt-0">
 
     {{-- Sidebar Nav item --}}
@@ -27,39 +28,67 @@
           </a>
         </li>
 
-        {{-- Event --}}
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('admin/events*') ? 'active' : ' ' }}"
-            href={{ route('admin_events_index') }}>
-            <div
-              class="icon icon-shape icon-sm border-radius-md me-2 d-flex align-items-center justify-content-center text-center">
-              <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Event</span>
-          </a>
-        </li>
-        {{-- Transaksi --}}
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('admin/transaksi*') ? 'active' : ' ' }}"
-            href={{ route('admin_transaksi_index') }}>
-            <div
-              class="icon icon-shape icon-sm border-radius-md me-2 d-flex align-items-center justify-content-center text-center">
-              <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Pembayaran</span>
-          </a>
-        </li>
-        {{-- Laporan --}}
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('admin/report*') ? 'active' : ' ' }}"
-            href="{{ route('admin_report_index') }}">
-            <div
-              class="icon icon-shape icon-sm border-radius-md me-2 d-flex align-items-center justify-content-center text-center">
-              <i class="ni ni-app text-info text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Laporan</span>
-          </a>
-        </li>
+        @if (Auth::user()->role == 'Admin')
+          {{-- Event --}}
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('admin/events*') ? 'active' : ' ' }}"
+              href={{ route('admin_events_index') }}>
+              <div
+                class="icon icon-shape icon-sm border-radius-md me-2 d-flex align-items-center justify-content-center text-center">
+                <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Event</span>
+            </a>
+          </li>
+          {{-- Transaksi --}}
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('admin/transaksi*') ? 'active' : ' ' }}"
+              href={{ route('admin_transaksi_index') }}>
+              <div
+                class="icon icon-shape icon-sm border-radius-md me-2 d-flex align-items-center justify-content-center text-center">
+                <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Pembayaran</span>
+            </a>
+          </li>
+          {{-- Laporan --}}
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('admin/report*') ? 'active' : ' ' }}"
+              href="{{ route('admin_report_index') }}">
+              <div
+                class="icon icon-shape icon-sm border-radius-md me-2 d-flex align-items-center justify-content-center text-center">
+                <i class="ni ni-app text-info text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Laporan</span>
+            </a>
+          </li>
+        @else
+          {{-- Laporan --}}
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('admin/report*') ? 'active' : ' ' }}"
+              href="{{ route('admin_report_index') }}">
+              <div
+                class="icon icon-shape icon-sm border-radius-md me-2 d-flex align-items-center justify-content-center text-center">
+                <i class="ni ni-app text-info text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Laporan</span>
+            </a>
+          </li>
+          {{-- Laporan --}}
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('admin/panitia*') ? 'active' : ' ' }}"
+              href="{{ route('admin_panitia_index') }}">
+              <div
+                class="icon icon-shape icon-sm border-radius-md me-2 d-flex align-items-center justify-content-center text-center">
+                <i class="fa-solid fa-users text-success text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Panitia</span>
+            </a>
+          </li>
+        @endif
+
+
+
         <li>
           <hr class="dropdown-divider">
         </li>
