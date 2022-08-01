@@ -2,7 +2,7 @@
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
   @endpush
 
-  <form action='{{ route('admin_events_store_desc') }}' method="POST" class="p-[1.5rem]" id="formStepDescription">
+  <form action='{{ route('admin_events_store_desc') }}' method="POST" class="lg:p-[1.5rem]" id="formStepDescription">
     @csrf
     {{-- Deskripsi Event --}}
     <div class="mb-4">

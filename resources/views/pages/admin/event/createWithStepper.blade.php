@@ -25,7 +25,7 @@
     <div class="col-12">
       <div class="card mb-4 p-4">
         <div id="stepper3" class="bs-stepper">
-          <div class="bs-stepper-header" role="tablist">
+          <div class="bs-stepper-header overflow-x-auto" role="tablist">
 
             {{-- Step Informasi --}}
             <div class="step active" data-target="#informasi">

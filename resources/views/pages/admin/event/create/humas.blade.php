@@ -1,4 +1,4 @@
-<form action='{{ route('admin_events_store_humas') }}' method="POST" class="p-[1.5rem]" id="formStepHumas">
+<form action='{{ route('admin_events_store_humas') }}' method="POST" class="lg:p-[1.5rem]" id="formStepHumas">
   @csrf
   <div class="mb-4">
     <div class="humas-wrapper">
@@ -20,7 +20,7 @@
       Tambah Humas
     </button>
     <div class="humas-wrapper-list">
-      
+
       <div class="humas-wrapper">
         <label for="name" class="form-label d-block text-left text-lg">Humas
           1</label>

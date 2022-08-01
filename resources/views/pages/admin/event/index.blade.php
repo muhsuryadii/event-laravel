@@ -1,6 +1,8 @@
 <x-app-layout>
   {{-- {{ dd($events) }} --}}
 
+
+
   <div class="eventShowComponent">
     <a href={{ route('admin_events_create') }} class='d-block btn text-primary w-fit bg-white'>
       <i class="fas-solid fa-plus"></i>
@@ -15,8 +17,7 @@
                     </div> --}}
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive data-table p-0">
-              <table class="align-items-center mb-0 table table-fixed">
-
+              <table class="align-items-center mb-0 table">
                 <thead>
                   <tr>
                     <th class="text-uppercase text-secondary font-weight-bolder opacity-7 text-xs">

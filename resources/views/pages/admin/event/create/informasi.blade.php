@@ -1,4 +1,4 @@
-  <form action='{{ route('admin_events_store_info') }}' method="POST" class="p-[1.5rem]" id="formStepInformation">
+  <form action='{{ route('admin_events_store_info') }}' method="POST" class="lg:p-[1.5rem]" id="formStepInformation">
     @csrf
     {{-- Penyelenggara Event --}}
     <div class="mb-4">

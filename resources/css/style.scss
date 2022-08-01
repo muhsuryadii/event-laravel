@@ -259,3 +259,28 @@ $event-card-image-height: 200px;
 #horizontal-input {
     width: 70px;
 }
+
+@media screen and (max-width: 768px) {
+    .draggable-file {
+        height: 30%;
+        width: 75%;
+    }
+    .draggable-file i {
+        font-size: 30px;
+    }
+    .btn-reset {
+        margin-top: 1rem;
+    }
+    .info-section {
+        text-align: left;
+    }
+
+    .slider {
+        flex-direction: column;
+    }
+
+    #vertical-input,
+    #horizontal-input {
+        width: 100%;
+    }
+}

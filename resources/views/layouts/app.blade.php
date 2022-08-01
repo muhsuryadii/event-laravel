@@ -36,7 +36,7 @@
   <!-- Page Content -->
   <main class="main-content position-relative border-radius-lg min-h-[100vh]">
     @include('parts.admin.navbar')
-    <div class="content mx-4 px-3">
+    <div class="content px-3 lg:mx-4">
       {{ $slot }}
     </div>
   </main>

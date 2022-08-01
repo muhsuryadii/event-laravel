@@ -2,7 +2,7 @@
   {{-- {{ dd($transaksi) }} --}}
   <div class="row">
     <div class="col-12">
-      <h4 class='mt-3 text-xl font-bold text-white'>Nama Event : {{ $event->nama_event }}</h4>
+      <h4 class='mt-3 text-lg font-bold text-white lg:text-xl'>Nama Event : {{ $event->nama_event }}</h4>
 
       @if (count($transaksi) == 0)
         <div class="mt-3 text-white">
@@ -16,7 +16,7 @@
 
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive data-table p-0">
-              <table class="align-items-center mb-0 table table-fixed">
+              <table class="align-items-center mb-0 table">
 
                 <thead>
                   <tr>

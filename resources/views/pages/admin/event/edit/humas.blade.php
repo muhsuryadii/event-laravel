@@ -1,4 +1,4 @@
-<form action='{{ route('admin_events_update_humas', $event->uuid) }}' method="POST" class="p-[1.5rem]" id="formStepHumas">
+<form action='{{ route('admin_events_update_humas', $event->uuid) }}' method="POST" class="lg:p-[1.5rem]" id="formStepHumas">
   @csrf
   @method('put')
 
