@@ -144,15 +144,15 @@ Route::group([], function () {
 
 
     Route::get('/event-by/{uuid}', [EventController::class, 'event_by'])->name('event_by_search');
-
-    // Route::get('send-email', [SendEmailController::class, 'index']);
-    Route::get('/example1', [SendEmailController::class, 'example1']);
-    Route::get('/example2', [SendEmailController::class, 'example2']);
-    Route::get('/example3', [SendEmailController::class, 'example3']);
-
-
-    Route::get('/send-mail', [MailController::class, 'sendMail']);
-    Route::get('/send-mail-component', [MailController::class, 'sendMailComponent'])->name('send-mail-component');
+    Route::get('/404', function () {
+        abort(404);
+    });
+    Route::get('/419', function () {
+        abort(419);
+    });
+    Route::get('/500', function () {
+        abort(500);
+    });
 });
 
 /* Login Root */
