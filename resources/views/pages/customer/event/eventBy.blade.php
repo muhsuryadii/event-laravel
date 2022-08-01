@@ -12,7 +12,7 @@
           {{-- {{ dd($events) }} --}}
           <div class="flex flex-row flex-wrap pb-5 pt-3">
             @foreach ($events as $event)
-              <a href="event/{{ $event->uuid }}"
+              <a href="{{ route('event_show', $event->uuid) }}"
                 class="events-card mt-3 w-full p-2 text-slate-600 no-underline md:w-1/2 lg:w-1/5">
                 <div
                   class="content-wrapper h-full overflow-hidden rounded-3xl border-2 border-gray-200 bg-white shadow-md transition-all duration-200 ease-in-out hover:shadow-lg">

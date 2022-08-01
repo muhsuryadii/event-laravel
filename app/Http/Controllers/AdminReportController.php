@@ -31,7 +31,7 @@ class AdminReportController extends Controller
                     '=',
                     'users.id'
                 )
-                ->select('events.*', 'users.*')
+                ->select('events.*', 'users.nama_user')
                 ->groupBy('events.id')
                 ->orderBy('events.waktu_acara', 'desc')
                 ->get();
@@ -93,6 +93,8 @@ class AdminReportController extends Controller
     public function show($id)
     {
         //
+
+        // return dd($id);
         $event = Event::where('uuid', $id)->first();
 
         $laporan = DB::table('laporans')

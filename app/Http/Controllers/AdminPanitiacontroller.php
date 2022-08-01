@@ -132,21 +132,20 @@ class AdminPanitiacontroller extends Controller
                 'nama_user' => $request->nama_panitia,
                 'email' => $request->email_panitia,
                 'password' => $password,
+                'password_confirmation' => $password_confirmation,
             ];
 
             if ($user->email  ==  $request->email_panitia) {
                 $validator = Validator::make($dataPanitia, [
                     'nama_user' => 'required|string|max:255',
                     'email' => 'required|string|email:rfc,dns|max:255',
-                    'password' => 'required|string|min:6|confirmed',
-                    'role' => 'required|string|max:255',
+                    'password' => 'required|string|min:6|confirmed'
                 ]);
             } else {
                 $validator = Validator::make($dataPanitia, [
                     'nama_user' => 'required|string|max:255',
                     'email' => 'required|string|email:rfc,dns|max:255|unique:users',
-                    'password' => 'required|string|min:6|confirmed',
-                    'role' => 'required|string|max:255',
+                    'password' => 'required|string|min:6|confirmed'
                 ]);
             }
         } else {
@@ -174,7 +173,7 @@ class AdminPanitiacontroller extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                ->route('admin_panitia_create')
+                ->route('admin_panitia_edit', $id)
                 ->withErrors($validator)
                 ->withInput();
         } else {

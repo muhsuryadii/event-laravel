@@ -122,6 +122,10 @@ class AdminTransaksiController extends Controller
             ->select('events.*')
             ->first();
 
+        $user = Transaksi::join('users', 'transaksis.id_peserta', '=', 'users.id')
+            ->where('transaksis.id_event', $transaksi->id_event)
+            ->select('users.*')->first();
+
         $transaksi->update([
             'status_transaksi' => $request->status_transaksi
         ]);
@@ -131,7 +135,11 @@ class AdminTransaksiController extends Controller
             Event::where('id', $transaksi->id_event)->update([
                 'kuota_tiket' => $kuota
             ]);
+            MailController::transactionFailed($user->email);
+        } else {
+            MailController::transactionSuccess($user->email, $event->wa_grup);
         }
+
 
         return redirect()->route('admin_transaksi_show', $event->uuid);
     }

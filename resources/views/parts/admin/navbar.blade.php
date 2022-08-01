@@ -54,11 +54,29 @@
              Edit Event
            @endif
          @elseif (Request::is('admin/transaksi*'))
-           Pembayaran
+           @if (Request::is('admin/transaksi'))
+             Pembayaran
+           @elseif (Request::is('admin/transaksi/create'))
+             Tambah Pembayaran
+           @elseif (Request::is('admin/transaksi/*/edit'))
+             Edit Pembayaran
+           @endif
          @elseif (Request::is('admin/report*'))
-           Laporan
-         @else
-           Panitia
+           @if (Request::is('admin/report'))
+             Laporan
+           @elseif (Request::is('admin/report/create'))
+             Tambah Laporan
+           @elseif (Request::is('admin/report/*/edit'))
+             Edit Laporan
+           @endif
+         @elseif (Request::is('admin/panitia*'))
+           @if (Request::is('admin/panitia'))
+             Panitia
+           @elseif (Request::is('admin/panitia/create'))
+             Tambah Panitia
+           @elseif (Request::is('admin/panitia/*/edit'))
+             Edit Panitia
+           @endif
          @endif
        </h3>
      </nav>
