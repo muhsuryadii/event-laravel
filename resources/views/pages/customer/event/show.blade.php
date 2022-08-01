@@ -16,7 +16,7 @@
                 loading="lazy">
             </div>
             <div class="col-lg-9">
-              <h3 class="line-clamp-3 mt-4 text-center text-3xl leading-normal text-white lg:text-left lg:text-4xl">
+              <h3 class="line-clamp-3 mt-4 text-left text-3xl leading-normal text-white lg:text-4xl">
                 {{ $event->nama_event }}
               </h3>
               <h4 class="mt-3 text-2xl leading-normal text-white lg:text-3xl">Oleh :

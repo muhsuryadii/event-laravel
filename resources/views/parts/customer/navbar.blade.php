@@ -8,7 +8,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-end" id="navbarNavDropdown">
-      <ul class="navbar-nav text-xl">
+      <ul class="navbar-nav items-center text-xl">
         <li class="nav-item">
           <a class="nav-link {{ Request::is('/') ? 'active' : ' ' }}" aria-current="page" href="/">Home</a>
         </li>

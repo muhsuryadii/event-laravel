@@ -129,6 +129,8 @@ class TransactionController extends Controller
 
                 DB::commit();
 
+                MailController::transactionFreeSuccess(Auth::user()->email, $event->wa_grup);
+
                 return redirect()->route('checkout_show', $uuid)->with('success', 'Pemesanan Tiket Berhasil');
             } catch (\Exception $e) {
                 DB::rollBack();
@@ -152,6 +154,7 @@ class TransactionController extends Controller
 
         Laporan::create($report);
 
+        MailController::transactionCreated(Auth::user()->email, route('checkout_show', $uuid));
 
         return redirect()->route('checkout_show', $uuid)->with('info', 'Pemesanan Tiket Berhasil, Silahkan Lakukan Pembayaran');
     }
@@ -250,7 +253,10 @@ class TransactionController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('checkout_show', $transaksi->uuid);
+
+            MailController::transactionProcess(Auth::user()->email);
+
+            return redirect()->route('checkout_show', $transaksi->uuid)->with('success', 'Bukti Pembayaran Berhasil Diupload');
         } catch (\Exception $e) {
             DB::rollBack();
 

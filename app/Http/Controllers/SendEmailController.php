@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Mail;
 class SendEmailController extends Controller
 {
     //
+     public function transactionSuc(){
+
+     }
     public function example1()
     {
         /*  $email = 'chandraperdiansyah@gmail.com';
@@ -35,7 +38,7 @@ class SendEmailController extends Controller
     /* public function example1()
     {
         $email = 'chandraperdiansyah@gmail.com';
-        $article = [
+        $articl e = [
             'title' => 'Lorem Ipsum',
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
         ];

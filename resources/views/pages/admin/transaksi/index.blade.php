@@ -4,7 +4,7 @@
     @if (count($events) > 0)
       @foreach ($events as $event)
         <a href="{{ route('admin_transaksi_show', $event->uuid) }}"
-          class="events-card mx-auto w-1/2 p-2 text-slate-600 no-underline lg:w-1/5">
+          class="events-card w-1/2 p-2 text-slate-600 no-underline lg:w-1/5">
           <div
             class="content-wrapper h-full overflow-hidden rounded-3xl border-2 border-gray-200 bg-white shadow-md transition-all duration-200 ease-in-out hover:shadow-lg">
 

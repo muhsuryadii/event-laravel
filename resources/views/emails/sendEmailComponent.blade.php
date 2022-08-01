@@ -1,12 +1,13 @@
 @component('mail::message')
-# Introduction
+  # {{ $maildata['title'] }}
 
-The body of your message.
+  {{ $maildata['message'] }}
+  @if (isset($maildata['url']))
+    @component('mail::button', ['url' => $maildata['url']])
+      Klik
+    @endcomponent
+  @endif
 
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
-
-Thanks,<br>
-{{ config('app.name') }}
+  Thanks,<br>
+  {{ config('app.name') }}
 @endcomponent
