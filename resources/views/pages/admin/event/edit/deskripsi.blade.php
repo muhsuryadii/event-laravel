@@ -2,7 +2,7 @@
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
   @endpush
 
-  <form action='{{ route('admin_events_update_desc', $event->uuid) }}' method="POST" class="p-[1.5rem]"
+  <form action='{{ route('admin_events_update_desc', $event->uuid) }}' method="POST" class="lg:p-[1.5rem]"
     id="formStepDescription">
     @csrf
     @method('put')

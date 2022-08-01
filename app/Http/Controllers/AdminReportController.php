@@ -25,7 +25,13 @@ class AdminReportController extends Controller
 
             $reportEvent = DB::table('laporans')
                 ->join('events', 'laporans.id_event', '=', 'events.id')
-                ->select('events.*')
+                ->join(
+                    'users',
+                    'events.id_panitia',
+                    '=',
+                    'users.id'
+                )
+                ->select('events.*', 'users.*')
                 ->groupBy('events.id')
                 ->orderBy('events.waktu_acara', 'desc')
                 ->get();
@@ -245,9 +251,9 @@ class AdminReportController extends Controller
         ]);
         // return dd($reportUser);
         $pdf->setPaper('A4', 'landscape');
-        return $pdf->stream();
-        // $files = preg_replace('/[^a-zA-Z0-9]/', " ", $event->nama_event);
-        // return $pdf->download('Laporan ' . $files . '.pdf');
+        // return $pdf->stream();
+        $files = preg_replace('/[^a-zA-Z0-9]/', " ", $event->nama_event);
+        return $pdf->download('Laporan ' . $files . '.pdf');
     }
 
     public function exportPDF($uuid)

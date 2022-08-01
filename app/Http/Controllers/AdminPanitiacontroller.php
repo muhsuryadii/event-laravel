@@ -125,8 +125,8 @@ class AdminPanitiacontroller extends Controller
         $password = $request->password_panitia;
         $password_confirmation = $request->password_confirmation;
 
-        return dd($request, $user);
-
+        // return dd($request, $user);
+        // 
         if ($password || $password_confirmation) {
             $dataPanitia = [
                 'nama_user' => $request->nama_panitia,
@@ -196,14 +196,22 @@ class AdminPanitiacontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($uuid)
     {
         //
+
+        $user = DB::table('users')
+            ->where('uuid', $uuid)
+            ->first();
+
+
 
         $transaksi = DB::table('transaksis')
             ->join('events', 'transaksis.id_event', '=', 'events.id')
             ->where('id_panitia', $user->id)
             ->first();
+
+        // return dd($user->id);
 
 
 

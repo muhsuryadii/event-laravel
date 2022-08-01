@@ -3,7 +3,7 @@
    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
  @endpush
 
- <form action='{{ route('admin_events_store_pamflet') }}' method="POST" class="p-[1.5rem]" id="formStepPamflet"
+ <form action='{{ route('admin_events_store_pamflet') }}' method="POST" class="pt-3 lg:p-[1.5rem]" id="formStepPamflet"
    enctype="multipart/form-data">
    @csrf
    <div class="mb-3">

@@ -220,7 +220,7 @@ class TransactionController extends Controller
         if ($request->file('bukti_transaksi')) {
             $image =  $request->file('bukti_transaksi') ? $request->file('bukti_transaksi')->store('images/bukti_transaksi') : null;
             $this->validate($request, [
-                'bukti_transaksi' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'bukti_transaksi' => 'image|mimes:jpg,jpeg,jfif,png',
             ]);
 
             if ($request->old_bukti_transaksi) {

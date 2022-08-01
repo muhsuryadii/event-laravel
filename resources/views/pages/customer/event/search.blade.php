@@ -1,5 +1,6 @@
 <x-app-costumer-layout>
 
+
   <section class="container">
     <div class='mt-16'>
       <form action="{{ route('event_search') }}" method="get">
@@ -17,11 +18,11 @@
 
         </div>
       </form>
-      @if ($request)
+      @if ($request && count($events) > 0)
         <h3 class='font-semibold text-slate-500'>Hasil pencarian : {{ $request }} </h3>
       @endif
 
-      @if ($events)
+      @if (count($events) > 0)
         <div class="container">
           {{-- {{ dd($events) }} --}}
           <div class="flex flex-row flex-wrap pb-5 pt-3">
@@ -75,6 +76,8 @@
 
           </div>
         </div>
+      @else
+        <h3 class='font-semibold text-slate-500'>Tidak ditemukan event dengan kata kunci : {{ $request }} </h3>
       @endif
 
     </div>
