@@ -77,6 +77,8 @@
               <div id="password_panitia_feedback" class="invalid-feedback d-block">
                 @if ($message == 'validation.min')
                   Password minimal 6 karakter
+                @elseif ($message == 'validation.min.string')
+                  Password minimal 6 karakter
                 @else
                   {{ $message }}
                 @endif
@@ -162,8 +164,7 @@
       const formValidation = () => {
         if (
           nama.value == '' ||
-          email.value == '' ||
-
+          email.value == ''
         ) {
           Swal.fire({
             icon: 'error',
