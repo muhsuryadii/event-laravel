@@ -21,7 +21,7 @@
           <a href="{{ route('checkout_show', $trans->uuid) }}" class="text-slate-600 no-underline hover:text-slate-600">
 
             <div
-              class="card-wrapper border-slate-60 mb-3 flex rounded-2xl border bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+              class="card-wrapper border-slate-60 mb-3 flex flex-col rounded-2xl border bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)] lg:flex-row">
               <div class="image-wrapper lg:mr-5 lg:w-full lg:max-w-[30%]">
                 <img class="block rounded-2xl object-cover lg:h-[200px]"
                   src="{{ $trans->famplet_acara_path != null ? asset('storage/' . $trans->famplet_acara_path) : asset('image/event_image_default.png') }}"
@@ -30,7 +30,7 @@
 
               <div class="event-info w-full">
                 <div class="title-wrapper">
-                  <h2 class='line-clamp-2 text-2xl' title="{{ $trans->nama_event }}">
+                  <h2 class='line-clamp-2 mt-3 text-2xl lg:mt-0' title="{{ $trans->nama_event }}">
                     {{ $trans->nama_event }}</h2>
                 </div>
 

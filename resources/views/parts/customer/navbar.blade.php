@@ -85,13 +85,13 @@
           </li>
         @else
           <li class="nav-item">
-            <a class="nav-link mx-3 rounded-xl border border-slate-600 px-2 hover:bg-slate-200 hover:text-white"
+            <a class="nav-link my-2 rounded-xl border border-slate-600 px-2 text-center hover:bg-slate-200 hover:text-white lg:my-0 lg:mx-3"
               href="/register ">Register
             </a>
 
           </li>
           <li class="nav-item">
-            <a class="nav-link rounded-xl bg-indigo-500 px-3 py-2 text-white shadow-md hover:bg-indigo-600"
+            <a class="nav-link my-2 rounded-xl bg-indigo-500 px-3 py-2 text-center text-white shadow-md hover:bg-indigo-600 lg:my-0"
               href="/login">Login</a>
           </li>
         @endif

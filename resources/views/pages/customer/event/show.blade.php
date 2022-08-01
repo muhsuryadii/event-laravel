@@ -5,21 +5,21 @@
     <div class="hero-section">
       <div class="image-wrapper relative">
         <img src="{{ asset('/image/usni_bg.jpg') }}" loading='lazy' alt="usni_image_hero"
-          class="w-full object-cover object-top" style="height: 400px">
-        <div class="bg-overlay bg-gradient-to-b from-slate-600 to-gray-700 opacity-70"></div>
+          class="h-[500px] w-full object-cover object-top lg:h-[400px]">
+        <div class="bg-overlay bg-gradient-to-b from-slate-700 to-gray-800 opacity-80"></div>
 
         <div class="hero-top search-bar-wrapper container my-10" style="max-width: inherit">
           <div class="row container mx-auto flex justify-start p-0">
-            <div class="col-lg-3 !pl-0">
-              <img class="d-block mx-auto h-80 rounded-xl object-cover shadow-md"
+            <div class="col-lg-3 col-6 mx-auto !pl-0 lg:mx-0">
+              <img class="d-block mx-auto h-52 rounded-xl object-cover shadow-md lg:h-80"
                 src="{{ $event->famplet_acara_path != null ? asset('storage/' . $event->famplet_acara_path) : asset('image/event_image_default.png') }}"
                 loading="lazy">
             </div>
             <div class="col-lg-9">
-              <h3 class="line-clamp-3 mt-4 text-4xl leading-normal text-white">
+              <h3 class="line-clamp-3 mt-4 text-center text-3xl leading-normal text-white lg:text-left lg:text-4xl">
                 {{ $event->nama_event }}
               </h3>
-              <h4 class="mt-3 text-3xl leading-normal text-white">Oleh :
+              <h4 class="mt-3 text-2xl leading-normal text-white lg:text-3xl">Oleh :
                 <a href="/event-by/{{ $panitia->uuid }}" class="text-white">
                   {{ $panitia->nama_user }}
                 </a>

@@ -3,7 +3,7 @@
   <section class="container py-10">
     <div class="card-list-wrapper mx-auto lg:max-w-[700px]">
       <div
-        class="card-wrapper mb-3 flex rounded-2xl border border-slate-600 bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+        class="card-wrapper mb-3 flex flex-col rounded-2xl border border-slate-600 bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)] lg:flex-row">
         <div class="image-wrapper lg:mr-5 lg:w-full lg:max-w-[30%]">
           <img class="block rounded-2xl object-cover lg:h-[200px]"
             src="{{ $event->famplet_acara_path != null ? asset('storage/' . $event->famplet_acara_path) : asset('image/event_image_default.png') }}"
@@ -12,7 +12,7 @@
 
         <div class="event-info w-full">
           <div class="title-wrapper">
-            <h2 class='line-clamp-2 text-2xl' title="{{ $event->nama_event }}">
+            <h2 class='line-clamp-2 my-3 text-2xl lg:my-0' title="{{ $event->nama_event }}">
               {{ $event->nama_event }}</h2>
           </div>
 
