@@ -27,7 +27,7 @@
       <h3 class='mb-3 text-xl font-bold'>Detail Laporan Acara (Umum)</h3>
       <div class="chart-list-wrapper">
 
-        <div class="chart-row flex">
+        <div class="chart-row flex flex-wrap">
           {{-- Gender chart --}}
           <div class="chart-wrapper w-full lg:w-1/2">
             <canvas id="genderChart" class='h-full w-full'></canvas>
@@ -235,9 +235,9 @@
           ' {{ $instansi->instansi_peserta == 'usni' ? 'Universitas Satya Negara Indonesia' : $instansi->instansi_peserta }} ',
         @endforeach
       ]
-      const labelsInstansiSlice = labelsInstansi.length >= 9 ? labelsInstansi.slice(0, 9) : labelsInstansi;
+      const labelsInstansiSlice = labelsInstansi.length > 9 ? labelsInstansi.slice(0, 9) : labelsInstansi;
 
-      if (labelsInstansi.length >= 9) {
+      if (labelsInstansi.length > 9) {
         labelsInstansiSlice.push('Lainnya');
       }
 
@@ -246,12 +246,12 @@
           {{ $instansi->count_instansi }},
         @endforeach
       ]
-      const dataInstansiSlice = datainstansi.length >= 9 ? datainstansi.slice(0, 9) : datainstansi;
+      const dataInstansiSlice = datainstansi.length > 9 ? datainstansi.slice(0, 9) : datainstansi;
 
-      const sisaSlice = datainstansi.length >= 9 ? datainstansi.slice(9, datainstansi.length) : datainstansi;
+      const sisaSlice = datainstansi.length > 9 ? datainstansi.slice(9, datainstansi.length) : datainstansi;
       const sisaSliceSum = sisaSlice.reduce(reducer);
 
-      if (datainstansi.length >= 9) {
+      if (datainstansi.length > 9) {
         dataInstansiSlice.push(sisaSliceSum);
       }
 
@@ -302,19 +302,19 @@
           ' {{ $domisili->domisili }} ',
         @endforeach
       ]
-      const labelsDomisiliSlice = labelsDomisili.length >= 9 ? labelsDomisili.slice(0, 9) : labelsDomisili;
+      const labelsDomisiliSlice = labelsDomisili.length > 9 ? labelsDomisili.slice(0, 9) : labelsDomisili;
 
       let dataDomisili = [
         @foreach ($domisilis as $domisili)
           {{ $domisili->count_domisili }},
         @endforeach
       ]
-      const dataDomisiliSlice = dataDomisili.length >= 9 ? dataDomisili.slice(0, 9) : dataDomisili;
+      const dataDomisiliSlice = dataDomisili.length > 9 ? dataDomisili.slice(0, 9) : dataDomisili;
 
-      const sisaSliceDomisili = dataDomisili.length >= 9 ? dataDomisili.slice(9, dataDomisili.length) : dataDomisili;
+      const sisaSliceDomisili = dataDomisili.length > 9 ? dataDomisili.slice(9, dataDomisili.length) : dataDomisili;
       const sisaSliceDomisiliSum = sisaSliceDomisili.reduce(reducer);
 
-      if (labelsInstansi.length >= 9 || dataDomisili.length >= 9) {
+      if (labelsInstansi.length > 9 || dataDomisili.length > 9) {
         labelsDomisiliSlice.push('Lainnya');
         dataDomisiliSlice.push(sisaSliceDomisiliSum);
       }
