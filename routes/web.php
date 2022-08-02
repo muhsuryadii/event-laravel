@@ -144,6 +144,9 @@ Route::group([], function () {
 
 
     Route::get('/event-by/{uuid}', [EventController::class, 'event_by'])->name('event_by_search');
+    /* Route::get('/403', function () {
+        abort(403);
+    });
     Route::get('/404', function () {
         abort(404);
     });
@@ -152,7 +155,7 @@ Route::group([], function () {
     });
     Route::get('/500', function () {
         abort(500);
-    });
+    }); */
 });
 
 /* Login Root */

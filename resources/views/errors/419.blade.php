@@ -1,11 +1,11 @@
-{{-- @extends('errors::minimal')
+@extends('errors::minimal')
 
-@section('title', __('Page Expired'))
+@section('title', __('Session Expired'))
 @section('code', '419')
-@section('message', __('Page Expired'))
- --}}
+@section('message', __('Sesi Anda Telah Habis, Silahkan Login Kembali'))
 
- <x-app-costumer-layout>
+
+ {{-- <x-app-costumer-layout>
   <section>
   </section>
-</x-app-costumer-layout>
+</x-app-costumer-layout> --}}
