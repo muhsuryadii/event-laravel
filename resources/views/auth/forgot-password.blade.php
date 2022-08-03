@@ -27,7 +27,7 @@
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
-            <div class="mt-4 text-sm text-gray-800">
+            <div class="text-center mt-4 text-sm text-gray-800">
                 {{ __('Pastikan Email Anda Terdaftar di Sistem. Dengan Melakukan Reset Kata Sandi Maka Sistem Akan Mengirimkan Email Berisi Informasi Perubahan Kata Sandi.') }}
             </div>
 

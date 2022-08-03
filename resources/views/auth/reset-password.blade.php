@@ -1,10 +1,15 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            {{-- <x-jet-authentication-card-logo /> --}}
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
+        <div class="center pb-[2rem]">
+            <img src=" {{ asset('image/logo_usni.png') }}" alt="logo"
+                class="block mx-auto w-1/4 h-1/4  md:h-1/3 md:w-1/1">
+            <h2 class="text-center font-bold  text-lg pt-2 uppercase">Lupa Kata Sandi</h2>
+        </div>
 
         <form method="POST" action="{{ route('password.update') }}">
             @csrf
@@ -26,8 +31,8 @@
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-jet-button>
+            <div class="flex items-center justify-center flex-wrap flex-col mt-5 w-full">
+                <x-jet-button class="ml-2  w-fit py-2 px-3 mx-0">
                     {{ __('Reset Password') }}
                 </x-jet-button>
             </div>
