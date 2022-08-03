@@ -21,11 +21,13 @@ class AdminTransaksiController extends Controller
     public function index()
     {
         //
-        $gapHours = Carbon::parse(now())->addHours(5)->format('Y-m-d H:i:s');
+        // nambahin 5 jam setelah 
+        $gapHours = Carbon::parse(now())->subHour(5)->format('Y-m-d H:i:s');
 
         $transaksi =
             DB::table('transaksis')->join('events', 'transaksis.id_event', '=', 'events.id')
             ->where('id_panitia', Auth::user()->id)
+            // ->where('events.waktu_acara', '>=', now())
             ->where('events.waktu_acara', '>=', $gapHours)
             ->groupBy('transaksis.id_event')
             ->orderBy('events.waktu_acara', 'DESC')

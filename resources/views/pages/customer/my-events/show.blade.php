@@ -1,4 +1,5 @@
 <x-app-costumer-layout>
+  {{-- {{ dd($event->waktu_acara >= Carbon\Carbon::parse(now())->addHours(5))  }} --}}
   {{-- {{ dd(Carbon\Carbon::parse($event->waktu_acara)->addHours(5)->translatedFormat('d F Y H:i')) }} --}}
   <section class="container py-10">
     <div class="card-list-wrapper mx-auto lg:max-w-[700px]">
@@ -88,7 +89,7 @@
         </div>
       @else
         <div class="summary-info-wrapper rounded-2xl border border-slate-600 bg-white p-4 shadow-md">
-          @if ($event->waktu_acara <= Carbon\Carbon::parse($event->waktu_acara)->addHours(5))
+          @if (now() <= Carbon\Carbon::parse($event->waktu_acara)->addHours(5))
             @if ($laporan->status_absen == 0)
               <form action="{{ route('my_events_absent', $event->uuid_event) }}" method="POST">
                 @csrf
@@ -105,13 +106,19 @@
                 Sudah Absen</button>
             @endif
           @else
+            @if ($laporan->status_absen == 0)
             <button type="button" disabled id='btn_absen' class="btn btn-danger block w-full !rounded-md">Batas waktu
               absen telah habis</button>
+          @else
+            <button type="button" disabled id='btn_absen' class="btn btn-success block w-full !rounded-md">Anda
+              Sudah Absen</button>
+          @endif
+            
           @endif
 
           @if ($event->is_certificate_ready)
             @if ($laporan->status_absen == 0)
-              <button type="button" disabled id='btn_absen' class="btn btn-success mt-2 block w-full !rounded-md">Anda
+              <button type="button" disabled id='btn_absen' class="btn btn-primary mt-2 block w-full !rounded-md">Anda
                 Belum Absen</button>
             @else
               <a href="{{ route('my_events_certificate', $event->uuid_event) }}" target="_blank" id='btn_absen'
