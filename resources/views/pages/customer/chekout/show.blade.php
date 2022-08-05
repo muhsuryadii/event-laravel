@@ -27,13 +27,20 @@
               <span class="text-lg font-semibold capitalize text-sky-600">
                 Pembayaran sedang diverifikasi oleh panitia
               </span>
+              <p>
+                Mohon cek email, ketika pembayaran sudah diverifikasi oleh panitia
+                untuk join ke grup acara.
+              </p>
             @elseif($transaksi->status_transaksi == 'verified')
               <span class="text-lg font-semibold capitalize text-green-600">
                 Pembayaran Telah diverifikasi
               </span>
+              <p>
+                Mohon cek email untuk mendapatkan Link grup peserta.
+              </p>
             @else
               <span class="text-lg font-semibold capitalize text-red-600">
-                Verifikasi Pembayaran Ditolak
+                Verifikasi Pembayaran Ditolak.
               </span>
               <p>
                 Pastikan anda telah melakukan pembayaran dengan benar, jika merasa butuh bantuan

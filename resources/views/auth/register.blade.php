@@ -8,13 +8,13 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
-            <div class="center pb-6  pt-5">
+            <div class="center pb-6  pt-1">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 mt-3" href="/">
                     {{-- <i class="fa-solid fa-arrow-left-long"></i> --}}
                     {{ __('Kembali') }}
                 </a>
                 <img src=" {{ asset('image/logo_usni.png') }}" alt="logo"
-                    class="block mx-auto w-1/4 h-1/4 md:h-1/3 md:w-1/3">
+                    class="block mx-auto w-1/4 h-1/4  md:h-1/4 md:w-1/1">
                 <h2 class="text-center font-bold  text-2xl pt-4 uppercase">Register</h2>
             </div>
 
