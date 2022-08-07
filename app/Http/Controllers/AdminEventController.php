@@ -20,10 +20,11 @@ class AdminEventController extends Controller
     public function index()
     {
         //
-        $events = Event::all()
+        $events = DB::table('events')
             ->where('id_panitia', Auth::user()->id)
-            ->where('waktu_acara', '>=', now())
-            ->sortByDesc('waktu_acara');
+            // ->where('waktu_acara', '>=', now())
+            ->orderByDesc('waktu_acara')
+            ->paginate(10);
 
         return view('pages.admin.event.index', [
             'events' =>  $events,

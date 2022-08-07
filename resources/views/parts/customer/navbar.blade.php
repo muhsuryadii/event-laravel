@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-lg sticky-top bg-white shadow-md">
+
   <div class="container">
     <a class="navbar-brand" href="/">
       <img src=" {{ asset('image/logo_usni.png') }}" alt="logo" class="mx-auto block h-14 w-14 object-contain">

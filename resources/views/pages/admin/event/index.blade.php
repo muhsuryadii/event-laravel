@@ -41,7 +41,7 @@
 
                 <tbody>
                   @foreach ($events as $event)
-                    <tr>
+                    <tr class="{{ now() >= $event->waktu_acara ? 'bg-slate-50' : '' }}">
                       <td class="text-center align-middle text-sm">
                         <span class=''>
                           {{ $loop->iteration }}</span>
@@ -73,28 +73,41 @@
                           src="{{ $event->famplet_acara_path != null ? asset('storage/' . $event->famplet_acara_path) : asset('image/event_image_default.png') }}"
                           loading="lazy">
                       </td>
-                      <td class="mx-auto flex flex-col flex-wrap justify-center px-3 align-middle">
-                        <a href='{{ route('admin_events_edit', $event->uuid) }}'
-                          class="text-primary font-weight-bold btn btn-outline-primary text-xs" data-toggle="tooltip"
-                          data-original-title="Edit event">
-                          Edit
-                        </a>
+                      <td
+                        class="{{ now() >= $event->waktu_acara ? '' : ' flex flex-col flex-wrap justify-center' }} mx-auto px-3 py-4 align-middle">
+                        @if (now() >= $event->waktu_acara)
+                          <a href='{{ route('admin_report_show', $event->uuid) }}'
+                            class="text-success font-weight-bold btn btn-outline-success text-xs" data-toggle="tooltip"
+                            data-original-title="Edit event">
+                            Laporan
+                          </a>
+                        @else
+                          <a href='{{ route('admin_events_edit', $event->uuid) }}'
+                            class="text-primary font-weight-bold btn btn-outline-primary text-xs" data-toggle="tooltip"
+                            data-original-title="Edit event">
+                            Edit
+                          </a>
 
+                          <form action="{{ route('admin_events_destroy', $event->uuid) }}" method="POST"
+                            class="d-inline">
+                            @csrf
+                            @method('delete')
+                            <button type="submit"
+                              class="btn-delete-event text-danger font-weight-bold btn btn-outline-danger text-xs">
+                              Delete
+                          </form>
+                        @endif
 
-
-                        <form action="{{ route('admin_events_destroy', $event->uuid) }}" method="POST"
-                          class="d-inline">
-                          @csrf
-                          @method('delete')
-                          <button type="submit"
-                            class="btn-delete-event text-danger font-weight-bold btn btn-outline-danger text-xs">
-                            Delete
-                        </form>
                       </td>
                     </tr>
                   @endforeach
                 </tbody>
               </table>
+
+              <div class="my-5 px-5 sm:px-3">
+                <span>{{ $events->links() }}</span>
+              </div>
+
             </div>
           </div>
 
