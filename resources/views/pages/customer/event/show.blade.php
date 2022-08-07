@@ -79,7 +79,7 @@
             </div>
 
 
-            @if ($event->waktu_acara > now() && !$transaction)
+            @if ($event->waktu_acara < now() && !$transaction)
               <span class="btn btn-danger w-100 btn-simpan disabled mb-4 text-white" id='btnPesanTiket'>
                 Event Telah Selesai</span>
             @else
