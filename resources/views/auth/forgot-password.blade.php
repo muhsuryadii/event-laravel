@@ -36,12 +36,9 @@
                     {{ __('Ubah Kata Sandi') }}
                 </x-jet-button>
             </div>
-
-            <div class="flex items-center justify-end mt-1">
-                    <a class="flex items-center justify-center flex-wrap flex-col mt-2 w-full" href="{{ route('login') }}">
+                    <a class="flex items-center justify-center underline text-sm text-gray-600 hover:text-gray-900 mt-3" href="{{ route('login') }}">
                         {{ __('Kembali ke Halaman Login') }}
                     </a>
-
         </form>
     </x-jet-authentication-card>
 </x-guest-layout>
