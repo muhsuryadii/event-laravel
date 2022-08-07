@@ -24,12 +24,15 @@
 
       @if (count($events) > 0)
         <div class="container">
-          <div class="flex flex-row flex-wrap pb-5 pt-3">
+          <div class="flex flex-row flex-wrap  pt-3">
             @foreach ($events as $event)
               @include('pages.customer.event.eventCard')
             @endforeach
 
           </div>
+            <div class="my-5 justify-center pb-5 lg:flex">
+          <span>{{ $events->links('pagination::bootstrap-4') }}</span>
+        </div>
         </div>
       @else
         <h3 class='font-semibold text-slate-500'>Tidak ditemukan event dengan kata kunci : {{ $request }} </h3>
