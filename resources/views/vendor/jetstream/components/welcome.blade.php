@@ -1,21 +1,58 @@
-<div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-    <div>
-        <x-jet-application-logo class="block h-12 w-auto" />
-    </div>
+<div class="border-b border-gray-200 bg-white p-6 sm:px-20">
+  <div class='flex items-center'>
+    <img src=" {{ asset('image/logo_usni.png') }}" alt="logo" class="mr-3 block w-[100px] lg:w-[150px]" loading="lazy">
+    <h1 class="text-3xl text-slate-600 lg:text-4xl">Selamat Datang di Sistem Event USNI</h1>
+  </div>
 
-    <div class="mt-8 text-2xl">
-        Welcome to your Jetstream application!
-    </div>
+  <div class="mt-5 text-center text-xl font-medium text-slate-500 lg:text-2xl">
+    {{-- Selamat Datang di Sistem Event USNI --}}
+    Fitur Utama Kami :
+  </div>
+  <div class="mt-3 text-gray-500">
+    <div class="dashboard-wrapper mx-auto flex flex-col flex-wrap lg:flex-row">
+      <div class="dashboard-item w-full text-center md:w-1/3">
+        <a class="nav-link" href="{{ route('admin_events_index') }}">
+          <div
+            class="animate mx-auto flex h-[7rem] w-[7rem] items-center justify-center rounded-full bg-rose-500 p-4 text-center text-white hover:bg-rose-400 active:bg-rose-600">
+            <i class="ni ni-calendar-grid-58 text-4xl"></i>
+          </div>
+        </a>
+        <h3 class="text-lg font-semibold text-slate-600">Event</h3>
+        <p class="px-3 py-2 text-sm capitalize">
+          Berfungsi Untuk Membuat Event Baru Yang Ingin Di Buat Oleh Panitia
+        </p>
+      </div>
+      <div class="dashboard-item w-full text-center md:w-1/3">
+        <a class="nav-link" href="{{ route('admin_transaksi_index') }}">
+          <div
+            class="animate mx-auto flex h-[7rem] w-[7rem] items-center justify-center rounded-full bg-emerald-600 p-4 text-center text-white hover:bg-emerald-400 active:bg-emerald-600">
+            <i class="ni ni-credit-card text-4xl"></i>
+          </div>
+        </a>
+        <h3 class="text-lg font-semibold text-slate-600">Pembayaran</h3>
+        <p class="px-3 py-2 text-sm capitalize">
 
-    <div class="mt-6 text-gray-500">
-        Laravel Jetstream provides a beautiful, robust starting point for your next Laravel application. Laravel is designed
-        to help you build your application using a development environment that is simple, powerful, and enjoyable. We believe
-        you should love expressing your creativity through programming, so we have spent time carefully crafting the Laravel
-        ecosystem to be a breath of fresh air. We hope you love it.
+          Berfungsi Untuk Validasi Pembayaran Peserta Pada Acara Yang Berjalan
+        </p>
+      </div>
+      <div class="dashboard-item w-full text-center md:w-1/3">
+        <a class="nav-link" href="{{ route('admin_report_index') }}">
+          <div
+            class="animate mx-auto flex h-[7rem] w-[7rem] items-center justify-center rounded-full bg-sky-600 p-4 text-center text-white hover:bg-sky-400 active:bg-sky-600">
+            <i class="ni ni-calendar-grid-58 text-4xl"></i>
+          </div>
+        </a>
+        <h3 class="text-lg font-semibold text-slate-600">Laporan</h3>
+        <p class="px-3 py-2 text-sm capitalize">
+          Berfungsi Untuk Melihat Laporan Data Peserta Yang Mengikuti Event, Melihat Absensi Peserta dan Mendownload
+          Laporan Data Event
+        </p>
+      </div>
     </div>
+  </div>
 </div>
 
-<div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
+{{-- <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     <div class="p-6">
         <div class="flex items-center">
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-400"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -87,4 +124,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

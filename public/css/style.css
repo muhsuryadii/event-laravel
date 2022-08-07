@@ -275,6 +275,14 @@
   width: 70px;
 }
 
+.animate {
+  transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 @media screen and (max-width: 768px) {
   .draggable-file {
     height: 30%;

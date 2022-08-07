@@ -93,9 +93,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!**********************************!*\
   !*** ./resources/css/print.scss ***!
   \**********************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):\nModuleBuildError: Module build failed (from ./node_modules/postcss-loader/dist/cjs.js):\nError: Cannot find module '@tailwindcss-plugins/pagination'\nRequire stack:\n- C:\\laragon\\www\\event-laravel\\tailwind.config.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\tailwindcss\\lib\\lib\\setupTrackingContext.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\tailwindcss\\lib\\index.js\n- C:\\laragon\\www\\event-laravel\\webpack.mix.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\laravel-mix\\setup\\webpack.config.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\webpack-cli\\lib\\webpack-cli.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\webpack-cli\\lib\\bootstrap.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\webpack-cli\\bin\\cli.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\webpack\\bin\\webpack.js\n    at Function.Module._resolveFilename (node:internal/modules/cjs/loader:933:15)\n    at Function.Module._load (node:internal/modules/cjs/loader:778:27)\n    at Module.require (node:internal/modules/cjs/loader:1005:19)\n    at require (node:internal/modules/cjs/helpers:102:18)\n    at Object.<anonymous> (C:\\laragon\\www\\event-laravel\\tailwind.config.js:37:9)\n    at Module._compile (node:internal/modules/cjs/loader:1101:14)\n    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)\n    at Module.load (node:internal/modules/cjs/loader:981:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:822:12)\n    at Module.require (node:internal/modules/cjs/loader:1005:19)\n    at processResult (C:\\laragon\\www\\event-laravel\\node_modules\\webpack\\lib\\NormalModule.js:758:19)\n    at C:\\laragon\\www\\event-laravel\\node_modules\\webpack\\lib\\NormalModule.js:860:5\n    at C:\\laragon\\www\\event-laravel\\node_modules\\loader-runner\\lib\\LoaderRunner.js:400:11\n    at C:\\laragon\\www\\event-laravel\\node_modules\\loader-runner\\lib\\LoaderRunner.js:252:18\n    at context.callback (C:\\laragon\\www\\event-laravel\\node_modules\\loader-runner\\lib\\LoaderRunner.js:124:13)\n    at Object.loader (C:\\laragon\\www\\event-laravel\\node_modules\\postcss-loader\\dist\\index.js:142:7)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
 
 /***/ }),
 
@@ -103,9 +106,12 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
 /*!**********************************!*\
   !*** ./resources/css/style.scss ***!
   \**********************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):\nModuleBuildError: Module build failed (from ./node_modules/postcss-loader/dist/cjs.js):\nError: Cannot find module '@tailwindcss-plugins/pagination'\nRequire stack:\n- C:\\laragon\\www\\event-laravel\\tailwind.config.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\tailwindcss\\lib\\lib\\setupTrackingContext.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\tailwindcss\\lib\\index.js\n- C:\\laragon\\www\\event-laravel\\webpack.mix.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\laravel-mix\\setup\\webpack.config.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\webpack-cli\\lib\\webpack-cli.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\webpack-cli\\lib\\bootstrap.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\webpack-cli\\bin\\cli.js\n- C:\\laragon\\www\\event-laravel\\node_modules\\webpack\\bin\\webpack.js\n    at Function.Module._resolveFilename (node:internal/modules/cjs/loader:933:15)\n    at Function.Module._load (node:internal/modules/cjs/loader:778:27)\n    at Module.require (node:internal/modules/cjs/loader:1005:19)\n    at require (node:internal/modules/cjs/helpers:102:18)\n    at Object.<anonymous> (C:\\laragon\\www\\event-laravel\\tailwind.config.js:37:9)\n    at Module._compile (node:internal/modules/cjs/loader:1101:14)\n    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)\n    at Module.load (node:internal/modules/cjs/loader:981:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:822:12)\n    at Module.require (node:internal/modules/cjs/loader:1005:19)\n    at processResult (C:\\laragon\\www\\event-laravel\\node_modules\\webpack\\lib\\NormalModule.js:758:19)\n    at C:\\laragon\\www\\event-laravel\\node_modules\\webpack\\lib\\NormalModule.js:860:5\n    at C:\\laragon\\www\\event-laravel\\node_modules\\loader-runner\\lib\\LoaderRunner.js:400:11\n    at C:\\laragon\\www\\event-laravel\\node_modules\\loader-runner\\lib\\LoaderRunner.js:252:18\n    at context.callback (C:\\laragon\\www\\event-laravel\\node_modules\\loader-runner\\lib\\LoaderRunner.js:124:13)\n    at Object.loader (C:\\laragon\\www\\event-laravel\\node_modules\\postcss-loader\\dist\\index.js:142:7)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
 
 /***/ }),
 
@@ -113,16 +119,19 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
 /*!*******************************!*\
   !*** ./resources/css/app.css ***!
   \*******************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):\nModuleBuildError: Module build failed (from ./node_modules/postcss-loader/dist/cjs.js):\nSyntaxError\n\n(2:1) C:\\laragon\\www\\event-laravel\\resources\\css\\app.css The `list-reset` class does not exist. If `list-reset` is a custom class, make sure it is defined within a `@layer` directive.\n\n \u001b[90m 1 | \u001b[39m\u001b[36m@import\u001b[39m \u001b[32m'tailwindcss/base'\u001b[39m\u001b[33m;\u001b[39m\n\u001b[1m\u001b[31m>\u001b[39m\u001b[22m\u001b[90m 2 | \u001b[39m\u001b[36m@import\u001b[39m \u001b[32m'tailwindcss/components'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m   | \u001b[39m\u001b[1m\u001b[31m^\u001b[39m\u001b[22m\n \u001b[90m 3 | \u001b[39m\u001b[36m@import\u001b[39m \u001b[32m'tailwindcss/utilities'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 4 | \u001b[39m\n\n    at processResult (C:\\laragon\\www\\event-laravel\\node_modules\\webpack\\lib\\NormalModule.js:758:19)\n    at C:\\laragon\\www\\event-laravel\\node_modules\\webpack\\lib\\NormalModule.js:860:5\n    at C:\\laragon\\www\\event-laravel\\node_modules\\loader-runner\\lib\\LoaderRunner.js:400:11\n    at C:\\laragon\\www\\event-laravel\\node_modules\\loader-runner\\lib\\LoaderRunner.js:252:18\n    at context.callback (C:\\laragon\\www\\event-laravel\\node_modules\\loader-runner\\lib\\LoaderRunner.js:124:13)\n    at Object.loader (C:\\laragon\\www\\event-laravel\\node_modules\\postcss-loader\\dist\\index.js:140:7)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
 
 /***/ })
 
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["/js/vendor"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/css/print.scss"), __webpack_exec__("./resources/css/style.scss"), __webpack_exec__("./resources/css/app.css")));
+/******/ __webpack_require__.O(0, ["css/print","css/app","css/style","/js/vendor"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/css/print.scss"), __webpack_exec__("./resources/css/style.scss"), __webpack_exec__("./resources/css/app.css")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);
