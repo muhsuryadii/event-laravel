@@ -35,7 +35,7 @@ class MailController extends Controller
     }
 
     /* Pembayaran Gagal */
-    public static function transactionFailed($email)
+    public static function transactionFailed($email, $eventID)
     {
         $maildata = [
             'subject' => 'Pembayaran Ditolak',

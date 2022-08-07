@@ -10,12 +10,10 @@ use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MyEventController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MailController;
 /*app\Http\Livewire\Admin\Event\Show.php
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,13 +25,7 @@ use App\Http\Controllers\MailController;
 |
 */
 
-/* Route::get('/', function () {
-    return view('pages.customer.homepage', [
-        'events' => Event::orderBy('waktu_acara')
-            ->where('waktu_acara', '>=', now())
-            ->limit(5)->get(),
-    ]);
-})->name('home'); */
+
 
 /* Auth Root */
 
@@ -49,7 +41,6 @@ Route::middleware([
         ]);
     })->name('dashboard_admin');
 
-    /* Event Route */
     Route::get('/admin/events/checkslug', [AdminEventController::class, 'checkSlug'])->name('admin_events_checkslug');
 
 
@@ -144,18 +135,6 @@ Route::group([], function () {
 
 
     Route::get('/event-by/{uuid}', [EventController::class, 'event_by'])->name('event_by_search');
-    /* Route::get('/403', function () {
-        abort(403);
-    });
-    Route::get('/404', function () {
-        abort(404);
-    });
-    Route::get('/419', function () {
-        abort(419);
-    });
-    Route::get('/500', function () {
-        abort(500);
-    }); */
 });
 
 /* Login Root */
