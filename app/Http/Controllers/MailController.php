@@ -45,7 +45,7 @@ class MailController extends Controller
         $maildata = [
             'subject' => 'Pembayaran Ditolak',
             'title' => 'Maaf, Pembayaran Anda Telah Ditolak',
-            'message' => 'Silahkan upload bukti pembayaran yang valid atau coba hubungi panitia acara.',
+            'message' => 'Mohon upload ulang bukti pembayaran yang valid atau coba hubungi panitia acara.',
             'humas' => $humas,
         ];
 

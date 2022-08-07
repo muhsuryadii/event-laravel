@@ -142,7 +142,7 @@ class AdminTransaksiController extends Controller
 
             $url = MailController::make_google_calendar_link($event->nama_event, Carbon::parse($event->waktu_acara)->timestamp, Carbon::parse($event->waktu_acara)->addHours(2)->timestamp, $event->lokasi_acara, $event->deskripsi_acara);
 
-            MailController::transactionSuccess($user->email, $event->wa_grup, $event,  $url);
+            MailController::transactionSuccess($user->email, $event->wa_grup,   $url);
         }
 
 
