@@ -8,8 +8,8 @@
     @endcomponent
   @endif
   @if (isset($maildata['humas']))
-    @component('mail::button', ['url' => 'http://wa.me/' . $maildata['title']->no_wa])
-      {{ $maildata['title']->nama }}
+    @component('mail::button', ['url' => 'http://wa.me/' . $maildata['humas']->no_wa])
+      {{ $maildata['humas']->nama }}
     @endcomponent
   @endif
   @if (isset($maildata['googleCalendar']))
