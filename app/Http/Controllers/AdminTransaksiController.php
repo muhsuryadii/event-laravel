@@ -124,9 +124,8 @@ class AdminTransaksiController extends Controller
             ->select('events.*')
             ->first();
 
-        $user = Transaksi::join('users', 'transaksis.id_peserta', '=', 'users.id')
-            ->where('transaksis.id_event', $transaksi->id_event)
-            ->select('users.*')->first();
+
+        $userEmail = DB::table('users')->where('id', $transaksi->id_peserta)->select('email')->first();
 
         $transaksi->update([
             'status_transaksi' => $request->status_transaksi
@@ -137,12 +136,12 @@ class AdminTransaksiController extends Controller
             Event::where('id', $transaksi->id_event)->update([
                 'kuota_tiket' => $kuota
             ]);
-            MailController::transactionFailed($user->email, $event->id);
+            MailController::transactionFailed($userEmail, $event->id);
         } else {
 
             $url = MailController::make_google_calendar_link($event->nama_event, Carbon::parse($event->waktu_acara)->timestamp, Carbon::parse($event->waktu_acara)->addHours(2)->timestamp, $event->lokasi_acara, $event->deskripsi_acara);
 
-            MailController::transactionSuccess($user->email, $event->wa_grup,   $url);
+            MailController::transactionSuccess($userEmail, $event->wa_grup,   $url);
         }
 
 
