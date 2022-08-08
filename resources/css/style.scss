@@ -260,6 +260,14 @@ $event-card-image-height: 200px;
     width: 70px;
 }
 
+.animate {
+    @apply transition ease-in-out duration-300;
+}
+
+.btn-calendar {
+    @apply px-3 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600;
+}
+
 @media screen and (max-width: 768px) {
     .draggable-file {
         height: 30%;

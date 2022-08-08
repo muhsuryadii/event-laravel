@@ -22,7 +22,7 @@ class EventController extends Controller
         //
         $events = Event::join('users', 'events.id_panitia', '=', 'users.id')
             ->select('events.*', 'users.nama_user as nama_panitia')
-            ->orderBy('waktu_acara', 'desc')->get();
+            ->orderBy('waktu_acara', 'desc')->paginate(10);
 
         return view('pages.customer.event.index', [
             'events' => $events,
@@ -138,7 +138,7 @@ class EventController extends Controller
         $events = Event::join('users', 'events.id_panitia', '=', 'users.id')
             ->select('events.*', 'users.nama_user as nama_panitia')
             ->where('nama_event', 'like', '%' . $req . '%')
-            ->orderBy('waktu_acara', 'asc')->get();
+            ->orderBy('waktu_acara', 'asc')->paginate(10);
 
         return view('pages.customer.event.search', [
             'events' => $events,
@@ -155,7 +155,7 @@ class EventController extends Controller
         $events = Event::join('users', 'events.id_panitia', '=', 'users.id')
             ->select('events.*', 'users.nama_user as nama_panitia')
             ->where('id_panitia', '=', $user->id)
-            ->orderBy('waktu_acara', 'desc')->get();
+            ->orderBy('waktu_acara', 'desc')->paginate(10);
 
         return view('pages.customer.event.eventBy', [
             'user' => $user,

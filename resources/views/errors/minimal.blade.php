@@ -539,7 +539,7 @@
 <body class="antialiased">
   <x-app-costumer-layout>
     <div
-      class="items-top relative flex min-h-screen justify-center bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+      class="items-top relative flex min-h-screen justify-center bg-gray-100 dark:bg-slate-400 sm:items-center sm:pt-0">
       <div class="mx-auto max-w-xl sm:px-6 lg:px-8">
         <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
           <div class="border-r border-gray-400 px-4 text-lg tracking-wider text-gray-500">

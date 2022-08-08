@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon as SupportCarbon;
 use Illuminate\Support\ServiceProvider;
 

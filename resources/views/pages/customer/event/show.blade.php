@@ -79,37 +79,42 @@
             </div>
 
 
+            @if ($event->waktu_acara < now() && !$transaction)
+              <span class="btn btn-danger w-100 btn-simpan disabled mb-4 text-white" id='btnPesanTiket'>
+                Event Telah Selesai</span>
+            @else
+              <form action='{{ route('checkout_store') }}' id='formEventStore' method="POST">
+                @csrf
 
-            <form action='{{ route('checkout_store') }}' id='formEventStore' method="POST">
-              @csrf
-
-              @if (auth()->user())
-                <input type="hidden" name="event_id" value="{{ $event->id }}">
-                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                <input type="hidden" name="harga_tiket" value="{{ $event->harga_tiket }}">
-              @endif
-
-              @if (!$transaction)
-                @if ($event->kuota_tiket != 0)
-                  <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4" id='btnPesanTiket'
-                    {{ auth()->user() ? (auth()->user()->role != 'PESERTA' ? 'hidden' : ' ') : ' ' }}>Pesan
-                    Tiket</button>
-                @else
-                  <span class="btn btn-danger w-100 btn-simpan disabled mb-4" id='btnPesanTiket'>
-                    Tiket Sudah Habis</span>
+                @if (auth()->user())
+                  <input type="hidden" name="event_id" value="{{ $event->id }}">
+                  <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                  <input type="hidden" name="harga_tiket" value="{{ $event->harga_tiket }}">
                 @endif
-              @endif
 
-              @if ($transaction)
-                @if ($transaction->status_transaksi == 'not_paid')
-                  <a href="{{ route('checkout_show', $transaction->uuid) }}"
-                    class="btn btn-primary w-100 btn-simpan mb-4">Bayar Tiket</a>
-                @else
-                  <button type="submit" class="btn btn-success w-100 btn-simpan disabled mb-4">
-                    Tiket Sudah Dibeli </button>
+                @if (!$transaction)
+                  @if ($event->kuota_tiket != 0)
+                    <button type="submit" class="btn btn-primary w-100 btn-simpan mb-4" id='btnPesanTiket'
+                      {{ auth()->user() ? (auth()->user()->role != 'PESERTA' ? 'hidden' : ' ') : ' ' }}>Pesan
+                      Tiket</button>
+                  @else
+                    <span class="btn btn-danger w-100 btn-simpan disabled mb-4" id='btnPesanTiket'>
+                      Tiket Sudah Habis</span>
+                  @endif
                 @endif
-              @endif
-            </form>
+
+                @if ($transaction)
+                  @if ($transaction->status_transaksi == 'not_paid')
+                    <a href="{{ route('checkout_show', $transaction->uuid) }}"
+                      class="btn btn-primary w-100 btn-simpan mb-4">Bayar Tiket</a>
+                  @else
+                    <button type="submit" class="btn btn-success w-100 btn-simpan disabled mb-4">
+                      Tiket Sudah Dibeli </button>
+                  @endif
+                @endif
+              </form>
+            @endif
+
 
 
           </div>

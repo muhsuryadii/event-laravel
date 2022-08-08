@@ -1,16 +1,19 @@
 <x-app-costumer-layout>
-  {{-- {{ dd($peserta) }} --}}
+  {{-- {{ dd($user) }} --}}
   <section class="section py-10">
     <div class="container">
       <div
         class="user-card card-wrapper mx-auto mb-3 rounded-2xl border border-slate-600 bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)] lg:w-2/3">
 
-        <div class="edit-profile-button ml-auto w-fit">
-          <a href="{{ route('profile_edit', $user->uuid) }}" class="btn btn-primary btn-sm rounded-full px-4 py-2">
-            <i class="fa-regular fa-pen-to-square"></i>
-            <span class="text-white">Edit Biodata</span>
-          </a>
-        </div>
+        @if ($user->role == 'PESERTA')
+          <div class="edit-profile-button ml-auto w-fit">
+            <a href="{{ route('profile_edit', $user->uuid) }}" class="btn btn-primary btn-sm rounded-full px-4 py-2">
+              <i class="fa-regular fa-pen-to-square"></i>
+              <span class="text-white">Edit Biodata</span>
+            </a>
+          </div>
+        @endif
+
 
         <div class="user-info-wrapper mt-3 flex">
           <div class="title-user-info w-fitlk mr-4">

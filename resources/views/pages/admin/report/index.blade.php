@@ -1,7 +1,7 @@
 <x-app-layout>
 
-  <div class="flex flex-row flex-wrap justify-start pb-5 pt-3">
-    @if (count($reportEvent) > 0)
+  @if (count($reportEvent) > 0)
+    <div class="flex flex-row flex-wrap justify-start pt-3">
       @foreach ($reportEvent as $event)
         <a href="{{ route('admin_report_show', $event->uuid) }}"
           class="events-card w-1/2 p-2 text-slate-600 no-underline lg:w-1/5">
@@ -37,14 +37,19 @@
           </div>
         </a>
       @endforeach
-    @else
-      <div class="mt-3 text-white">
-        <h4 class="alert-heading">Oops!</h4>
-        <p>
-          Belum ada lapoaran pada salah satu event yang bisa dilihat.
-        </p>
-      </div>
-    @endif
+    </div>
 
-  </div>
+    <div class="my-5 px-5 sm:px-3">
+      <span>{{ $reportEvent->links() }}</span>
+    </div>
+  @else
+    <div class="mt-3 text-white">
+      <h4 class="alert-heading">Oops!</h4>
+      <p>
+        Belum ada lapoaran pada salah satu event yang bisa dilihat.
+      </p>
+    </div>
+  @endif
+
+
 </x-app-layout>

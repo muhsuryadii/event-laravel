@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Laporan;
 use App\Models\Transaksi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -129,12 +130,13 @@ class TransactionController extends Controller
 
                 DB::commit();
 
-                MailController::transactionFreeSuccess(Auth::user()->email, $event->wa_grup);
+                $url = MailController::make_google_calendar_link($event->nama_event, Carbon::parse($event->waktu_acara)->timestamp, Carbon::parse($event->waktu_acara)->addHours(2)->timestamp, $event->lokasi_acara, $event->deskripsi_acara);
+
+                MailController::transactionFreeSuccess(Auth::user()->email, $event->wa_grup, $url);
 
                 return redirect()->route('checkout_show', $uuid)->with('success', 'Pemesanan Tiket Berhasil');
             } catch (\Exception $e) {
                 DB::rollBack();
-                // return dd($e);
 
                 return redirect()->route('event_show', $event->uuid)->with('error', $e ? $e->getMessage() : 'Pemesanan Gagal, silahkan coba lagi');
             }

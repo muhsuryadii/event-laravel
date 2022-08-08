@@ -34,7 +34,7 @@ class AdminReportController extends Controller
                 ->select('events.*', 'users.nama_user')
                 ->groupBy('events.id')
                 ->orderBy('events.waktu_acara', 'desc')
-                ->get();
+                ->paginate(15);
         } else {
 
             $reportEvent = DB::table('laporans')
@@ -43,20 +43,10 @@ class AdminReportController extends Controller
                 ->select('events.*')
                 ->groupBy('events.id')
                 ->orderBy('events.waktu_acara', 'desc')
-                ->get();
+                ->paginate(15);
         }
 
-        /* For Production */
-        /* $reportEvent = DB::table('laporans')
-            ->join('events', 'laporans.id_event', '=', 'events.id')
-            ->where('waktu_acara', '<=', now())
-            ->where('events.id_panitia', Auth::user()->id)
-            ->groupBy('events.id')
-            ->orderBy('events.waktu_acara', 'desc')
-            ->get(); */
 
-
-        // return dd($reportEvent);
 
         return view('pages.admin.report.index', [
             'reportEvent' => $reportEvent,
