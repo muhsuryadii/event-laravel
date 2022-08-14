@@ -251,7 +251,7 @@
           </p>
 
           <button type="submit" id='buttonEditProfile' class="btn btn-primary w-100 btn-simpan mb-4">Update
-            Profile</button>
+            Biodata</button>
         </form>
       </div>
     </div>

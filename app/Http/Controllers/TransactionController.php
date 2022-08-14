@@ -93,6 +93,7 @@ class TransactionController extends Controller
             'total_harga' => $request->harga_tiket,
             'no_transaksi' => $no_transaksi,
             'status_transaksi' => (int)$request->harga_tiket == 0 ? 'verified' : 'not_paid',
+            'tanggal_transaksi'=> now()
         ];
 
         $validator =  Validator::make($chekoutData, [
@@ -102,6 +103,7 @@ class TransactionController extends Controller
             'total_harga' => 'required|numeric',
             'no_transaksi' => 'required',
             'status_transaksi' => 'required',
+            'tanggal_transaksi'=>'required'
         ])->validate();
 
         /* Transaksi jika harga event  == 0 status pembayaran otomatis dibayar dan kuota event berkurang  */

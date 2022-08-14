@@ -164,7 +164,7 @@ class ProfileController extends Controller
 
         User::where('id', $request->id_user)->update($namaValidator);
 
-        return redirect()->route('profile_show', Auth::user()->uuid)->with('success', 'Update Profil Berhasil');
+        return redirect()->route('profile_show', Auth::user()->uuid)->with('success', 'Update Biodata Berhasil');
     }
 
     /**
