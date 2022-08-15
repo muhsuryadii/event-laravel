@@ -78,9 +78,9 @@
         <label for="gender" class="form-label text-base font-medium">Jenis Kelamin</label>
         <select id='gender' name='gender' class="form-select" aria-label="Select gender">
 
-          <option value="male">
+          <option value="male" {{ old('gender') === 'male' ? ' selected' : '' }}>
             Laki-Laki</option>
-          <option value="female">
+          <option value="female" {{ old('gender') === 'female' ? ' selected' : '' }}>
             Perempuan</option>
         </select>
 
@@ -100,21 +100,25 @@
         {{-- <input type="hidden" name="instansi_hidden" id=""> --}}
         <div class="form-check">
           <label class="form-check-label capitalize" for="instansi-usni">
-            <input class="form-check-input" type="radio" name="instansi" value="usni" id="instansi-usni">
+            <input class="form-check-input" type="radio" name="instansi" value="usni" id="instansi-usni"
+              {{ old('instansi') === 'usni' ? ' checked' : '' }}>
             Universitas Satya Negara Indonesia
           </label>
 
         </div>
         <div class="form-check">
           <label class="form-check-label" for="others">
-            <input class="form-check-input" type="radio" name="instansi" value="others" id="others" checked>
+            <input class="form-check-input" type="radio" name="instansi" value="others" id="others"
+              {{ old('instansi') !== 'usni' ? ' checked' : '' }}>
             Lainnya
           </label>
         </div>
 
         <div>
-          <input type="text" class="form-control @error('instansi_lain') is-invalid @enderror mt-3 capitalize"
-            id="instansi_lain" name='instansi_lain' placeholder="Perusahaan/ Yayasan/ Universitas/ Sekolah ">
+          <input type="text"
+            class="form-control {{ old('instansi') !== 'usni' ? '' : 'd-none' }} @error('instansi_lain') is-invalid @enderror mt-3 capitalize"
+            id="instansi_lain" name='instansi_lain' placeholder="Perusahaan/ Yayasan/ Universitas/ Sekolah "
+            value="{{ old('instansi_lain') }}">
 
           @error('instansi_lain')
             <div id="instansi_feedback" class="invalid-feedback">
@@ -141,7 +145,7 @@
         </label>
         <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" value=""
           onpaste="return validatePhone(this);" oninput="return validatePhone(this);" name='no_telepon'
-          autocomplete="new no-hp" placeholder='62xxxxxxxx'>
+          autocomplete="new no-hp" placeholder='62xxxxxxxx' value="{{ old('no_telepon') }}">
 
         @error('no_telepon')
           <div id="no_telepon_feedback" class="invalid-feedback d-block">
@@ -156,7 +160,7 @@
 
 
       {{-- Form Khsusus Mahasiswa USNI --}}
-      <div class="usni-staff-wrapper d-none" id="usni-staff">
+      <div class="usni-staff-wrapper {{ old('instansi') == 'usni' ? '' : 'd-none' }} id="usni-staff">
         {{-- Fakultas Peserta --}}
         <div class="mb-4">
           <label for="Fakultas" class="form-label text-base font-medium">Fakultas</label>
@@ -197,7 +201,7 @@
           <label for="jurusan" class="form-label text-base font-medium">Jurusan / Prodi</label>
 
           <input type="text" class="form-control @error('jurusan') is-invalid @enderror capitalize" value=""
-            id="jurusan" name='jurusan_peserta'>
+            id="jurusan" name='jurusan_peserta' value="{{ old('jurusan') }}">
 
           @error('jurusan')
             <div id="jurusan_feedback" class="invalid-feedback">

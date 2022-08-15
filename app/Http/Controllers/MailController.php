@@ -106,7 +106,7 @@ class MailController extends Controller
         $maildata = [
             'subject' => "Selamat Datang ke {$appName} ",
             'title' => "Selamat Datang, {$user}",
-            'message' => 'Akun baru anda sudah siap dan anda siap untuk mulai mendaftar event.',
+            'message' => 'Akun baru anda berhasil dibuat dan anda siap untuk mulai mendaftar event.',
         ];
 
         Mail::to($email)->send(new SendEmailComponent($maildata));

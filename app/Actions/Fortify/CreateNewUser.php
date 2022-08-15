@@ -26,7 +26,6 @@ class CreateNewUser implements CreatesNewUsers
         $uuid = Str::uuid()->getHex();
         // return dd($input);
         $instansi = $input['instansi'] == 'usni' ? $input['instansi'] : $input['instansi_lain'];
-
         $input['instansi_peserta'] = $instansi;
 
         Validator::make($input, [
@@ -61,7 +60,7 @@ class CreateNewUser implements CreatesNewUsers
         if ($input['instansi'] == 'usni') {
 
             $validator =  Validator::make($pesertaData, [
-                'id_users' => 'required|exists:users,id',
+
                 'instansi_peserta' => 'required|string|max:255',
                 'no_telepon' => 'required|string|max:20',
                 'gender' => 'in:male,female|nullable',
@@ -72,7 +71,7 @@ class CreateNewUser implements CreatesNewUsers
             ])->validate();
         } else {
             $validator =  Validator::make($pesertaData, [
-                'id_users' => 'required|exists:users,id',
+
                 'instansi_peserta' => 'required|string|max:255',
                 'no_telepon' => 'required|string|max:20',
                 // 'tanggal_lahir' => 'string|max:255|nullable',
@@ -92,7 +91,7 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         $validator['id_users'] = $user->id;
-
-        return Peserta::create($validator);
+        Peserta::create($validator);
+        return $user;
     }
 }
