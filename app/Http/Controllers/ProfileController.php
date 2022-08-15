@@ -124,6 +124,7 @@ class ProfileController extends Controller
             'jurusan_peserta' => $request->jurusan,
             'angkatan' => $request->angkatan,
         ];
+        
         if ($request->instansi == 'usni') {
 
             $validator =  Validator::make($pesertaData, [

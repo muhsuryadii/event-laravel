@@ -99,4 +99,16 @@ class MailController extends Controller
         }
         return $url;
     }
+
+    public static function userRegister($email, $user)
+    {
+        $appName  =  config('app.name', 'Laravel');
+        $maildata = [
+            'subject' => "Selamat Datang ke {$appName} ",
+            'title' => "Selamat Datang, {$user}",
+            'message' => 'Akun baru anda sudah siap dan anda siap untuk mulai mendaftar event.',
+        ];
+
+        Mail::to($email)->send(new SendEmailComponent($maildata));
+    }
 }
