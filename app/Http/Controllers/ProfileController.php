@@ -116,7 +116,6 @@ class ProfileController extends Controller
             'id_users' => $request->id_user,
             'nama_user' => $request->nama_user,
             'instansi_peserta' =>  $instansi,
-            // 'tanggal_lahir' => $request->tanggal_lahir,
             'gender' => $request->gender,
             'domisili' => $request->domisili,
             'no_telepon' => $request->no_telepon,
@@ -124,6 +123,7 @@ class ProfileController extends Controller
             'jurusan_peserta' => $request->jurusan,
             'angkatan' => $request->angkatan,
         ];
+
         if ($request->instansi == 'usni') {
 
             $validator =  Validator::make($pesertaData, [

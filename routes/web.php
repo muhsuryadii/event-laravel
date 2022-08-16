@@ -117,7 +117,7 @@ Route::group([], function () {
                 ->limit(5)->get(),
         ]);
     })->name('home');
-
+ 
     /* Event User */
     Route::resource('/event', EventController::class)->names([
         'index' => 'event_index',
@@ -128,6 +128,8 @@ Route::group([], function () {
         'update' => 'event_update',
         'destroy' => 'event_destroy',
     ]);
+
+    
 
 
     /* Search event */

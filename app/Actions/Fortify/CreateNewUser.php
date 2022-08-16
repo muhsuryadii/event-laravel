@@ -2,11 +2,12 @@
 
 namespace App\Actions\Fortify;
 
+use App\Http\Controllers\MailController;
+use App\Models\Peserta;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Str;
 
 
@@ -23,10 +24,13 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input)
     {
         $uuid = Str::uuid()->getHex();
-        Validator::make($input, [
+        // return dd($input);
+        $instansi = $input['instansi'] == 'usni' ? $input['instansi'] : $input['instansi_lain'];
+        $input['instansi_peserta'] = $instansi;
 
+        Validator::make($input, [
             'nama' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email:rfc,dns',  'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
         ], [
             'nama.required' => 'Nama tidak boleh kosong',
@@ -43,11 +47,51 @@ class CreateNewUser implements CreatesNewUsers
             'password.confirmed' => 'Password tidak sama',
         ])->validate();
 
-        return User::create([
+        $pesertaData = [
+            'no_telepon' => $input['no_telepon'],
+            'instansi_peserta' => $instansi,
+            'gender' => $input['gender'],
+            'domisili' => $input['domisili'],
+            'id_fakultas' => $input['id_fakultas'],
+            'jurusan_peserta' => $input['jurusan_peserta'],
+            'angkatan' => $input['angkatan'],
+        ];
+
+        if ($input['instansi'] == 'usni') {
+
+            $validator =  Validator::make($pesertaData, [
+
+                'instansi_peserta' => 'required|string|max:255',
+                'no_telepon' => 'required|string|max:20',
+                'gender' => 'in:male,female|nullable',
+                'domisili' => 'string|max:255|nullable',
+                'id_fakultas' => 'exists:fakultas,id|nullable',
+                'jurusan_peserta' => 'string|nullable',
+                'angkatan' => 'string|min:4|nullable',
+            ])->validate();
+        } else {
+            $validator =  Validator::make($pesertaData, [
+
+                'instansi_peserta' => 'required|string|max:255',
+                'no_telepon' => 'required|string|max:20',
+                // 'tanggal_lahir' => 'string|max:255|nullable',
+                'gender' => 'in:male,female|nullable',
+                'domisili' => 'string|max:255|nullable',
+            ])->validate();
+        }
+
+
+        MailController::userRegister($input['email'], $input['nama']);
+
+        $user = User::create([
             'nama_user' => $input['nama'],
             'email' => $input['email'],
             'uuid' => $uuid,
             'password' => Hash::make($input['password']),
         ]);
+
+        $validator['id_users'] = $user->id;
+        Peserta::create($validator);
+        return $user;
     }
 }
